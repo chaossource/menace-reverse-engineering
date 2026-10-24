@@ -1,0 +1,26 @@
+# ROM files (copyrighted, do not distribute)
+*.adf
+*.zip
+
+# Build directories
+build/
+*.o
+*.so
+*.a
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Binary
+menace
+
+# Extracted graphics (can be regenerated)
+menace-re/extracted_gfx/
