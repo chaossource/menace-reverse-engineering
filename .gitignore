@@ -22,5 +22,7 @@ Thumbs.db
 # Binary
 menace
 
-# Extracted graphics (can be regenerated)
+# Extracted graphics and audio (can be regenerated with tools)
 menace-re/extracted_gfx/
+menace-re/sprites/
+menace-re/audio/
