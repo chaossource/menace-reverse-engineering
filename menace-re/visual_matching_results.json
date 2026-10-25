@@ -1,0 +1,2116 @@
+{
+  "threshold": 0.6,
+  "total_candidates": 150,
+  "unique_sprites_matched": 59,
+  "total_match_instances": 190,
+  "matches": [
+    {
+      "sprite": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_05dc00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x4_05dc00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        166,
+        45
+      ],
+      "score": 0.6022679805755615,
+      "num_locations": 1
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_05dc00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x4_05dc00.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        33,
+        127
+      ],
+      "score": 0.6122851371765137,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_05dc00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x4_05dc00.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        33,
+        127
+      ],
+      "score": 0.6122851371765137,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_05dc00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x4_05dc00.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        98,
+        100
+      ],
+      "score": 0.6266055107116699,
+      "num_locations": 25
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_05e200.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x4_05e200.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        423,
+        228
+      ],
+      "score": 0.6660715341567993,
+      "num_locations": 125
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_05e200.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x4_05e200.png",
+      "screenshot": "menace-first-boss.png",
+      "position": [
+        94,
+        145
+      ],
+      "score": 0.630250871181488,
+      "num_locations": 515
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_05e200.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x4_05e200.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        34,
+        127
+      ],
+      "score": 0.6775330305099487,
+      "num_locations": 928
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_05e200.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x4_05e200.png",
+      "screenshot": "store-boss.png",
+      "position": [
+        94,
+        145
+      ],
+      "score": 0.630250871181488,
+      "num_locations": 515
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_05e200.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x4_05e200.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        34,
+        127
+      ],
+      "score": 0.6775330305099487,
+      "num_locations": 928
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_05e200.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x4_05e200.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        97,
+        104
+      ],
+      "score": 0.7110001444816589,
+      "num_locations": 398
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST11_s10_sprite_16x16x4_024800.png",
+      "sprite_name": "BEST11_s10_sprite_16x16x4_024800.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        91,
+        158
+      ],
+      "score": 0.7987006902694702,
+      "num_locations": 98
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST11_s10_sprite_16x16x4_024800.png",
+      "sprite_name": "BEST11_s10_sprite_16x16x4_024800.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        50,
+        148
+      ],
+      "score": 0.6457304954528809,
+      "num_locations": 3
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST11_s10_sprite_16x16x4_024800.png",
+      "sprite_name": "BEST11_s10_sprite_16x16x4_024800.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        50,
+        148
+      ],
+      "score": 0.6457304954528809,
+      "num_locations": 3
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST13_s05_sprite_16x16x4_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x4_02f600.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        136,
+        49
+      ],
+      "score": 0.6696617007255554,
+      "num_locations": 108
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST13_s05_sprite_16x16x4_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x4_02f600.png",
+      "screenshot": "menace-first-boss.png",
+      "position": [
+        15,
+        98
+      ],
+      "score": 0.6383700370788574,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST13_s05_sprite_16x16x4_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x4_02f600.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        222,
+        101
+      ],
+      "score": 0.680457592010498,
+      "num_locations": 892
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST13_s05_sprite_16x16x4_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x4_02f600.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        106,
+        9
+      ],
+      "score": 0.6197272539138794,
+      "num_locations": 31
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST13_s05_sprite_16x16x4_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x4_02f600.png",
+      "screenshot": "store-boss.png",
+      "position": [
+        15,
+        98
+      ],
+      "score": 0.6383700370788574,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST13_s05_sprite_16x16x4_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x4_02f600.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        222,
+        101
+      ],
+      "score": 0.680457592010498,
+      "num_locations": 892
+    },
+    {
+      "sprite": "best_sprites/16x16x4/BEST13_s05_sprite_16x16x4_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x4_02f600.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        247,
+        81
+      ],
+      "score": 0.751903235912323,
+      "num_locations": 796
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_007c00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_007c00.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        284,
+        1
+      ],
+      "score": 0.6620553135871887,
+      "num_locations": 229
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_007c00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_007c00.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        70,
+        79
+      ],
+      "score": 0.6473352909088135,
+      "num_locations": 130
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_04ac00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_04ac00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        415,
+        32
+      ],
+      "score": 0.6586067080497742,
+      "num_locations": 85
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_04ac00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_04ac00.png",
+      "screenshot": "menace-first-boss.png",
+      "position": [
+        289,
+        170
+      ],
+      "score": 0.6326547861099243,
+      "num_locations": 45
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_04ac00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_04ac00.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        179,
+        152
+      ],
+      "score": 0.6484330296516418,
+      "num_locations": 21
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_04ac00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_04ac00.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        32,
+        3
+      ],
+      "score": 0.7912564277648926,
+      "num_locations": 702
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_04ac00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_04ac00.png",
+      "screenshot": "store-boss.png",
+      "position": [
+        289,
+        170
+      ],
+      "score": 0.6326547861099243,
+      "num_locations": 45
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_04ac00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_04ac00.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        179,
+        152
+      ],
+      "score": 0.6484330296516418,
+      "num_locations": 21
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_04ac00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_04ac00.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        32,
+        55
+      ],
+      "score": 0.7896350026130676,
+      "num_locations": 798
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05dc00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05dc00.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        239,
+        22
+      ],
+      "score": 0.6500862836837769,
+      "num_locations": 186
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05dc00.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05dc00.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        43,
+        73
+      ],
+      "score": 0.685380756855011,
+      "num_locations": 280
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e000.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e000.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        437,
+        222
+      ],
+      "score": 0.6391981244087219,
+      "num_locations": 32
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e000.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e000.png",
+      "screenshot": "menace-first-boss.png",
+      "position": [
+        218,
+        79
+      ],
+      "score": 0.6074947118759155,
+      "num_locations": 6
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e000.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e000.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        181,
+        155
+      ],
+      "score": 0.6379163265228271,
+      "num_locations": 10
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e000.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e000.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        22,
+        115
+      ],
+      "score": 0.7637315988540649,
+      "num_locations": 662
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e000.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e000.png",
+      "screenshot": "store-boss.png",
+      "position": [
+        218,
+        79
+      ],
+      "score": 0.6074947118759155,
+      "num_locations": 6
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e000.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e000.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        181,
+        155
+      ],
+      "score": 0.6379163265228271,
+      "num_locations": 10
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e000.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e000.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        139,
+        87
+      ],
+      "score": 0.7539804577827454,
+      "num_locations": 524
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e200.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e200.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        133,
+        33
+      ],
+      "score": 0.6736290454864502,
+      "num_locations": 259
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e200.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e200.png",
+      "screenshot": "menace-first-boss.png",
+      "position": [
+        228,
+        203
+      ],
+      "score": 0.6146652102470398,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e200.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e200.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        173,
+        105
+      ],
+      "score": 0.6755586266517639,
+      "num_locations": 54
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e200.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e200.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        239,
+        22
+      ],
+      "score": 0.749962329864502,
+      "num_locations": 484
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e200.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e200.png",
+      "screenshot": "store-boss.png",
+      "position": [
+        228,
+        203
+      ],
+      "score": 0.6146652102470398,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e200.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e200.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        173,
+        105
+      ],
+      "score": 0.6755586266517639,
+      "num_locations": 54
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e200.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_05e200.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        43,
+        73
+      ],
+      "score": 0.7778778672218323,
+      "num_locations": 1139
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_089600.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_089600.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        133,
+        42
+      ],
+      "score": 0.6392199993133545,
+      "num_locations": 64
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_089600.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_089600.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        175,
+        94
+      ],
+      "score": 0.6378441452980042,
+      "num_locations": 6
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_089600.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_089600.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        167,
+        21
+      ],
+      "score": 0.7683199644088745,
+      "num_locations": 517
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_089600.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_089600.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        175,
+        94
+      ],
+      "score": 0.6378441452980042,
+      "num_locations": 6
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_089600.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_089600.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        170,
+        71
+      ],
+      "score": 0.7628328204154968,
+      "num_locations": 666
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_090400.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_090400.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        178,
+        163
+      ],
+      "score": 0.6020743250846863,
+      "num_locations": 2
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_090400.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_090400.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        60,
+        64
+      ],
+      "score": 0.6551133394241333,
+      "num_locations": 263
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_090400.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_090400.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        178,
+        163
+      ],
+      "score": 0.6020743250846863,
+      "num_locations": 2
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_090400.png",
+      "sprite_name": "BEST11_s05_sprite_16x16x5_090400.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        89,
+        48
+      ],
+      "score": 0.6550974249839783,
+      "num_locations": 224
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_03d400.png",
+      "sprite_name": "BEST11_s08_sprite_16x16x5_03d400.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        87,
+        123
+      ],
+      "score": 0.613294243812561,
+      "num_locations": 3
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_03d800.png",
+      "sprite_name": "BEST11_s08_sprite_16x16x5_03d800.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        156,
+        88
+      ],
+      "score": 0.6151318550109863,
+      "num_locations": 8
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_03d800.png",
+      "sprite_name": "BEST11_s08_sprite_16x16x5_03d800.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        45,
+        159
+      ],
+      "score": 0.645900309085846,
+      "num_locations": 26
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_03d800.png",
+      "sprite_name": "BEST11_s08_sprite_16x16x5_03d800.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        213,
+        137
+      ],
+      "score": 0.6212858557701111,
+      "num_locations": 3
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_04cc00.png",
+      "sprite_name": "BEST11_s08_sprite_16x16x5_04cc00.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        304,
+        28
+      ],
+      "score": 0.6258606910705566,
+      "num_locations": 49
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_04cc00.png",
+      "sprite_name": "BEST11_s08_sprite_16x16x5_04cc00.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        208,
+        67
+      ],
+      "score": 0.6393430829048157,
+      "num_locations": 67
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_08d200.png",
+      "sprite_name": "BEST11_s08_sprite_16x16x5_08d200.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        128,
+        36
+      ],
+      "score": 0.6276204586029053,
+      "num_locations": 26
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_08d200.png",
+      "sprite_name": "BEST11_s08_sprite_16x16x5_08d200.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        171,
+        93
+      ],
+      "score": 0.6027631759643555,
+      "num_locations": 1
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_08d200.png",
+      "sprite_name": "BEST11_s08_sprite_16x16x5_08d200.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        220,
+        31
+      ],
+      "score": 0.6995047330856323,
+      "num_locations": 239
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_08d200.png",
+      "sprite_name": "BEST11_s08_sprite_16x16x5_08d200.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        171,
+        93
+      ],
+      "score": 0.6027631759643555,
+      "num_locations": 1
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_08d200.png",
+      "sprite_name": "BEST11_s08_sprite_16x16x5_08d200.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        204,
+        62
+      ],
+      "score": 0.6683786511421204,
+      "num_locations": 133
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s08_sprite_16x16x5_054600.png",
+      "sprite_name": "BEST12_s08_sprite_16x16x5_054600.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        305,
+        44
+      ],
+      "score": 0.7237957715988159,
+      "num_locations": 137
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s08_sprite_16x16x5_054600.png",
+      "sprite_name": "BEST12_s08_sprite_16x16x5_054600.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        276,
+        14
+      ],
+      "score": 0.686450183391571,
+      "num_locations": 10
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s08_sprite_16x16x5_054600.png",
+      "sprite_name": "BEST12_s08_sprite_16x16x5_054600.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        91,
+        20
+      ],
+      "score": 0.6209688782691956,
+      "num_locations": 7
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s08_sprite_16x16x5_073600.png",
+      "sprite_name": "BEST12_s08_sprite_16x16x5_073600.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        408,
+        32
+      ],
+      "score": 0.6992543935775757,
+      "num_locations": 87
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s08_sprite_16x16x5_073600.png",
+      "sprite_name": "BEST12_s08_sprite_16x16x5_073600.png",
+      "screenshot": "menace-first-boss.png",
+      "position": [
+        156,
+        15
+      ],
+      "score": 0.6066796779632568,
+      "num_locations": 1
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s08_sprite_16x16x5_073600.png",
+      "sprite_name": "BEST12_s08_sprite_16x16x5_073600.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        174,
+        94
+      ],
+      "score": 0.633491575717926,
+      "num_locations": 3
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s08_sprite_16x16x5_073600.png",
+      "sprite_name": "BEST12_s08_sprite_16x16x5_073600.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        118,
+        25
+      ],
+      "score": 0.7455047965049744,
+      "num_locations": 424
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s08_sprite_16x16x5_073600.png",
+      "sprite_name": "BEST12_s08_sprite_16x16x5_073600.png",
+      "screenshot": "store-boss.png",
+      "position": [
+        156,
+        15
+      ],
+      "score": 0.6066796779632568,
+      "num_locations": 1
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s08_sprite_16x16x5_073600.png",
+      "sprite_name": "BEST12_s08_sprite_16x16x5_073600.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        174,
+        94
+      ],
+      "score": 0.633491575717926,
+      "num_locations": 3
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s08_sprite_16x16x5_073600.png",
+      "sprite_name": "BEST12_s08_sprite_16x16x5_073600.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        198,
+        125
+      ],
+      "score": 0.7279687523841858,
+      "num_locations": 405
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s10_sprite_16x16x5_006200.png",
+      "sprite_name": "BEST12_s10_sprite_16x16x5_006200.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        303,
+        44
+      ],
+      "score": 0.7103520631790161,
+      "num_locations": 201
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s10_sprite_16x16x5_006200.png",
+      "sprite_name": "BEST12_s10_sprite_16x16x5_006200.png",
+      "screenshot": "menace-first-boss.png",
+      "position": [
+        194,
+        125
+      ],
+      "score": 0.6446593999862671,
+      "num_locations": 40
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s10_sprite_16x16x5_006200.png",
+      "sprite_name": "BEST12_s10_sprite_16x16x5_006200.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        131,
+        84
+      ],
+      "score": 0.6648772954940796,
+      "num_locations": 31
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s10_sprite_16x16x5_006200.png",
+      "sprite_name": "BEST12_s10_sprite_16x16x5_006200.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        104,
+        15
+      ],
+      "score": 0.8196468949317932,
+      "num_locations": 424
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s10_sprite_16x16x5_006200.png",
+      "sprite_name": "BEST12_s10_sprite_16x16x5_006200.png",
+      "screenshot": "store-boss.png",
+      "position": [
+        194,
+        125
+      ],
+      "score": 0.6446593999862671,
+      "num_locations": 40
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s10_sprite_16x16x5_006200.png",
+      "sprite_name": "BEST12_s10_sprite_16x16x5_006200.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        131,
+        84
+      ],
+      "score": 0.6648772954940796,
+      "num_locations": 31
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST12_s10_sprite_16x16x5_006200.png",
+      "sprite_name": "BEST12_s10_sprite_16x16x5_006200.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        87,
+        20
+      ],
+      "score": 0.7348914742469788,
+      "num_locations": 644
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f400.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f400.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        179,
+        285
+      ],
+      "score": 0.6281731724739075,
+      "num_locations": 42
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f400.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f400.png",
+      "screenshot": "menace-first-boss.png",
+      "position": [
+        15,
+        98
+      ],
+      "score": 0.6104947924613953,
+      "num_locations": 1
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f400.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f400.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        175,
+        100
+      ],
+      "score": 0.6359968781471252,
+      "num_locations": 4
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f400.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f400.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        106,
+        9
+      ],
+      "score": 0.7557125687599182,
+      "num_locations": 521
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f400.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f400.png",
+      "screenshot": "store-boss.png",
+      "position": [
+        15,
+        98
+      ],
+      "score": 0.6104947924613953,
+      "num_locations": 1
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f400.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f400.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        175,
+        100
+      ],
+      "score": 0.6359968781471252,
+      "num_locations": 4
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f400.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f400.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        170,
+        123
+      ],
+      "score": 0.7571712136268616,
+      "num_locations": 517
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f600.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        136,
+        49
+      ],
+      "score": 0.6696617007255554,
+      "num_locations": 108
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f600.png",
+      "screenshot": "menace-first-boss.png",
+      "position": [
+        15,
+        98
+      ],
+      "score": 0.6383700370788574,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f600.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        222,
+        101
+      ],
+      "score": 0.680457592010498,
+      "num_locations": 892
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f600.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        106,
+        9
+      ],
+      "score": 0.6197272539138794,
+      "num_locations": 31
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f600.png",
+      "screenshot": "store-boss.png",
+      "position": [
+        15,
+        98
+      ],
+      "score": 0.6383700370788574,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f600.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        222,
+        101
+      ],
+      "score": 0.680457592010498,
+      "num_locations": 892
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f600.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_02f600.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        247,
+        81
+      ],
+      "score": 0.751903235912323,
+      "num_locations": 796
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_08f200.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_08f200.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        101,
+        6
+      ],
+      "score": 0.6392612457275391,
+      "num_locations": 95
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_08f200.png",
+      "sprite_name": "BEST13_s05_sprite_16x16x5_08f200.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        99,
+        58
+      ],
+      "score": 0.6296743750572205,
+      "num_locations": 59
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_005400.png",
+      "sprite_name": "BEST13_s08_sprite_16x16x5_005400.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        191,
+        88
+      ],
+      "score": 0.6148754954338074,
+      "num_locations": 3
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_024800.png",
+      "sprite_name": "BEST13_s08_sprite_16x16x5_024800.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        91,
+        158
+      ],
+      "score": 0.7650600671768188,
+      "num_locations": 81
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_024800.png",
+      "sprite_name": "BEST13_s08_sprite_16x16x5_024800.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        76,
+        32
+      ],
+      "score": 0.6916894316673279,
+      "num_locations": 19
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_026000.png",
+      "sprite_name": "BEST13_s08_sprite_16x16x5_026000.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        122,
+        48
+      ],
+      "score": 0.6605803966522217,
+      "num_locations": 102
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_026000.png",
+      "sprite_name": "BEST13_s08_sprite_16x16x5_026000.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        125,
+        91
+      ],
+      "score": 0.6132668256759644,
+      "num_locations": 3
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_026000.png",
+      "sprite_name": "BEST13_s08_sprite_16x16x5_026000.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        282,
+        20
+      ],
+      "score": 0.7498447895050049,
+      "num_locations": 231
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_026000.png",
+      "sprite_name": "BEST13_s08_sprite_16x16x5_026000.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        125,
+        91
+      ],
+      "score": 0.6132668256759644,
+      "num_locations": 3
+    },
+    {
+      "sprite": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_026000.png",
+      "sprite_name": "BEST13_s08_sprite_16x16x5_026000.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        229,
+        102
+      ],
+      "score": 0.697923481464386,
+      "num_locations": 112
+    },
+    {
+      "sprite": "best_sprites/24x24x4/BEST13_s05_sprite_24x24x4_056e00.png",
+      "sprite_name": "BEST13_s05_sprite_24x24x4_056e00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        411,
+        41
+      ],
+      "score": 0.6259068846702576,
+      "num_locations": 8
+    },
+    {
+      "sprite": "best_sprites/24x24x4/BEST13_s05_sprite_24x24x4_056e00.png",
+      "sprite_name": "BEST13_s05_sprite_24x24x4_056e00.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        249,
+        170
+      ],
+      "score": 0.6072127819061279,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/24x24x4/BEST13_s05_sprite_24x24x4_056e00.png",
+      "sprite_name": "BEST13_s05_sprite_24x24x4_056e00.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        249,
+        170
+      ],
+      "score": 0.6072127819061279,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/24x24x4/BEST13_s05_sprite_24x24x4_056e00.png",
+      "sprite_name": "BEST13_s05_sprite_24x24x4_056e00.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        256,
+        4
+      ],
+      "score": 0.6466591954231262,
+      "num_locations": 153
+    },
+    {
+      "sprite": "best_sprites/24x24x4/BEST13_s05_sprite_24x24x4_090c00.png",
+      "sprite_name": "BEST13_s05_sprite_24x24x4_090c00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        411,
+        30
+      ],
+      "score": 0.6381579041481018,
+      "num_locations": 11
+    },
+    {
+      "sprite": "best_sprites/24x24x4/BEST13_s05_sprite_24x24x4_090c00.png",
+      "sprite_name": "BEST13_s05_sprite_24x24x4_090c00.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        264,
+        1
+      ],
+      "score": 0.6487322449684143,
+      "num_locations": 260
+    },
+    {
+      "sprite": "best_sprites/32x32x4/BEST11_s08_sprite_32x32x4_010600.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x4_010600.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        379,
+        182
+      ],
+      "score": 0.7213935852050781,
+      "num_locations": 61
+    },
+    {
+      "sprite": "best_sprites/32x32x4/BEST11_s08_sprite_32x32x4_010600.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x4_010600.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        278,
+        12
+      ],
+      "score": 0.6604782342910767,
+      "num_locations": 15
+    },
+    {
+      "sprite": "best_sprites/32x32x4/BEST11_s08_sprite_32x32x4_010600.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x4_010600.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        278,
+        12
+      ],
+      "score": 0.6604782342910767,
+      "num_locations": 15
+    },
+    {
+      "sprite": "best_sprites/32x32x4/BEST11_s08_sprite_32x32x4_010600.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x4_010600.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        72,
+        111
+      ],
+      "score": 0.6364282965660095,
+      "num_locations": 38
+    },
+    {
+      "sprite": "best_sprites/32x32x4/BEST11_s08_sprite_32x32x4_032200.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x4_032200.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        381,
+        171
+      ],
+      "score": 0.7766003012657166,
+      "num_locations": 57
+    },
+    {
+      "sprite": "best_sprites/32x32x4/BEST11_s08_sprite_32x32x4_032200.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x4_032200.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        278,
+        11
+      ],
+      "score": 0.6018276214599609,
+      "num_locations": 1
+    },
+    {
+      "sprite": "best_sprites/32x32x4/BEST11_s08_sprite_32x32x4_032200.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x4_032200.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        156,
+        19
+      ],
+      "score": 0.6279383897781372,
+      "num_locations": 7
+    },
+    {
+      "sprite": "best_sprites/32x32x4/BEST11_s08_sprite_32x32x4_032200.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x4_032200.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        278,
+        11
+      ],
+      "score": 0.6018276214599609,
+      "num_locations": 1
+    },
+    {
+      "sprite": "best_sprites/32x32x4/BEST11_s08_sprite_32x32x4_064a00.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x4_064a00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        381,
+        170
+      ],
+      "score": 0.6536025404930115,
+      "num_locations": 16
+    },
+    {
+      "sprite": "best_sprites/32x32x4/BEST12_s08_sprite_32x32x4_031c00.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x4_031c00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        382,
+        171
+      ],
+      "score": 0.7237507104873657,
+      "num_locations": 30
+    },
+    {
+      "sprite": "best_sprites/32x32x4/BEST12_s08_sprite_32x32x4_083c00.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x4_083c00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        380,
+        171
+      ],
+      "score": 0.6063603162765503,
+      "num_locations": 8
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_04f000.png",
+      "sprite_name": "BEST11_s05_sprite_32x32x5_04f000.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        228,
+        19
+      ],
+      "score": 0.6412190198898315,
+      "num_locations": 106
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_04f000.png",
+      "sprite_name": "BEST11_s05_sprite_32x32x5_04f000.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        88,
+        38
+      ],
+      "score": 0.6602482795715332,
+      "num_locations": 82
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_071600.png",
+      "sprite_name": "BEST11_s05_sprite_32x32x5_071600.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        229,
+        3
+      ],
+      "score": 0.6724510192871094,
+      "num_locations": 113
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_071600.png",
+      "sprite_name": "BEST11_s05_sprite_32x32x5_071600.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        91,
+        24
+      ],
+      "score": 0.6671010851860046,
+      "num_locations": 102
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_08f200.png",
+      "sprite_name": "BEST11_s05_sprite_32x32x5_08f200.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        1,
+        18
+      ],
+      "score": 0.6094983816146851,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_08f200.png",
+      "sprite_name": "BEST11_s05_sprite_32x32x5_08f200.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        88,
+        46
+      ],
+      "score": 0.6008585095405579,
+      "num_locations": 1
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_0d9a00.png",
+      "sprite_name": "BEST11_s05_sprite_32x32x5_0d9a00.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        92,
+        32
+      ],
+      "score": 0.6070120930671692,
+      "num_locations": 2
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_02fa00.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_02fa00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        383,
+        170
+      ],
+      "score": 0.6766887307167053,
+      "num_locations": 43
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_02fa00.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_02fa00.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        286,
+        23
+      ],
+      "score": 0.7547484040260315,
+      "num_locations": 223
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_02fa00.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_02fa00.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        69,
+        78
+      ],
+      "score": 0.7158680558204651,
+      "num_locations": 369
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_03d400.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_03d400.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        126,
+        28
+      ],
+      "score": 0.6068487167358398,
+      "num_locations": 1
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_03d400.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_03d400.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        226,
+        13
+      ],
+      "score": 0.7310982346534729,
+      "num_locations": 246
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_03d400.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_03d400.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        89,
+        52
+      ],
+      "score": 0.74388188123703,
+      "num_locations": 388
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_05da00.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_05da00.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        0,
+        23
+      ],
+      "score": 0.6351136565208435,
+      "num_locations": 19
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_05f000.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_05f000.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        380,
+        182
+      ],
+      "score": 0.7116077542304993,
+      "num_locations": 31
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_05f000.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_05f000.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        156,
+        18
+      ],
+      "score": 0.643088698387146,
+      "num_locations": 29
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_05f000.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_05f000.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        67,
+        82
+      ],
+      "score": 0.6185574531555176,
+      "num_locations": 4
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_064a00.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_064a00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        381,
+        172
+      ],
+      "score": 0.6633434295654297,
+      "num_locations": 21
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_064a00.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_064a00.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        155,
+        19
+      ],
+      "score": 0.6196779608726501,
+      "num_locations": 6
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_07f000.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_07f000.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        382,
+        174
+      ],
+      "score": 0.6290768980979919,
+      "num_locations": 13
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_07f000.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_07f000.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        286,
+        22
+      ],
+      "score": 0.6429076194763184,
+      "num_locations": 26
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_07f000.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_07f000.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        68,
+        87
+      ],
+      "score": 0.6179800629615784,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_084000.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_084000.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        381,
+        171
+      ],
+      "score": 0.7034938931465149,
+      "num_locations": 38
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_084000.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_084000.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        9,
+        8
+      ],
+      "score": 0.7571461200714111,
+      "num_locations": 235
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_084000.png",
+      "sprite_name": "BEST11_s08_sprite_32x32x5_084000.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        68,
+        81
+      ],
+      "score": 0.718978762626648,
+      "num_locations": 294
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_010400.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_010400.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        381,
+        152
+      ],
+      "score": 0.7187830805778503,
+      "num_locations": 71
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_010400.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_010400.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        172,
+        152
+      ],
+      "score": 0.6130760312080383,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_010400.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_010400.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        287,
+        19
+      ],
+      "score": 0.7589315176010132,
+      "num_locations": 373
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_010400.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_010400.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        172,
+        152
+      ],
+      "score": 0.6130760312080383,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_010400.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_010400.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        66,
+        80
+      ],
+      "score": 0.7248080372810364,
+      "num_locations": 608
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_011800.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_011800.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        384,
+        170
+      ],
+      "score": 0.6100654006004333,
+      "num_locations": 12
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_011800.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_011800.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        286,
+        21
+      ],
+      "score": 0.6962983012199402,
+      "num_locations": 96
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_011800.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_011800.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        70,
+        78
+      ],
+      "score": 0.6518879532814026,
+      "num_locations": 61
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_02fe00.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_02fe00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        383,
+        181
+      ],
+      "score": 0.6423236131668091,
+      "num_locations": 23
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_02fe00.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_02fe00.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        286,
+        21
+      ],
+      "score": 0.7184517979621887,
+      "num_locations": 208
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_02fe00.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_02fe00.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        93,
+        34
+      ],
+      "score": 0.6737813353538513,
+      "num_locations": 191
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_031a00.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_031a00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        382,
+        171
+      ],
+      "score": 0.630561351776123,
+      "num_locations": 14
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_031c00.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_031c00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        381,
+        171
+      ],
+      "score": 0.7083110809326172,
+      "num_locations": 28
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_031c00.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_031c00.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        156,
+        17
+      ],
+      "score": 0.6868138909339905,
+      "num_locations": 60
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_031c00.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_031c00.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        66,
+        78
+      ],
+      "score": 0.6167528033256531,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_032200.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_032200.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        381,
+        171
+      ],
+      "score": 0.7459545731544495,
+      "num_locations": 36
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_032200.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_032200.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        155,
+        18
+      ],
+      "score": 0.7175753116607666,
+      "num_locations": 95
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_032200.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_032200.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        66,
+        80
+      ],
+      "score": 0.6396514177322388,
+      "num_locations": 34
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_038400.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_038400.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        424,
+        229
+      ],
+      "score": 0.658063530921936,
+      "num_locations": 14
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_038400.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_038400.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        230,
+        26
+      ],
+      "score": 0.7411016225814819,
+      "num_locations": 381
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_038400.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_038400.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        85,
+        39
+      ],
+      "score": 0.7494264245033264,
+      "num_locations": 693
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_05d000.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_05d000.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        383,
+        168
+      ],
+      "score": 0.685143232345581,
+      "num_locations": 49
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_05d000.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_05d000.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        286,
+        22
+      ],
+      "score": 0.7546583414077759,
+      "num_locations": 231
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_05d000.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_05d000.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        69,
+        80
+      ],
+      "score": 0.7161086201667786,
+      "num_locations": 427
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_064800.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_064800.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        381,
+        171
+      ],
+      "score": 0.6848715543746948,
+      "num_locations": 24
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_064800.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_064800.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        156,
+        17
+      ],
+      "score": 0.6305385828018188,
+      "num_locations": 13
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_080c00.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_080c00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        428,
+        63
+      ],
+      "score": 0.643726110458374,
+      "num_locations": 17
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_080c00.png",
+      "sprite_name": "BEST12_s08_sprite_32x32x5_080c00.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        288,
+        19
+      ],
+      "score": 0.6114166975021362,
+      "num_locations": 3
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_04a600.png",
+      "sprite_name": "BEST13_s08_sprite_32x32x5_04a600.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        380,
+        172
+      ],
+      "score": 0.6923971772193909,
+      "num_locations": 35
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_04a600.png",
+      "sprite_name": "BEST13_s08_sprite_32x32x5_04a600.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        287,
+        4
+      ],
+      "score": 0.75065678358078,
+      "num_locations": 236
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_04a600.png",
+      "sprite_name": "BEST13_s08_sprite_32x32x5_04a600.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        66,
+        78
+      ],
+      "score": 0.7076075077056885,
+      "num_locations": 297
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_064400.png",
+      "sprite_name": "BEST13_s08_sprite_32x32x5_064400.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        381,
+        171
+      ],
+      "score": 0.669589102268219,
+      "num_locations": 21
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_064400.png",
+      "sprite_name": "BEST13_s08_sprite_32x32x5_064400.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        155,
+        20
+      ],
+      "score": 0.6036273241043091,
+      "num_locations": 1
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_065a00.png",
+      "sprite_name": "BEST13_s08_sprite_32x32x5_065a00.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        90,
+        42
+      ],
+      "score": 0.6033270359039307,
+      "num_locations": 2
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_083c00.png",
+      "sprite_name": "BEST13_s08_sprite_32x32x5_083c00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        381,
+        171
+      ],
+      "score": 0.6431633234024048,
+      "num_locations": 15
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_083c00.png",
+      "sprite_name": "BEST13_s08_sprite_32x32x5_083c00.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        155,
+        19
+      ],
+      "score": 0.6264934539794922,
+      "num_locations": 9
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_083e00.png",
+      "sprite_name": "BEST13_s08_sprite_32x32x5_083e00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        381,
+        171
+      ],
+      "score": 0.6846109628677368,
+      "num_locations": 25
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_083e00.png",
+      "sprite_name": "BEST13_s08_sprite_32x32x5_083e00.png",
+      "screenshot": "menace-title-screen.png",
+      "position": [
+        155,
+        19
+      ],
+      "score": 0.6664143204689026,
+      "num_locations": 50
+    },
+    {
+      "sprite": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_083e00.png",
+      "sprite_name": "BEST13_s08_sprite_32x32x5_083e00.png",
+      "screenshot": "yikes-jellyfish.png",
+      "position": [
+        66,
+        81
+      ],
+      "score": 0.618138313293457,
+      "num_locations": 5
+    },
+    {
+      "sprite": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_016a00.png",
+      "sprite_name": "BEST10_s08_sprite_64x64x4_016a00.png",
+      "screenshot": "menace-gameplay-wikipedia.jpg",
+      "position": [
+        243,
+        112
+      ],
+      "score": 0.6614452004432678,
+      "num_locations": 322
+    },
+    {
+      "sprite": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_016a00.png",
+      "sprite_name": "BEST10_s08_sprite_64x64x4_016a00.png",
+      "screenshot": "store-gameplay.jpg",
+      "position": [
+        243,
+        112
+      ],
+      "score": 0.6614452004432678,
+      "num_locations": 322
+    },
+    {
+      "sprite": "best_sprites/64x64x4/BEST11_s08_sprite_64x64x4_031c00.png",
+      "sprite_name": "BEST11_s08_sprite_64x64x4_031c00.png",
+      "screenshot": "beginning-the-game.png",
+      "position": [
+        349,
+        145
+      ],
+      "score": 0.6113791465759277,
+      "num_locations": 5
+    }
+  ],
+  "screenshots": [
+    "beginning-the-game.png",
+    "menace-first-boss.png",
+    "menace-gameplay-wikipedia.jpg",
+    "menace-title-screen.png",
+    "store-boss.png",
+    "store-gameplay.jpg",
+    "yikes-jellyfish.png"
+  ],
+  "by_screenshot": {
+    "beginning-the-game.png": 47,
+    "menace-gameplay-wikipedia.jpg": 20,
+    "store-gameplay.jpg": 20,
+    "yikes-jellyfish.png": 42,
+    "menace-first-boss.png": 9,
+    "store-boss.png": 9,
+    "menace-title-screen.png": 43
+  }
+}
