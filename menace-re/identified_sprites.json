@@ -1,0 +1,2289 @@
+{
+  "player_candidates": [
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_081600.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_081600.png",
+      "size": "32x32",
+      "classifications": [],
+      "confidence": 100,
+      "features": {
+        "fill_ratio": 0.1943359375,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      },
+      "ship_score": 100
+    },
+    {
+      "path": "32x32x5/BEST11_s08_sprite_32x32x5_02fa00.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_02fa00.png",
+      "size": "32x32",
+      "classifications": [],
+      "confidence": 100,
+      "features": {
+        "fill_ratio": 0.6259765625,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      },
+      "ship_score": 100
+    },
+    {
+      "path": "24x24x4/BEST13_s05_sprite_24x24x4_056e00.png",
+      "full_path": "best_sprites/24x24x4/BEST13_s05_sprite_24x24x4_056e00.png",
+      "size": "24x24",
+      "classifications": [
+        "PLAYER_SHIP"
+      ],
+      "confidence": 85,
+      "features": {
+        "fill_ratio": 0.4652777777777778,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "24x24"
+      }
+    },
+    {
+      "path": "32x32x4/BEST12_s08_sprite_32x32x4_083a00.png",
+      "full_path": "best_sprites/32x32x4/BEST12_s08_sprite_32x32x4_083a00.png",
+      "size": "32x32",
+      "classifications": [
+        "PLAYER_SHIP"
+      ],
+      "confidence": 85,
+      "features": {
+        "fill_ratio": 0.2314453125,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST12_s08_sprite_32x32x5_032200.png",
+      "full_path": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_032200.png",
+      "size": "32x32",
+      "classifications": [
+        "PLAYER_SHIP"
+      ],
+      "confidence": 85,
+      "features": {
+        "fill_ratio": 0.4765625,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s08_sprite_32x32x5_05f000.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_05f000.png",
+      "size": "32x32",
+      "classifications": [
+        "PLAYER_SHIP"
+      ],
+      "confidence": 85,
+      "features": {
+        "fill_ratio": 0.4921875,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_0adc00.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_0adc00.png",
+      "size": "32x32",
+      "classifications": [
+        "PLAYER_SHIP"
+      ],
+      "confidence": 85,
+      "features": {
+        "fill_ratio": 0.20703125,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s05_sprite_32x32x5_0aaa00.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s05_sprite_32x32x5_0aaa00.png",
+      "size": "32x32",
+      "classifications": [
+        "PLAYER_SHIP"
+      ],
+      "confidence": 85,
+      "features": {
+        "fill_ratio": 0.263671875,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST12_s08_sprite_32x32x5_064800.png",
+      "full_path": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_064800.png",
+      "size": "32x32",
+      "classifications": [
+        "PLAYER_SHIP"
+      ],
+      "confidence": 85,
+      "features": {
+        "fill_ratio": 0.38671875,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_081c00.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_081c00.png",
+      "size": "32x32",
+      "classifications": [
+        "PLAYER_SHIP"
+      ],
+      "confidence": 85,
+      "features": {
+        "fill_ratio": 0.234375,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_064400.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_064400.png",
+      "size": "32x32",
+      "classifications": [
+        "PLAYER_SHIP"
+      ],
+      "confidence": 85,
+      "features": {
+        "fill_ratio": 0.3427734375,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_083a00.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_083a00.png",
+      "size": "32x32",
+      "classifications": [
+        "PLAYER_SHIP"
+      ],
+      "confidence": 85,
+      "features": {
+        "fill_ratio": 0.2392578125,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST12_s08_sprite_32x32x5_02fe00.png",
+      "full_path": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_02fe00.png",
+      "size": "32x32",
+      "classifications": [],
+      "confidence": 80,
+      "features": {
+        "fill_ratio": 0.623046875,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      },
+      "ship_score": 80
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_09ca00.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_09ca00.png",
+      "size": "64x64",
+      "classifications": [
+        "PLAYER_SHIP",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.233642578125,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_081400.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_081400.png",
+      "size": "64x64",
+      "classifications": [
+        "PLAYER_SHIP",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.261474609375,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s05_sprite_64x64x4_065a00.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s05_sprite_64x64x4_065a00.png",
+      "size": "64x64",
+      "classifications": [
+        "PLAYER_SHIP",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.35888671875,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_05c800.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_05c800.png",
+      "size": "64x64",
+      "classifications": [
+        "PLAYER_SHIP",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.216796875,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    }
+  ],
+  "enemy_candidates": [
+    {
+      "path": "24x24x4/BEST13_s05_sprite_24x24x4_090c00.png",
+      "full_path": "best_sprites/24x24x4/BEST13_s05_sprite_24x24x4_090c00.png",
+      "size": "24x24",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.5052083333333334,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "24x24"
+      }
+    },
+    {
+      "path": "24x24x4/BEST11_s05_sprite_24x24x4_08f600.png",
+      "full_path": "best_sprites/24x24x4/BEST11_s05_sprite_24x24x4_08f600.png",
+      "size": "24x24",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.3368055555555556,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "24x24"
+      }
+    },
+    {
+      "path": "16x16x4/BEST12_s08_sprite_16x16x4_053a00.png",
+      "full_path": "best_sprites/16x16x4/BEST12_s08_sprite_16x16x4_053a00.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.20703125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x4/BEST11_s08_sprite_16x16x4_035800.png",
+      "full_path": "best_sprites/16x16x4/BEST11_s08_sprite_16x16x4_035800.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.25,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x4/BEST11_s08_sprite_16x16x4_03bc00.png",
+      "full_path": "best_sprites/16x16x4/BEST11_s08_sprite_16x16x4_03bc00.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.28515625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x4/BEST11_s08_sprite_16x16x4_02ea00.png",
+      "full_path": "best_sprites/16x16x4/BEST11_s08_sprite_16x16x4_02ea00.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.23828125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "32x32x4/BEST11_s08_sprite_32x32x4_032200.png",
+      "full_path": "best_sprites/32x32x4/BEST11_s08_sprite_32x32x4_032200.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.4765625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x4/BEST11_s08_sprite_32x32x4_064a00.png",
+      "full_path": "best_sprites/32x32x4/BEST11_s08_sprite_32x32x4_064a00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.4013671875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x4/BEST12_s08_sprite_32x32x4_031c00.png",
+      "full_path": "best_sprites/32x32x4/BEST12_s08_sprite_32x32x4_031c00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.470703125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x4/BEST12_s08_sprite_32x32x4_083c00.png",
+      "full_path": "best_sprites/32x32x4/BEST12_s08_sprite_32x32x4_083c00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.3037109375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s08_sprite_32x32x5_075000.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_075000.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.326171875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_046c00.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_046c00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.37109375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s05_sprite_32x32x5_0ab400.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_0ab400.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.3701171875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_083c00.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_083c00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.349609375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s05_sprite_32x32x5_04f000.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_04f000.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.54296875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s08_sprite_32x32x5_07f000.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_07f000.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.5126953125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s08_sprite_32x32x5_084000.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_084000.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.576171875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s08_sprite_32x32x5_05da00.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_05da00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.421875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s05_sprite_32x32x5_0ac600.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s05_sprite_32x32x5_0ac600.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.3212890625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s08_sprite_32x32x5_03d400.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_03d400.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.5986328125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s08_sprite_32x32x5_03da00.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_03da00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.2421875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_078e00.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_078e00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.2451171875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s05_sprite_32x32x5_0b8e00.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_0b8e00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.4248046875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s05_sprite_32x32x5_071600.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_071600.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.56640625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST12_s08_sprite_32x32x5_080c00.png",
+      "full_path": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_080c00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.478515625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s05_sprite_32x32x5_055000.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_055000.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.287109375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s05_sprite_32x32x5_0aa600.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_0aa600.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.4619140625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_008200.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_008200.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.279296875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s08_sprite_32x32x5_064a00.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_064a00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.4140625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST12_s08_sprite_32x32x5_031a00.png",
+      "full_path": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_031a00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.376953125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST12_s08_sprite_32x32x5_031c00.png",
+      "full_path": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_031c00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.470703125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_026400.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_026400.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.2177734375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s05_sprite_32x32x5_0ab800.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_0ab800.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.3798828125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_08ee00.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_08ee00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.2783203125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST12_s08_sprite_32x32x5_011800.png",
+      "full_path": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_011800.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.53515625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s05_sprite_32x32x5_08f200.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_08f200.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.4970703125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_083e00.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_083e00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.4306640625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_065a00.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_065a00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.5625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s08_sprite_32x32x5_073e00.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_073e00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.318359375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s08_sprite_32x32x5_006c00.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s08_sprite_32x32x5_006c00.png",
+      "size": "32x32",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.330078125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_083c00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_083c00.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.296875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST13_s08_sprite_16x16x5_07fc00.png",
+      "full_path": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_07fc00.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.2109375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_077800.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_077800.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.24609375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST13_s08_sprite_16x16x5_097200.png",
+      "full_path": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_097200.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.23046875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s08_sprite_16x16x5_03bc00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_03bc00.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.29296875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s08_sprite_16x16x5_0b8200.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_0b8200.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.25,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s08_sprite_16x16x5_006c00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_006c00.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.2109375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s08_sprite_16x16x5_083800.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_083800.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.203125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s08_sprite_16x16x5_035800.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_035800.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.25390625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s08_sprite_16x16x5_02ea00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_02ea00.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.23828125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_047000.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_047000.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.2734375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST12_s08_sprite_16x16x5_053a00.png",
+      "full_path": "best_sprites/16x16x5/BEST12_s08_sprite_16x16x5_053a00.png",
+      "size": "16x16",
+      "classifications": [
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.23828125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    }
+  ],
+  "bullet_candidates": [
+    {
+      "path": "16x16x4/BEST11_s10_sprite_16x16x4_024800.png",
+      "full_path": "best_sprites/16x16x4/BEST11_s10_sprite_16x16x4_024800.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET"
+      ],
+      "confidence": 70,
+      "features": {
+        "fill_ratio": 0.33203125,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x4/BEST11_s05_sprite_16x16x4_05e200.png",
+      "full_path": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_05e200.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET"
+      ],
+      "confidence": 70,
+      "features": {
+        "fill_ratio": 0.65625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x4/BEST13_s05_sprite_16x16x4_02f600.png",
+      "full_path": "best_sprites/16x16x4/BEST13_s05_sprite_16x16x4_02f600.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET"
+      ],
+      "confidence": 70,
+      "features": {
+        "fill_ratio": 0.53515625,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_05e000.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e000.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET"
+      ],
+      "confidence": 70,
+      "features": {
+        "fill_ratio": 0.63671875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST12_s08_sprite_16x16x5_073600.png",
+      "full_path": "best_sprites/16x16x5/BEST12_s08_sprite_16x16x5_073600.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET"
+      ],
+      "confidence": 70,
+      "features": {
+        "fill_ratio": 0.6171875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_090400.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_090400.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET"
+      ],
+      "confidence": 70,
+      "features": {
+        "fill_ratio": 0.6015625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_089600.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_089600.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET"
+      ],
+      "confidence": 70,
+      "features": {
+        "fill_ratio": 0.671875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST13_s05_sprite_16x16x5_02f600.png",
+      "full_path": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f600.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET"
+      ],
+      "confidence": 70,
+      "features": {
+        "fill_ratio": 0.53515625,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST13_s05_sprite_16x16x5_02f400.png",
+      "full_path": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_02f400.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET"
+      ],
+      "confidence": 70,
+      "features": {
+        "fill_ratio": 0.53125,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_04ac00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_04ac00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET"
+      ],
+      "confidence": 70,
+      "features": {
+        "fill_ratio": 0.65234375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST13_s08_sprite_16x16x5_024800.png",
+      "full_path": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_024800.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET"
+      ],
+      "confidence": 70,
+      "features": {
+        "fill_ratio": 0.3359375,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_05e200.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05e200.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET"
+      ],
+      "confidence": 70,
+      "features": {
+        "fill_ratio": 0.65625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x4/BEST11_s05_sprite_16x16x4_046c00.png",
+      "full_path": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_046c00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.3203125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x4/BEST11_s05_sprite_16x16x4_047200.png",
+      "full_path": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_047200.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.3359375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x4/BEST11_s05_sprite_16x16x4_046000.png",
+      "full_path": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_046000.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.31640625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x4/BEST11_s05_sprite_16x16x4_05dc00.png",
+      "full_path": "best_sprites/16x16x4/BEST11_s05_sprite_16x16x4_05dc00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.49609375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_0a6c00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_0a6c00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.38671875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST13_s08_sprite_16x16x5_026000.png",
+      "full_path": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_026000.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.4609375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s08_sprite_16x16x5_08d200.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_08d200.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.48046875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST12_s10_sprite_16x16x5_006200.png",
+      "full_path": "best_sprites/16x16x5/BEST12_s10_sprite_16x16x5_006200.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.5625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_08fa00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_08fa00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.5,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s08_sprite_16x16x5_08dc00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_08dc00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.36328125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST12_s08_sprite_16x16x5_054600.png",
+      "full_path": "best_sprites/16x16x5/BEST12_s08_sprite_16x16x5_054600.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.38671875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_046a00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_046a00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.35546875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST13_s08_sprite_16x16x5_03b200.png",
+      "full_path": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_03b200.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.3125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s08_sprite_16x16x5_03d800.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_03d800.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.5078125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_078200.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_078200.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.30078125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_047200.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_047200.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.3359375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST13_s05_sprite_16x16x5_08f200.png",
+      "full_path": "best_sprites/16x16x5/BEST13_s05_sprite_16x16x5_08f200.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.41015625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s08_sprite_16x16x5_028400.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_028400.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.33984375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s08_sprite_16x16x5_04cc00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_04cc00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.43359375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_007c00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_007c00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.53515625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_062e00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_062e00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.33203125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_046000.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_046000.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.31640625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s08_sprite_16x16x5_03d400.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_03d400.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.33984375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_05dc00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_05dc00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.49609375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_046c00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_046c00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.3203125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_038c00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_038c00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.36328125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s05_sprite_16x16x5_0a5a00.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s05_sprite_16x16x5_0a5a00.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.359375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST11_s08_sprite_16x16x5_04a200.png",
+      "full_path": "best_sprites/16x16x5/BEST11_s08_sprite_16x16x5_04a200.png",
+      "size": "16x16",
+      "classifications": [
+        "BULLET",
+        "ENEMY"
+      ],
+      "confidence": 60,
+      "features": {
+        "fill_ratio": 0.3359375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    }
+  ],
+  "boss_candidates": [
+    {
+      "path": "64x64x4/BEST11_s08_sprite_64x64x4_031c00.png",
+      "full_path": "best_sprites/64x64x4/BEST11_s08_sprite_64x64x4_031c00.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.474853515625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_07ec00.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_07ec00.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.39404296875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_017200.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_017200.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.27392578125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_0a2200.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_0a2200.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.216064453125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_030a00.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_030a00.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.455078125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_0a1c00.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_0a1c00.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.220458984375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST11_s08_sprite_64x64x4_098e00.png",
+      "full_path": "best_sprites/64x64x4/BEST11_s08_sprite_64x64x4_098e00.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.4912109375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_087a00.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_087a00.png",
+      "size": "64x64",
+      "classifications": [
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.17919921875,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_0a1600.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_0a1600.png",
+      "size": "64x64",
+      "classifications": [
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.15673828125,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s05_sprite_64x64x4_04ec00.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s05_sprite_64x64x4_04ec00.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.326904296875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_081800.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_081800.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.284912109375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_02da00.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_02da00.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.43603515625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST11_s08_sprite_64x64x4_099200.png",
+      "full_path": "best_sprites/64x64x4/BEST11_s08_sprite_64x64x4_099200.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.48974609375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_030600.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_030600.png",
+      "size": "64x64",
+      "classifications": [
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.529296875,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_016a00.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_016a00.png",
+      "size": "64x64",
+      "classifications": [
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.6279296875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s05_sprite_64x64x4_054c00.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s05_sprite_64x64x4_054c00.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.244384765625,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST12_s08_sprite_64x64x4_083a00.png",
+      "full_path": "best_sprites/64x64x4/BEST12_s08_sprite_64x64x4_083a00.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.41552734375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_037600.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_037600.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.46484375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_04de00.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_04de00.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.243896484375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST12_s08_sprite_64x64x4_099000.png",
+      "full_path": "best_sprites/64x64x4/BEST12_s08_sprite_64x64x4_099000.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.4892578125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s05_sprite_64x64x4_035e00.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s05_sprite_64x64x4_035e00.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.267333984375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "64x64x4/BEST10_s08_sprite_64x64x4_045000.png",
+      "full_path": "best_sprites/64x64x4/BEST10_s08_sprite_64x64x4_045000.png",
+      "size": "64x64",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.456787109375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "64x64"
+      }
+    },
+    {
+      "path": "48x48x4/BEST11_s05_sprite_48x48x4_03da00.png",
+      "full_path": "best_sprites/48x48x4/BEST11_s05_sprite_48x48x4_03da00.png",
+      "size": "48x48",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.3142361111111111,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "48x48"
+      }
+    },
+    {
+      "path": "48x48x4/BEST11_s08_sprite_48x48x4_05da00.png",
+      "full_path": "best_sprites/48x48x4/BEST11_s08_sprite_48x48x4_05da00.png",
+      "size": "48x48",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.2517361111111111,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "48x48"
+      }
+    },
+    {
+      "path": "48x48x4/BEST11_s05_sprite_48x48x4_048c00.png",
+      "full_path": "best_sprites/48x48x4/BEST11_s05_sprite_48x48x4_048c00.png",
+      "size": "48x48",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.4092881944444444,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "48x48"
+      }
+    },
+    {
+      "path": "48x48x4/BEST11_s08_sprite_48x48x4_05dc00.png",
+      "full_path": "best_sprites/48x48x4/BEST11_s08_sprite_48x48x4_05dc00.png",
+      "size": "48x48",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.2903645833333333,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "48x48"
+      }
+    },
+    {
+      "path": "48x48x4/BEST11_s08_sprite_48x48x4_05de00.png",
+      "full_path": "best_sprites/48x48x4/BEST11_s08_sprite_48x48x4_05de00.png",
+      "size": "48x48",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.2977430555555556,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "48x48"
+      }
+    },
+    {
+      "path": "48x48x4/BEST11_s08_sprite_48x48x4_05e000.png",
+      "full_path": "best_sprites/48x48x4/BEST11_s08_sprite_48x48x4_05e000.png",
+      "size": "48x48",
+      "classifications": [
+        "ENEMY",
+        "BOSS_ENEMY"
+      ],
+      "confidence": 55,
+      "features": {
+        "fill_ratio": 0.3094618055555556,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "48x48"
+      }
+    }
+  ],
+  "unknown": [
+    {
+      "path": "16x16x4/BEST13_s08_sprite_16x16x4_00fc00.png",
+      "full_path": "best_sprites/16x16x4/BEST13_s08_sprite_16x16x4_00fc00.png",
+      "size": "16x16",
+      "classifications": [],
+      "confidence": 0,
+      "features": {
+        "fill_ratio": 0.21484375,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x4/BEST13_s08_sprite_16x16x4_08f800.png",
+      "full_path": "best_sprites/16x16x4/BEST13_s08_sprite_16x16x4_08f800.png",
+      "size": "16x16",
+      "classifications": [],
+      "confidence": 0,
+      "features": {
+        "fill_ratio": 0.23828125,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "32x32x4/BEST11_s08_sprite_32x32x4_010600.png",
+      "full_path": "best_sprites/32x32x4/BEST11_s08_sprite_32x32x4_010600.png",
+      "size": "32x32",
+      "classifications": [],
+      "confidence": 0,
+      "features": {
+        "fill_ratio": 0.685546875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST12_s08_sprite_32x32x5_05d000.png",
+      "full_path": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_05d000.png",
+      "size": "32x32",
+      "classifications": [],
+      "confidence": 0,
+      "features": {
+        "fill_ratio": 0.61328125,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_0aee00.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_0aee00.png",
+      "size": "32x32",
+      "classifications": [],
+      "confidence": 0,
+      "features": {
+        "fill_ratio": 0.177734375,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_0abc00.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_0abc00.png",
+      "size": "32x32",
+      "classifications": [],
+      "confidence": 0,
+      "features": {
+        "fill_ratio": 0.1923828125,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST13_s08_sprite_32x32x5_04a600.png",
+      "full_path": "best_sprites/32x32x5/BEST13_s08_sprite_32x32x5_04a600.png",
+      "size": "32x32",
+      "classifications": [],
+      "confidence": 0,
+      "features": {
+        "fill_ratio": 0.546875,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST11_s05_sprite_32x32x5_0d9a00.png",
+      "full_path": "best_sprites/32x32x5/BEST11_s05_sprite_32x32x5_0d9a00.png",
+      "size": "32x32",
+      "classifications": [],
+      "confidence": 0,
+      "features": {
+        "fill_ratio": 0.638671875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST12_s08_sprite_32x32x5_010400.png",
+      "full_path": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_010400.png",
+      "size": "32x32",
+      "classifications": [],
+      "confidence": 0,
+      "features": {
+        "fill_ratio": 0.6904296875,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "32x32x5/BEST12_s08_sprite_32x32x5_038400.png",
+      "full_path": "best_sprites/32x32x5/BEST12_s08_sprite_32x32x5_038400.png",
+      "size": "32x32",
+      "classifications": [],
+      "confidence": 0,
+      "features": {
+        "fill_ratio": 0.6787109375,
+        "is_symmetric": false,
+        "aspect_ratio": 1.0,
+        "size": "32x32"
+      }
+    },
+    {
+      "path": "16x16x5/BEST13_s08_sprite_16x16x5_005400.png",
+      "full_path": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_005400.png",
+      "size": "16x16",
+      "classifications": [],
+      "confidence": 0,
+      "features": {
+        "fill_ratio": 0.21875,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST13_s08_sprite_16x16x5_00fc00.png",
+      "full_path": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_00fc00.png",
+      "size": "16x16",
+      "classifications": [],
+      "confidence": 0,
+      "features": {
+        "fill_ratio": 0.21484375,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    },
+    {
+      "path": "16x16x5/BEST13_s08_sprite_16x16x5_08f800.png",
+      "full_path": "best_sprites/16x16x5/BEST13_s08_sprite_16x16x5_08f800.png",
+      "size": "16x16",
+      "classifications": [],
+      "confidence": 0,
+      "features": {
+        "fill_ratio": 0.26171875,
+        "is_symmetric": true,
+        "aspect_ratio": 1.0,
+        "size": "16x16"
+      }
+    }
+  ]
+}
