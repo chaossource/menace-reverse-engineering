@@ -7,7 +7,8 @@ namespace Menace {
 
 Game::Game() 
     : running_(false), paused_(false), enemySpawnTimer_(0.0f),
-      score_(0), lives_(3) {
+      score_(0), lives_(3),
+      playerWeaponLevel_(1), playerTilt_(2), playerTiltTimer_(0.0f) {
 }
 
 Game::~Game() {
@@ -21,6 +22,7 @@ bool Game::initialize() {
     renderer_ = std::make_unique<Renderer>();
     input_ = std::make_unique<Input>();
     audio_ = std::make_unique<Audio>();
+    assets_ = std::make_unique<AssetManager>();
     
     // Initialize renderer
     if (!renderer_->initialize()) {
@@ -53,22 +55,19 @@ bool Game::initialize() {
 void Game::loadAssets() {
     std::cout << "Loading assets..." << std::endl;
     
-    // Note: For now, we'll use simple colored rectangles
-    // Later we'll load the actual extracted graphics from the ADF
+    if (!assets_->loadAll(renderer_.get())) {
+        std::cerr << "Warning: Some assets failed to load" << std::endl;
+    }
     
-    // TODO: Load actual game graphics
-    // renderer_->loadTexture("player", "assets/player.png");
-    // renderer_->loadTexture("enemy1", "assets/enemy1.png");
-    // etc.
-    
-    std::cout << "Assets loaded (placeholder mode)" << std::endl;
+    std::cout << "Assets ready!" << std::endl;
 }
 
 void Game::initPlayer() {
     player_ = std::make_unique<Sprite>();
     player_->setType(EntityType::PLAYER);
-    player_->setPosition(Vec2(SCREEN_WIDTH / 2 - 8, SCREEN_HEIGHT - 40));
-    player_->setSize(16, 16);
+    // Ship is 32 pixels wide (back 16 + front 16), 44 pixels high
+    player_->setPosition(Vec2(SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT - 60));
+    player_->setSize(32, 44);
     player_->setVelocity(Vec2(0, 0));
 }
 
@@ -180,12 +179,27 @@ void Game::updatePlayer(float deltaTime) {
     player_->setVelocity(velocity);
     player_->update(deltaTime);
     
+    // Update ship tilt based on vertical movement
+    if (state.up) {
+        playerTilt_ = 1;  // Tilt up
+        playerTiltTimer_ = 0.0f;
+    } else if (state.down) {
+        playerTilt_ = 3;  // Tilt down
+        playerTiltTimer_ = 0.0f;
+    } else {
+        // Return to level after 0.1 seconds
+        playerTiltTimer_ += deltaTime;
+        if (playerTiltTimer_ >= 0.1f) {
+            playerTilt_ = 2;  // Level
+        }
+    }
+    
     // Keep player on screen
     Vec2 pos = player_->getPosition();
     if (pos.x < 0) pos.x = 0;
-    if (pos.x > SCREEN_WIDTH - 16) pos.x = SCREEN_WIDTH - 16;
+    if (pos.x > SCREEN_WIDTH - 32) pos.x = SCREEN_WIDTH - 32;  // Ship is 32 pixels wide
     if (pos.y < 0) pos.y = 0;
-    if (pos.y > SCREEN_HEIGHT - 16) pos.y = SCREEN_HEIGHT - 16;
+    if (pos.y > SCREEN_HEIGHT - 44) pos.y = SCREEN_HEIGHT - 44;  // Ship is 44 pixels high
     player_->setPosition(pos);
     
     // Firing
@@ -195,8 +209,9 @@ void Game::updatePlayer(float deltaTime) {
     if (state.fire && fireTimer >= 0.15f) {
         auto bullet = std::make_unique<Sprite>();
         bullet->setType(EntityType::BULLET);
-        bullet->setPosition(Vec2(player_->getPosition().x + 6, player_->getPosition().y - 8));
-        bullet->setSize(4, 8);
+        bullet->setTexture("player_bullet_small");
+        bullet->setPosition(Vec2(player_->getPosition().x + 14, player_->getPosition().y - 8));
+        bullet->setSize(4, 4);
         bullet->setVelocity(Vec2(0, -300));
         bullets_.push_back(std::move(bullet));
         fireTimer = 0.0f;
@@ -266,15 +281,31 @@ void Game::render() {
     // Clear screen
     renderer_->clear(Color(0, 0, 32));  // Dark blue background
     
-    // Draw player (simple rectangle for now)
-    Rect playerRect = player_->getBounds();
-    renderer_->drawRect(playerRect, Color(0, 255, 0));  // Green
+    // Draw player ship (composite: back + front)
+    Vec2 playerPos = player_->getPosition();
+    
+    // Get texture names for current ship state
+    std::string shipBack = assets_->getPlayerShipBack(playerWeaponLevel_, playerTilt_);
+    std::string shipFront = assets_->getPlayerShipFront(playerWeaponLevel_, playerTilt_);
+    
+    // Draw back part (left 16 pixels, 44 high)
+    Rect backRect(playerPos.x, playerPos.y, 16, 44);
+    renderer_->drawTexture(shipBack, backRect);
+    
+    // Draw front part (right 16 pixels, 22 high, offset by 11 pixels down)
+    Rect frontRect(playerPos.x + 16, playerPos.y + 11, 16, 22);
+    renderer_->drawTexture(shipFront, frontRect);
     
     // Draw enemies
     for (const auto& enemy : enemies_) {
         if (enemy->isActive()) {
             Rect enemyRect = enemy->getBounds();
-            renderer_->drawRect(enemyRect, Color(255, 0, 0));  // Red
+            // Fallback to colored rectangle if no texture
+            if (enemy->getTexture().empty()) {
+                renderer_->drawRect(enemyRect, Color(255, 0, 0));  // Red
+            } else {
+                renderer_->drawTexture(enemy->getTexture(), enemyRect);
+            }
         }
     }
     
@@ -282,7 +313,12 @@ void Game::render() {
     for (const auto& bullet : bullets_) {
         if (bullet->isActive()) {
             Rect bulletRect = bullet->getBounds();
-            renderer_->drawRect(bulletRect, Color(255, 255, 0));  // Yellow
+            // Use texture if available
+            if (!bullet->getTexture().empty()) {
+                renderer_->drawTexture(bullet->getTexture(), bulletRect);
+            } else {
+                renderer_->drawRect(bulletRect, Color(255, 255, 0));  // Yellow fallback
+            }
         }
     }
     

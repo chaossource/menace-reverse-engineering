@@ -19,6 +19,7 @@ set(SOURCES
     src/sprite.cpp
     src/input.cpp
     src/audio.cpp
+    src/assets.cpp
 )
 
 # Headers
@@ -28,6 +29,7 @@ set(HEADERS
     src/sprite.h
     src/input.h
     src/audio.h
+    src/assets.h
     src/types.h
 )
 
@@ -56,9 +58,9 @@ else()
     target_compile_options(menace PRIVATE -Wall -Wextra -pedantic)
 endif()
 
-# Copy assets to build directory
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/extracted_gfx
-     DESTINATION ${CMAKE_BINARY_DIR}/assets)
+# Copy community sprites to build directory
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/community_sprites
+     DESTINATION ${CMAKE_BINARY_DIR})
 
 # Install target
 install(TARGETS menace RUNTIME DESTINATION bin)
