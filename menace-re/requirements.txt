@@ -1,0 +1,8 @@
+# Python dependencies for Menace reverse engineering tools
+# Install with: pip install -r requirements.txt
+
+# Image processing (for sprite extraction and viewing)
+Pillow>=10.0.0
+
+# Numerical operations (for audio/graphics processing)
+numpy>=1.24.0
