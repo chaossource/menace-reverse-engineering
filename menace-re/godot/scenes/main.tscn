@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://btvh7j3y8qw2k"]
+
+[ext_resource type="PackedScene" uid="uid://cw8ry7n6pgxwc" path="res://scenes/player.tscn" id="1_player_scene"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_stars"]
+size = Vector2(320, 240)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.3, 0)
+motion_mirroring = Vector2(320, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+modulate = Color(0.1, 0.1, 0.2, 1)
+position = Vector2(160, 120)
+texture = SubResource("PlaceholderTexture2D_stars")
+
+[node name="Player" parent="." instance=ExtResource("1_player_scene")]
+position = Vector2(50, 120)
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+autoplay = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Instructions" type="Label" parent="CanvasLayer"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 310.0
+offset_bottom = 60.0
+text = "WASD / Arrows: Move
+Space: Shoot
+Music: Drop .mod files in music/incoming/ and run conversion script"
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
