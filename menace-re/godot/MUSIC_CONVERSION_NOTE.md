@@ -2,40 +2,41 @@
 
 ## David Whittaker Format (.dw) - menace.dw
 
-**Status**: ❌ Cannot be rendered with standard tools
+**Status**: ✅ Successfully rendered with UADE
 
-### Why Conversion Failed
+### Multi-Subsong Format
 
-The original `menace.dw` file (David Whittaker custom format) is a **self-contained 68000 binary** with embedded player code and music data. Standard tracker converters don't recognize it:
+The `menace.dw` file contains **all 3 music tracks** from the original game packaged in a single file:
 
-**What was tried**:
-- ✗ `openmpt123` - "error loading file" (only supports MOD, XM, S3M, IT, MPTM, etc.)
-- ✗ `UADE` (Unix Amiga Delitracker Emulator) - Not available in Ubuntu 24.04 repos
-- ✗ Building UADE from source - Requires libbencode-tools and complex dependency chain
+- **Subsong 0** (4m:27.922s): Main/Title theme → `menace_sub0.ogg`
+- **Subsong 1** (3m:20.860s): In-game music → `menace_sub1.ogg`
+- **Subsong 2** (2m:31.908s): Boss battle/Game Over theme → `menace_sub2.ogg`
 
-### Solution Options
+All three tracks have been extracted and converted to OGG format in `godot/music/`.
 
-**Option 1: Use UADE on Windows/Linux** (if you have it):
+### How It Was Converted
+
+The David Whittaker format is an unheadered 68000 assembly music driver binary, not a standard module format. Godot 4.7.2 cannot play it natively.
+
+**Solution**: Built and used [UADE (Unix Amiga Delitracker Emulator)](https://zakalwe.fi/uade/) v3.05 from source, which accurately emulates the Paula sound hardware and executes the 68000 music driver.
+
 ```bash
-uade123 -e wav -f menace.wav ../music/menace.dw
-oggenc menace.wav -o music/menace.ogg
+# Extract each subsong:
+uade123 -s 0 -e wav -f menace_sub0.wav ../music/menace.dw
+oggenc -q 6 -o music/menace_sub0.ogg menace_sub0.wav
+
+uade123 -s 1 -e wav -f menace_sub1.wav ../music/menace.dw
+oggenc -q 6 -o music/menace_sub1.ogg menace_sub1.wav
+
+uade123 -s 2 -e wav -f menace_sub2.wav ../music/menace.dw
+oggenc -q 6 -o music/menace_sub2.ogg menace_sub2.wav
 ```
 
-**Option 2: Use the web-based converter**:
-- Upload menace.dw to an Amiga music conversion service
-- Export as WAV or OGG
-- Copy result to `menace-re/godot/music/`
+Or use the conversion script: `./convert_mod_to_ogg.sh ../music/menace.dw 0` (subsong number)
 
-**Option 3: Extract from gameplay**:
-- Run Menace in WinUAE Amiga emulator
-- Use audio recording software to capture the music
-- Export as WAV, convert to OGG
+## MOD File Conversion (.mod)
 
-Once you have `menace.ogg`, place it in `menace-re/godot/music/` and add it to the MusicPlayer node in Godot.
-
-## MOD File Conversion (.mod) - WORKS
-
-Standard .mod files CAN be converted using openmpt123:
+Standard .mod files can be converted using OpenMPT:
 
 ```bash
 # Convert a .mod file to OGG:
@@ -43,3 +44,7 @@ Standard .mod files CAN be converted using openmpt123:
 ```
 
 This will output: `godot/music/yourfile.ogg`
+
+### Drop Folder for Future Tracks
+
+Place additional `.mod` files in `music/incoming/` and convert them using the script.

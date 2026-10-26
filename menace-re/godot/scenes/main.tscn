@@ -3,6 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://cw8ry7n6pgxwc" path="res://scenes/player.tscn" id="1_player_scene"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="AudioStream" uid="uid://dkme7fj2u5cw3" path="res://music/menace.ogg" id="3_music"]
+[ext_resource type="AudioStream" path="res://music/menace_sub0.ogg" id="4_music_title"]
+[ext_resource type="AudioStream" path="res://music/menace_sub1.ogg" id="5_music_ingame"]
+[ext_resource type="AudioStream" path="res://music/menace_sub2.ogg" id="6_music_boss"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_stars"]
 size = Vector2(320, 240)
@@ -29,8 +32,17 @@ wait_time = 2.0
 autostart = true
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_music")
+stream = ExtResource("4_music_title")
 autoplay = true
+
+[node name="MusicTitle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_music_title")
+
+[node name="MusicIngame" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_music_ingame")
+
+[node name="MusicBoss" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_music_boss")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -41,6 +53,6 @@ offset_right = 310.0
 offset_bottom = 60.0
 text = "WASD / Arrows: Move
 Space: Shoot
-Music: Drop .mod files in music/incoming/ and run conversion script"
+Music: David Whittaker Main Theme (1988)"
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

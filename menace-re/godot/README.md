@@ -27,9 +27,27 @@ The project will open in the Godot editor.
   - **WASD** or **Arrow Keys**: Move
   - **Space**: Shoot
 
-## Adding Music
+## Music
 
-### Option 1: Convert .mod Files (Recommended)
+### Authentic 1988 Soundtrack (Already Included)
+
+The project includes **all 3 original David Whittaker tracks** from the 1988 Amiga release:
+
+- **menace_sub0.ogg** (4m:27s) - Main/Title theme ← *Currently playing in-game*
+- **menace_sub1.ogg** (3m:20s) - In-game music
+- **menace_sub2.ogg** (2m:31s) - Boss battle/Game Over theme
+
+All tracks are located in `music/` and ready to use. The main scene plays the title theme by default.
+
+### Switching Music Tracks
+
+In Godot editor:
+1. Open `scenes/main.tscn`
+2. Select the `MusicPlayer` node
+3. In the Inspector, drag a different `.ogg` file from `music/` to the **Stream** property
+4. Save the scene
+
+### Adding Custom .mod Files
 
 1. Place your `.mod` tracker files in: `menace-re\godot\music\incoming\`
 
@@ -47,26 +65,7 @@ The project will open in the Godot editor.
 
 5. The converted `.ogg` file will appear in `music/`
 
-6. In Godot editor:
-   - Open `scenes/main.tscn`
-   - Select the `MusicPlayer` node
-   - In the Inspector, drag your `.ogg` file to the **Stream** property
-   - Save the scene
-
-### Option 2: Convert menace.dw (Original Soundtrack)
-
-The original David Whittaker soundtrack (`music/menace.dw`) requires **UADE** to convert.
-
-**On Windows:**
-1. Download UADE for Windows (if available) or use WSL with UADE installed
-2. Convert:
-   ```bash
-   uade123 -e wav -f menace.wav ../music/menace.dw
-   oggenc menace.wav -o music/menace.ogg
-   ```
-3. Add `menace.ogg` to the `MusicPlayer` as described above
-
-**Note**: See `MUSIC_CONVERSION_NOTE.md` for technical details.
+**Technical Details**: See `MUSIC_CONVERSION_NOTE.md` for information about the David Whittaker format and multi-subsong extraction.
 
 ## Project Structure
 
