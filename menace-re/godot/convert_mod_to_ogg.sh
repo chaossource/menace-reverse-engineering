@@ -70,7 +70,9 @@ else
   echo "Converting: $BASENAME"
   WAV_TEMP="/tmp/${OUTPUT_NAME}.wav"
   OGG_OUTPUT="${OUTPUT_DIR}/${OUTPUT_NAME}.ogg"
-  openmpt123 --render --quiet --samplerate 44100 --channels 2 --output "$WAV_TEMP" "$INPUT"
+  
+  # Use batch mode with output file (simpler than render mode)
+  openmpt123 --batch --samplerate 44100 --channels 2 --no-float --output "$WAV_TEMP" "$INPUT"
 fi
 
 # Check if oggenc is installed
