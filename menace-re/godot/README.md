@@ -82,6 +82,7 @@ godot/
 │   ├── player.gd          # Player controller
 │   ├── bullet.gd          # Bullet behavior
 │   └── enemy.gd           # Enemy AI
+├── sprites/level1/         # Retail level 1 ship and alien frames
 ├── music/                  # Music files (.ogg)
 │   └── incoming/          # Drop .mod files here for conversion
 ├── convert_mod_to_ogg.sh  # Music conversion script (Linux/WSL)
@@ -103,7 +104,7 @@ This is a work-in-progress remake. Current features:
 - ✅ Enemy spawning
 - ✅ Scrolling background
 - ✅ Music playback (.ogg format)
-- ⏳ Sprites (using placeholders - real sprites coming soon)
+- ✅ Level 1 ship (`ship-w0-level.png`) and animated level 1 aliens (`enemy-l0-*.png`)
 - ⏳ Enemy AI patterns
 - ⏳ Boss fights
 - ⏳ Level data

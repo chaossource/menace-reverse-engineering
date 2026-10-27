@@ -1,12 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://cw8ry7n6pgxwc"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_player"]
-size = Vector2(32, 16)
+[ext_resource type="Texture2D" path="res://sprites/level1/ship-w0-level.png" id="2_ship"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
-size = Vector2(32, 16)
+size = Vector2(32, 44)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 1
@@ -14,8 +12,8 @@ collision_mask = 2
 script = ExtResource("1_player")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0, 0.7, 1, 1)
-texture = SubResource("PlaceholderTexture2D_player")
+texture_filter = 1
+texture = ExtResource("2_ship")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_player")

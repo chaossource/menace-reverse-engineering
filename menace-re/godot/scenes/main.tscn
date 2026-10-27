@@ -42,7 +42,7 @@ stream = ExtResource("4_music_title")
 stream = ExtResource("5_music_ingame")
 
 [node name="MusicBoss" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_music_boss")]
+stream = ExtResource("6_music_boss")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
