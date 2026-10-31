@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bseaofkarnaughmap"]
+
+[ext_resource type="Script" path="res://maps/sea-of-karnaugh/sea_of_karnaugh.gd" id="1_script"]
+[ext_resource type="TileSet" uid="uid://bseaofkarnaughtiles" path="res://maps/sea-of-karnaugh/sea_of_karnaugh_tileset.tres" id="2_tileset"]
+
+[node name="SeaOfKarnaugh" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Playfield" type="Node2D" parent="."]
+
+[node name="Sky" type="ColorRect" parent="Playfield"]
+offset_right = 7040.0
+offset_bottom = 192.0
+mouse_filter = 2
+color = Color(0.2, 0.2, 0.133333, 1)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Playfield"]
+texture_filter = 1
+tile_set = ExtResource("2_tileset")

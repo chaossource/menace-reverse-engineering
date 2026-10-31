@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://btvh7j3y8qw2k"]
+[gd_scene load_steps=9 format=3 uid="uid://btvh7j3y8qw2k"]
 
 [ext_resource type="PackedScene" uid="uid://cw8ry7n6pgxwc" path="res://scenes/player.tscn" id="1_player_scene"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" path="res://music/menace_sub1.ogg" id="5_music_ingame"]
 [ext_resource type="AudioStream" path="res://music/menace_sub2.ogg" id="6_music_boss"]
 [ext_resource type="Texture2D" path="res://sprites/level1/sky.png" id="7_sky"]
+[ext_resource type="PackedScene" uid="uid://bseaofkarnaughmap" path="res://maps/sea-of-karnaugh/sea_of_karnaugh.tscn" id="8_map"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
@@ -21,6 +22,8 @@ texture_filter = 1
 centered = true
 position = Vector2(160, 96)
 texture = ExtResource("7_sky")
+
+[node name="SeaOfKarnaugh" parent="." instance=ExtResource("8_map")]
 
 [node name="Player" parent="." instance=ExtResource("1_player_scene")]
 position = Vector2(50, 120)
