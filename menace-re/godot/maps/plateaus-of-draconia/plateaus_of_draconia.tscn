@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://bplateausofdraconiamap"]
+
+[ext_resource type="Script" path="res://maps/plateaus-of-draconia/plateaus_of_draconia.gd" id="1_script"]
+[ext_resource type="TileSet" path="res://maps/plateaus-of-draconia/plateaus_of_draconia_tileset.tres" id="2_tileset"]
+
+[node name="PlateausOfDraconia" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Playfield" type="Node2D" parent="."]
+
+[node name="Sky" type="ColorRect" parent="Playfield"]
+offset_right = 8128.0
+offset_bottom = 192.0
+mouse_filter = 2
+color = Color(0, 0.133333, 0.333333, 1)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Playfield"]
+texture_filter = 1
+tile_set = ExtResource("2_tileset")
+
+[node name="Ending" type="Sprite2D" parent="."]
+visible = false
+centered = false
+texture_filter = 1
+position = Vector2(112, 48)

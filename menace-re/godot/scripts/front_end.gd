@@ -117,6 +117,9 @@ func _ready() -> void:
 	# After the level-1 fight, main sets this and comes back here.
 	if get_tree().root.has_meta("menace_return_cleared"):
 		get_tree().root.remove_meta("menace_return_cleared")
+		if get_tree().root.has_meta("menace_cleared_level"):
+			level = int(get_tree().root.get_meta("menace_cleared_level"))
+			get_tree().root.remove_meta("menace_cleared_level")
 		return_from_cleared_level()
 		return
 	# $72C54 calls $74C9A. $1A6 is 0 in the resident image.
@@ -288,11 +291,15 @@ func _start_pressed(event: InputEvent, keycode: int) -> bool:
 
 
 func _start_play() -> void:
-	# Only Sea of Karnaugh is wired. A cleared level leaves the card up.
-	if launching or level != 0 or screen_id != Screen.LEVEL:
+	# Loader 0 is Sea of Karnaugh. Loaders 1-5 are the later level scene.
+	if launching or screen_id != Screen.LEVEL or level < 0 or level > 5:
 		return
 	launching = true
-	get_tree().change_scene_to_file(PLAY_SCENE)
+	get_tree().root.set_meta("menace_start_level", level)
+	if level == 0:
+		get_tree().change_scene_to_file(PLAY_SCENE)
+	else:
+		get_tree().change_scene_to_file("res://scenes/later_level.tscn")
 
 
 func return_from_cleared_level() -> void:

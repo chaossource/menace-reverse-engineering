@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bruinsofkrugerbossboss"]
+
+[ext_resource type="Script" path="res://scripts/ruins_of_kruger_boss.gd" id="1_boss"]
+
+[node name="RuinsOfKrugerBoss" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_boss")
+
+[node name="Sky" type="ColorRect" parent="."]
+offset_right = 384.0
+offset_bottom = 192.0
+mouse_filter = 2
+color = Color(0, 0.2, 0.266667, 1)

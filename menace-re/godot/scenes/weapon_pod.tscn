@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmenaceweaponpod"]
+
+[ext_resource type="Script" path="res://scripts/weapon_pod.gd" id="1_pod"]
+
+[node name="WeaponPod" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_pod")
+
+[node name="Icon" type="Sprite2D" parent="."]
+centered = false
+texture_filter = 1
+
+[node name="Ship" type="Sprite2D" parent="."]
+centered = false
+texture_filter = 1
+position = Vector2(48, 64)

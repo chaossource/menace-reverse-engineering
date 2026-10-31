@@ -125,6 +125,7 @@ func _on_fight_finished() -> void:
 		return
 	left_for_card = true
 	get_tree().root.set_meta("menace_return_cleared", true)
+	get_tree().root.set_meta("menace_cleared_level", 0)
 	get_tree().change_scene_to_file(FRONT_SCENE)
 
 
