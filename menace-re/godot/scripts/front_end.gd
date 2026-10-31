@@ -38,8 +38,8 @@ const TITLE_ROWS := [
 	[0x1B, 0x04, "CODE           GRAPHICS"],
 	[0x0E, 0x06, "DAVE JONES     TONY SMITH"],
 	[0x34, 0x09, "DMA DESIGN"],
-	[0x0E, 0x0D, "PRESS F1 - ROOKIE"],
-	[0x2C, 0x0F, "F2 - EXPERT (X2 SCORE)"],
+	[0x0E, 0x0D, "PRESS 1 - ROOKIE"],
+	[0x2C, 0x0F, "2 - EXPERT (X2 SCORE)"],
 	[0x24, 0x14, "@ 1988 PSYGNOSIS"],
 ]
 const HISCORE_ROWS := [
@@ -183,7 +183,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	var keycode := 0
 	if event is InputEventKey and event.pressed and not event.echo:
 		pressed = true
-		keycode = event.keycode
+		keycode = event.keycode if event.keycode != 0 else event.physical_keycode
 	elif event is InputEventJoypadButton and event.pressed:
 		# $7342C: either joystick fire (CIA-A $BFE001 bits 6 and 7).
 		pressed = true
@@ -192,19 +192,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if screen_id == Screen.TITLE and event is InputEventKey:
 		# $74DE8 / $74DF0. Other keys stay unread; they do not leave the title.
-		if keycode == KEY_F1:
+		if keycode == KEY_1:
 			_choose_difficulty(0)
-		elif keycode == KEY_F2:
+		elif keycode == KEY_2:
 			_choose_difficulty(1)
 	elif screen_id == Screen.LEVEL and _start_pressed(event, keycode):
 		# Attract path lands here and waits. Fire is $7342C (joystick).
-		# The port's shoot action is that button. F1/F2 on the card also
+		# The port's shoot action is that button. 1 and 2 on the card also
 		# start, and they store the same difficulty as $74E02 / $74E1C.
-		if keycode == KEY_F1:
+		if keycode == KEY_1:
 			difficulty = 0
 			timer_1aa = 0x150
 			timer_1ae = 0x30
-		elif keycode == KEY_F2:
+		elif keycode == KEY_2:
 			difficulty = 1
 			timer_1aa = 0x300
 			timer_1ae = 0x70
@@ -243,7 +243,7 @@ func _choose_difficulty(which: int) -> void:
 		timer_1aa = 0x300
 		timer_1ae = 0x70
 	_enter_level_card()
-	# F1/F2 skip the attract screens and load Sea of Karnaugh. The card is
+	# 1 and 2 skip the attract screens and load Sea of Karnaugh. The card is
 	# drawn first; the retail card is held across the load, then play starts.
 	call_deferred("_start_play")
 
@@ -285,7 +285,7 @@ func _start_pressed(event: InputEvent, keycode: int) -> bool:
 		return true
 	if event is InputEventJoypadButton and event.pressed:
 		return true
-	if event is InputEventKey and (keycode == KEY_F1 or keycode == KEY_F2):
+	if event is InputEventKey and (keycode == KEY_1 or keycode == KEY_2):
 		return true
 	return false
 
