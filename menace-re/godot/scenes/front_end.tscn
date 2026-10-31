@@ -8,3 +8,27 @@ script = ExtResource("1_front")
 [node name="Screen" type="Sprite2D" parent="."]
 centered = false
 texture_filter = 0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HintBand" type="ColorRect" parent="CanvasLayer"]
+offset_left = 0.0
+offset_top = 192.0
+offset_right = 320.0
+offset_bottom = 240.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Instructions" type="Label" parent="CanvasLayer"]
+offset_left = 4.0
+offset_top = 192.0
+offset_right = 316.0
+offset_bottom = 240.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 10
+text = "1 for rookie    2 for expert
+WASD or arrows to move    Space to shoot
+Music: David Whittaker Main Theme (1988)"
+horizontal_alignment = 1
+vertical_alignment = 1
