@@ -1,5 +1,5 @@
 extends Node2D
-## Level 1 boss bobs (loader level 0, SEA OF KARNAUGH).
+## Level 1 boss (loader level 0, SEA OF KARNAUGH).
 ##
 ## The driver at $74900 installs one of the three scripts after the zero long
 ## at $3C8E0. This node runs that path machine at the movement rate (25 Hz)
@@ -7,6 +7,10 @@ extends Node2D
 ##   3 guardian-eye, 5 tadpole, 4 explosion.
 ## Sprite 2 (timeout mines) has no cut. Those slots stay hidden.
 ## Border quadrants and the mouth are not in these scripts, so they are not drawn.
+##
+## The body is not a bob. $737E0 paints it into the foreground while the
+## level scrolls off: 16 columns from the mask and packed planes at $3F908.
+## On the frozen window it sits at screen (67, 0), behind the eye.
 ##
 ## A level instances this node. Set end_script before it enters the tree:
 ##   1 fight ($3D21A), 2 death explosions ($3DFFA), 3 timeout eye ($3E624).
@@ -17,6 +21,12 @@ const TICK_SECONDS := 1.0 / 25.0
 const EYE := "enemy-l0-guardian-eye"
 const TADPOLE := "enemy-l0-tadpole"
 const EXPLOSION := "enemy-l0-explosion"
+## Path words are not screen pixels. The bob blit subtracts 16 and the
+## frozen foreground window (body column 0) is 37 pixels left of the
+## pf2offset/scroll formula. 16 + 37 lands one pixel off the socket;
+## 52 puts stored (282, 90) on screen (230, 90), inside the ring.
+const SCREEN_DX := 52
+const BODY_X := 67
 
 # Retail records, size word stripped. Bytes match level image $3D21A / $3DFFA / $3E624.
 const FIGHT := [
@@ -69,10 +79,27 @@ var _accum := 0.0
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_add_body()
 	_frames[3] = _load_frames(EYE, 4)
 	_frames[4] = _load_frames(EXPLOSION, 9)
 	_frames[5] = _load_frames(TADPOLE, 4)
 	_load_script(end_script)
+
+
+func _add_body() -> void:
+	var image := Image.new()
+	var err := image.load_png_from_buffer(FileAccess.get_file_as_bytes("res://sprites/level1/tentacle-body.png"))
+	if err != OK:
+		push_error("missing tentacle body (%d)" % err)
+		return
+	var sprite := Sprite2D.new()
+	sprite.name = "Body"
+	sprite.centered = false
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.z_index = 0
+	sprite.position = Vector2(BODY_X, 0)
+	sprite.texture = ImageTexture.create_from_image(image)
+	add_child(sprite)
 
 
 func _process(delta: float) -> void:
@@ -138,7 +165,7 @@ func _sync() -> void:
 			sprite.visible = false
 			continue
 		sprite.visible = true
-		sprite.position = Vector2(alien.x(), alien.y())
+		sprite.position = Vector2(alien.x() - SCREEN_DX, alien.y())
 		sprite.texture = sheet[alien.anim() % sheet.size()]
 
 

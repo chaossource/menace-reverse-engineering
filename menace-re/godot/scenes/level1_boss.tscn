@@ -5,9 +5,11 @@
 [node name="Level1Boss" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_boss")
+end_script = 1
 
 [node name="Sky" type="ColorRect" parent="."]
-offset_right = 384.0
+z_index = -1
+offset_right = 320.0
 offset_bottom = 192.0
 mouse_filter = 2
 color = Color(0.2, 0.2, 0.133333, 1)
