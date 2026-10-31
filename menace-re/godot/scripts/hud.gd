@@ -2,6 +2,8 @@ extends CanvasLayer
 ## Retail panel for the bottom 32 rows of the 320x224 display.
 ## Playfield above it is 192 pixels. Viewport stays 320x240.
 ## Score glyphs are the $77A14 digits. Shield fill is the $5555 bar at offset $144.
+## The panel PNG already has that bar filled in. Cropping the fill only
+## recolors those pixels, so the drained stretch is painted with the trough.
 
 const PANEL := preload("res://sprites/hud/hud-panel.png")
 const SHIELD_FILL := preload("res://sprites/hud/shield-fill.png")
@@ -30,6 +32,7 @@ const SHIELD_MAX := 128
 
 var _digits: Array[Sprite2D] = []
 var _shield: Sprite2D
+var _empty: Sprite2D
 
 
 func _ready() -> void:
@@ -43,6 +46,16 @@ func _ready() -> void:
 	panel.centered = false
 	panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	root.add_child(panel)
+
+	_empty = Sprite2D.new()
+	_empty.name = "ShieldEmpty"
+	_empty.texture = _trough_texture()
+	_empty.centered = false
+	_empty.position = Vector2(SHIELD_X, SHIELD_Y)
+	_empty.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_empty.region_enabled = true
+	_empty.visible = false
+	root.add_child(_empty)
 
 	_shield = Sprite2D.new()
 	_shield.name = "ShieldFill"
@@ -84,10 +97,30 @@ func set_shield(energy: int) -> void:
 	if amount > SHIELD_MAX:
 		amount = SHIELD_MAX
 	shield = amount
-	if _shield == null:
+	if _shield != null:
+		_shield.visible = amount > 0
+		if amount > 0:
+			_shield.region_rect = Rect2(0, 0, amount, 3)
+	if _empty == null:
 		return
-	_shield.visible = amount > 0
-	_shield.region_rect = Rect2(0, 0, amount, 3)
+	var gap := SHIELD_MAX - amount
+	_empty.visible = gap > 0
+	if gap > 0:
+		_empty.position = Vector2(SHIELD_X + amount, SHIELD_Y)
+		_empty.region_rect = Rect2(0, 0, gap, 3)
+
+
+func _trough_texture() -> Texture2D:
+	var image := Image.create(SHIELD_MAX, 3, false, Image.FORMAT_RGBA8)
+	var rows: Array[Color] = [
+		Color8(34, 85, 34),
+		Color8(85, 119, 119),
+		Color8(34, 85, 34),
+	]
+	for y in 3:
+		for x in SHIELD_MAX:
+			image.set_pixel(x, y, rows[y])
+	return ImageTexture.create_from_image(image)
 
 
 func _show_bcd(bcd: int) -> void:

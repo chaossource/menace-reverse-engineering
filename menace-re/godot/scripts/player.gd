@@ -6,11 +6,24 @@ extends CharacterBody2D
 ## Contact with an alien uses the faster clxdat path in check.collision:
 ## ship.count starts at $FFFF and shifts right 5 while the bodies overlap.
 ## When bit 4 is clear, ship.energy drops by 2 ($74AE6 bar, max 128).
+## Energy 0 kills the ship: controls stop and the explosion frames play.
 
 const SPEED = 150.0
 const BULLET_SCENE = preload("res://scenes/bullet.tscn")
 const SHIELD_MAX := 128
 const CONTACT_STEP := 1.0 / 50.0
+const EXPLODE_STEP := 4.0 / 50.0
+const EXPLODE: Array[Texture2D] = [
+	preload("res://sprites/level1/enemy-l0-explosion-00.png"),
+	preload("res://sprites/level1/enemy-l0-explosion-01.png"),
+	preload("res://sprites/level1/enemy-l0-explosion-02.png"),
+	preload("res://sprites/level1/enemy-l0-explosion-03.png"),
+	preload("res://sprites/level1/enemy-l0-explosion-04.png"),
+	preload("res://sprites/level1/enemy-l0-explosion-05.png"),
+	preload("res://sprites/level1/enemy-l0-explosion-06.png"),
+	preload("res://sprites/level1/enemy-l0-explosion-07.png"),
+	preload("res://sprites/level1/enemy-l0-explosion-08.png"),
+]
 
 @onready var shoot_timer = $ShootTimer
 @onready var sprite = $Sprite2D
@@ -20,6 +33,9 @@ var can_shoot = true
 var energy: int = SHIELD_MAX
 var ship_count: int = 0xFFFF
 var contact_acc: float = 0.0
+var ship_dead: bool = false
+var explode_i: int = 0
+var explode_acc: float = 0.0
 
 
 func _ready() -> void:
@@ -32,6 +48,10 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if ship_dead:
+		_explosion(delta)
+		return
+	_sync_alien_bodies()
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * SPEED
 	move_and_slide()
@@ -60,11 +80,48 @@ func _on_shoot_timer_timeout() -> void:
 
 
 func hit() -> void:
+	if ship_dead:
+		return
 	energy -= 2
 	ship_count = 0xFFFF
-	if energy < 0:
+	if energy <= 0:
 		energy = 0
+		_push_shield()
+		_die()
+		return
 	_push_shield()
+
+
+func _die() -> void:
+	ship_dead = true
+	velocity = Vector2.ZERO
+	can_shoot = false
+	collision_layer = 0
+	collision_mask = 0
+	if body_shape != null:
+		body_shape.disabled = true
+	explode_i = 0
+	explode_acc = 0.0
+	if sprite != null and EXPLODE.size() > 0:
+		sprite.texture = EXPLODE[0]
+		sprite.centered = true
+		sprite.visible = true
+
+
+func _explosion(delta: float) -> void:
+	velocity = Vector2.ZERO
+	explode_acc += delta
+	if explode_acc < EXPLODE_STEP:
+		return
+	explode_acc -= EXPLODE_STEP
+	if explode_i + 1 >= EXPLODE.size():
+		if sprite != null and EXPLODE.size() > 0:
+			sprite.texture = EXPLODE[EXPLODE.size() - 1]
+		set_physics_process(false)
+		return
+	explode_i += 1
+	if sprite != null:
+		sprite.texture = EXPLODE[explode_i]
 
 
 func _contact_clock(delta: float) -> void:
@@ -72,7 +129,7 @@ func _contact_clock(delta: float) -> void:
 	if contact_acc > CONTACT_STEP * 5.0:
 		contact_acc = CONTACT_STEP * 5.0
 	var touching := _touching_alien()
-	while contact_acc >= CONTACT_STEP:
+	while contact_acc >= CONTACT_STEP and not ship_dead:
 		contact_acc -= CONTACT_STEP
 		if touching:
 			_shield_tick()
@@ -80,6 +137,8 @@ func _contact_clock(delta: float) -> void:
 
 ## lsr.w #5 then bcc: bit 4 clear spends 2 shield. Bit 4 set only shifts the counter.
 func _shield_tick() -> void:
+	if ship_dead:
+		return
 	var bit := (ship_count >> 4) & 1
 	if bit != 0:
 		ship_count = (ship_count >> 5) & 0xFFFF
@@ -93,6 +152,12 @@ func _touching_alien() -> bool:
 		var collider: Object = slide.get_collider()
 		if _is_alien(collider):
 			return true
+	if _query_overlap():
+		return true
+	return _sprite_overlap()
+
+
+func _query_overlap() -> bool:
 	if body_shape == null or body_shape.shape == null:
 		return false
 	var world := get_world_2d()
@@ -108,11 +173,58 @@ func _touching_alien() -> bool:
 	query.collide_with_bodies = true
 	query.collide_with_areas = false
 	query.exclude.append(get_rid())
-	var found: Array = space.intersect_shape(query, 4)
+	var found: Array = space.intersect_shape(query, 8)
 	for item in found:
 		if _is_alien(item.get("collider")):
 			return true
 	return false
+
+
+## Setting an alien's position during this frame leaves the physics body
+## on the previous origin, so the shape query misses the sprite. Push the
+## body forward, and also test the node rectangle.
+func _sync_alien_bodies() -> void:
+	var tree := get_tree()
+	if tree == null:
+		return
+	for node in tree.get_nodes_in_group("karnaugh_wave"):
+		if not node is CollisionObject2D:
+			continue
+		if not _is_alien(node):
+			continue
+		if not node.visible:
+			continue
+		PhysicsServer2D.body_set_state(node.get_rid(), PhysicsServer2D.BODY_STATE_TRANSFORM, node.global_transform)
+
+
+func _sprite_overlap() -> bool:
+	var mine := _body_rect(body_shape)
+	if mine.size == Vector2.ZERO:
+		return false
+	var tree := get_tree()
+	if tree == null:
+		return false
+	for node in tree.get_nodes_in_group("karnaugh_wave"):
+		if not _is_alien(node):
+			continue
+		if not node.visible:
+			continue
+		var shape := node.get_node_or_null("CollisionShape2D") as CollisionShape2D
+		if shape == null or shape.disabled:
+			continue
+		if mine.intersects(_body_rect(shape)):
+			return true
+	return false
+
+
+func _body_rect(shape: CollisionShape2D) -> Rect2:
+	if shape == null or shape.shape == null:
+		return Rect2()
+	var rect := shape.shape as RectangleShape2D
+	if rect == null:
+		return Rect2()
+	var size := rect.size
+	return Rect2(shape.global_position - size * 0.5, size)
 
 
 func _is_alien(body: Object) -> bool:
@@ -124,9 +236,21 @@ func _is_alien(body: Object) -> bool:
 
 
 func _push_shield() -> void:
-	var parent := get_parent()
-	if parent == null:
-		return
-	var hud := parent.get_node_or_null("Hud")
+	var hud := _hud()
 	if hud != null and hud.has_method("set_shield"):
 		hud.set_shield(energy)
+
+
+func _hud() -> Node:
+	var parent := get_parent()
+	if parent != null:
+		var direct := parent.get_node_or_null("Hud")
+		if direct != null:
+			return direct
+	var here := self
+	while here != null:
+		var sibling := here.get_node_or_null("Hud")
+		if sibling != null:
+			return sibling
+		here = here.get_parent()
+	return null
