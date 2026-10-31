@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bmenacel1boss"]
+[gd_scene load_steps=3 format=3 uid="uid://bmenacel1boss"]
 
 [ext_resource type="Script" path="res://scripts/level1_boss.gd" id="1_boss"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eye"]
+size = Vector2(32, 24)
 
 [node name="Level1Boss" type="Node2D"]
 texture_filter = 1
@@ -13,3 +16,14 @@ offset_right = 320.0
 offset_bottom = 192.0
 mouse_filter = 2
 color = Color(0.2, 0.2, 0.133333, 1)
+
+; Guardian eye, the kill spot. Layer 2 overlaps a bullet mask of 2.
+; The rectangle is the 32x24 bob. The tentacle body is not a collider.
+[node name="EyeHit" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EyeHit"]
+position = Vector2(16, 12)
+shape = SubResource("RectangleShape2D_eye")
+disabled = true

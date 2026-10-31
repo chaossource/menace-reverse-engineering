@@ -14,7 +14,10 @@ extends Node2D
 ##
 ## A level instances this node. Set end_script before it enters the tree:
 ##   1 fight ($3D21A), 2 death explosions ($3DFFA), 3 timeout eye ($3E624).
-## fight_finished fires when script 1 has run out: tadpoles cleared, eye held.
+## The guardian eye is the kill spot. Hits is record byte 19, the same
+## offset hits_set writes. The fight eye stores 25. At 0 the node loads
+## script 2. fight_finished fires when that death script ends, and still
+## fires when script 1 runs out: tadpoles cleared, eye held.
 
 signal fight_finished
 
@@ -79,10 +82,15 @@ var _sprites: Array[Sprite2D] = []
 var _frames := {}
 var _accum := 0.0
 var _fight_done := false
+var _dying := false
+var _death_loaded := false
+var _eye_body: StaticBody2D
+var _eye_shape: CollisionShape2D
 
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_bind_eye()
 	_add_body()
 	_frames[3] = _load_frames(EYE, 4)
 	_frames[4] = _load_frames(EXPLOSION, 9)
@@ -117,10 +125,18 @@ func _process(delta: float) -> void:
 
 
 func _check_fight_finished() -> void:
-	# Fight records end when a path word is 0 and x is cleared. The eye's
-	# pause of 0xFF holds it on screen; the ten tadpoles reach that end
-	# after their E1 loops. The body sprite is not part of that machine.
-	if _fight_done or end_script != 1 or _aliens.is_empty():
+	# Script 2 ends when every slot's x is cleared. Script 1 still ends when
+	# the tadpole paths run out while the eye is held by pause 0xFF.
+	# The tentacle sprite is not part of that machine and is not a target.
+	if _fight_done or _aliens.is_empty():
+		return
+	if end_script == 2:
+		for alien in _aliens:
+			if alien.x() != 0:
+				return
+		_mark_fight_finished()
+		return
+	if end_script != 1:
 		return
 	for alien in _aliens:
 		if alien.x() == 0:
@@ -128,8 +144,96 @@ func _check_fight_finished() -> void:
 		if alien.pause() == 0xFF:
 			continue
 		return
+	_mark_fight_finished()
+
+
+func _mark_fight_finished() -> void:
+	if _fight_done:
+		return
 	_fight_done = true
+	if _eye_shape:
+		_eye_shape.disabled = true
 	fight_finished.emit()
+
+
+func _bind_eye() -> void:
+	# Bullet Area2D mask 2 overlaps this body on layer 2, so body_entered
+	# calls hit(). The shape is the 32x24 guardian-eye bob, not the tentacle.
+	var shape := _take_eye_shape()
+	var body := EyeHitBody.new()
+	body.name = "EyeHit"
+	body.collision_layer = 2
+	body.collision_mask = 0
+	shape.disabled = true
+	body.add_child(shape)
+	add_child(body)
+	_eye_body = body
+	_eye_shape = shape
+
+
+func _take_eye_shape() -> CollisionShape2D:
+	var placed := get_node_or_null("EyeHit")
+	if placed != null:
+		var old := placed.get_node_or_null("CollisionShape2D")
+		if old is CollisionShape2D:
+			placed.remove_child(old)
+			placed.name = "_EyeHitOld"
+			placed.queue_free()
+			return old
+		placed.name = "_EyeHitOld"
+		placed.queue_free()
+	var shape := CollisionShape2D.new()
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(32, 24)
+	shape.shape = rect
+	shape.position = Vector2(16, 12)
+	return shape
+
+
+## Bullet struck the eye. Hits byte is record offset 19.
+func damage_eye() -> void:
+	if _dying or _fight_done or _death_loaded or end_script != 1:
+		return
+	var eye := _find_eye()
+	if eye == null:
+		return
+	var left := eye.hits()
+	if left & 0x80:
+		return
+	left = (left - 1) & 0xFF
+	eye.hits_set(left)
+	if left != 0:
+		return
+	_dying = true
+	if _eye_shape:
+		_eye_shape.set_deferred("disabled", true)
+	call_deferred("_begin_death")
+
+
+func _find_eye() -> Alien:
+	for alien in _aliens:
+		if alien.sprite() == 3 and alien.x() != 0:
+			return alien
+	return null
+
+
+func _begin_death() -> void:
+	if _fight_done or _death_loaded:
+		return
+	_death_loaded = true
+	end_script = 2
+	_load_script(2)
+
+
+func _track_eye_hit() -> void:
+	if _eye_body == null or _eye_shape == null:
+		return
+	var eye := _find_eye()
+	if eye == null or end_script != 1 or _dying or _death_loaded or _fight_done:
+		_eye_shape.disabled = true
+		return
+	_eye_body.position = Vector2(eye.x() - SCREEN_DX, eye.y())
+	_eye_shape.disabled = false
 
 
 func _load_script(which: int) -> void:
@@ -188,6 +292,7 @@ func _sync() -> void:
 		sprite.visible = true
 		sprite.position = Vector2(alien.x() - SCREEN_DX, alien.y())
 		sprite.texture = sheet[alien.anim() % sheet.size()]
+	_track_eye_hit()
 
 
 func _step(a: Alien) -> void:
@@ -338,6 +443,13 @@ func _sbyte(v: int) -> int:
 	return v - 256 if v >= 128 else v
 
 
+class EyeHitBody extends StaticBody2D:
+	func hit() -> void:
+		var boss := get_parent()
+		if boss != null and boss.has_method("damage_eye"):
+			boss.damage_eye()
+
+
 class Alien:
 	var d: PackedByteArray
 
@@ -418,6 +530,9 @@ class Alien:
 
 	func loop_count_set(v: int) -> void:
 		d[18] = v & 0xFF
+
+	func hits() -> int:
+		return d[19]
 
 	func hits_set(v: int) -> void:
 		d[19] = v & 0xFF
