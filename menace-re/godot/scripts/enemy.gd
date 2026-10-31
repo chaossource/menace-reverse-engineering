@@ -1,6 +1,10 @@
 extends CharacterBody2D
 ## One slot of a retail attack wave. The node origin is the bob's top-left.
 ## Frames stay on sprites/level1/level1_aliens.tres. The path chooses the animation.
+## A damaging shot plays the retail impact sample. $744F2 loads D0 with $0106
+## and jsr $6FFE0. The low byte is Whittaker effect 6. Its PCM is the 128 bytes
+## at $58C66 (head 0, cylinder 23, offset $FDE). Bit 7 of hits does not change
+## the byte and does not play. A miss never reaches hit().
 
 const NAMES := {
 	0: "explosion",
@@ -38,6 +42,7 @@ const FRAMES := {
 	16: 1,
 	17: 5,
 }
+const HIT_STREAM := preload("res://sfx/hit.wav")
 
 var path_wave = null
 var slot: int = 0
@@ -109,7 +114,16 @@ func _show_frame(anim_name: String, frame_i: int, count: int) -> void:
 func hit() -> void:
 	if path_wave == null:
 		return
-	path_wave.damage(slot)
+	var changed := false
+	if slot >= 0 and slot < path_wave.bases.size():
+		var base: int = path_wave.bases[slot]
+		var before: int = path_wave.bget(base + 19)
+		path_wave.damage(slot)
+		changed = path_wave.bget(base + 19) != before
+	else:
+		path_wave.damage(slot)
+	if changed:
+		_play_damage_sound()
 	var tree := get_tree()
 	if tree == null:
 		sync_from_wave()
@@ -117,3 +131,20 @@ func hit() -> void:
 	for node in tree.get_nodes_in_group("karnaugh_wave"):
 		if node.has_method("sync_from_wave"):
 			node.sync_from_wave()
+
+
+## Channel 1 in the retail player. A later hit restarts this one sound.
+func _play_damage_sound() -> void:
+	var tree := get_tree()
+	if tree == null:
+		return
+	var host: Node = tree.current_scene
+	if host == null:
+		host = tree.root
+	var player := host.get_node_or_null("AlienHit") as AudioStreamPlayer
+	if player == null:
+		player = AudioStreamPlayer.new()
+		player.name = "AlienHit"
+		player.stream = HIT_STREAM
+		host.add_child(player)
+	player.play()
