@@ -71,6 +71,13 @@ func shoot() -> void:
 	var top_left := position - Vector2(16, 22)
 	bullet.position = top_left + Vector2(58, 24)
 	get_parent().add_child(bullet)
+	var blast = get_node_or_null("ShootSound")
+	if blast == null:
+		blast = AudioStreamPlayer.new()
+		blast.name = "ShootSound"
+		blast.stream = preload("res://audio/shoot.ogg")
+		add_child(blast)
+	blast.play()
 	can_shoot = false
 	shoot_timer.start()
 
