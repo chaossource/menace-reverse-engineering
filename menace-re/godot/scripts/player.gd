@@ -19,9 +19,9 @@ func _physics_process(delta):
 	velocity = direction * SPEED
 	move_and_slide()
 	
-	# Keep the 32×44 ship inside the 320×240 viewport.
+	# Keep the 32×44 ship inside the 320×192 playfield, above the HUD.
 	position.x = clamp(position.x, 16, 304)
-	position.y = clamp(position.y, 22, 218)
+	position.y = clamp(position.y, 22, 170)
 	
 	# Shooting
 	if Input.is_action_pressed("shoot") and can_shoot:

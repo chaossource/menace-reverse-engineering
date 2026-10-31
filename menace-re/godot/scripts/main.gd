@@ -8,6 +8,7 @@ extends Node2D
 const ENEMY_SCENE = preload("res://scenes/enemy.tscn")
 const BOSS_SCENE = preload("res://scenes/level1_boss.tscn")
 const FRONT_SCENE := "res://scenes/front_end.tscn"
+const LevelMusicScript = preload("res://scripts/level_music.gd")
 
 # 440 columns * 16 px, minus the 320 px view, is 6720 at a flush right edge.
 # Fine scroll 8 is that edge minus 8, so the offset modulo 16 is 8.
@@ -26,9 +27,8 @@ var left_for_card := false
 
 
 func _ready():
-	# Start music if available
-	if music_player.stream:
-		music_player.play()
+	# Level 1 keeps menace.ogg. The boss switches to subsong 0.
+	LevelMusicScript.play_on(music_player, 1, false)
 
 
 func _physics_process(delta):
@@ -52,6 +52,7 @@ func _begin_boss() -> void:
 		return
 	boss_started = true
 	spawn_timer.stop()
+	LevelMusicScript.play_on(music_player, 1, true)
 	var boss = BOSS_SCENE.instantiate()
 	boss.z_index = 10
 	boss.fight_finished.connect(_on_fight_finished)
@@ -71,5 +72,5 @@ func _on_spawn_timer_timeout():
 		return
 	# Spawn enemy at random Y position
 	var enemy = ENEMY_SCENE.instantiate()
-	enemy.position = Vector2(350, randf_range(30, 210))
+	enemy.position = Vector2(350, randf_range(30, 160))
 	add_child(enemy)

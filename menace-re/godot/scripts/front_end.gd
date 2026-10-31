@@ -109,6 +109,7 @@ var launching := false
 
 
 func _ready() -> void:
+	_play_title_music()
 	screen_sprite = $Screen
 	screen_sprite.centered = false
 	screen_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -381,3 +382,13 @@ func _punch_burst(image: Image, x: int, y: int) -> void:
 
 func _present(image: Image) -> void:
 	screen_sprite.texture = ImageTexture.create_from_image(image)
+
+
+func _play_title_music() -> void:
+	# Title keeps menace.ogg. Subsongs are for later levels and the boss.
+	var LevelMusicScript = preload("res://scripts/level_music.gd")
+	var music := AudioStreamPlayer.new()
+	music.name = "Music"
+	music.stream = load(LevelMusicScript.stream_path_for_title())
+	add_child(music)
+	music.play()

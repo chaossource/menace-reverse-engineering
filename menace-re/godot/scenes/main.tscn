@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://btvh7j3y8qw2k"]
+[gd_scene load_steps=10 format=3 uid="uid://btvh7j3y8qw2k"]
 
 [ext_resource type="PackedScene" uid="uid://cw8ry7n6pgxwc" path="res://scenes/player.tscn" id="1_player_scene"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" path="res://music/menace_sub2.ogg" id="6_music_boss"]
 [ext_resource type="Texture2D" path="res://sprites/level1/sky.png" id="7_sky"]
 [ext_resource type="PackedScene" uid="uid://bseaofkarnaughmap" path="res://maps/sea-of-karnaugh/sea_of_karnaugh.tscn" id="8_map"]
+[ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="9_hud"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
@@ -33,7 +34,7 @@ wait_time = 2.0
 autostart = true
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_music_title")
+stream = ExtResource("3_music")
 autoplay = true
 
 [node name="MusicTitle" type="AudioStreamPlayer" parent="."]
@@ -55,5 +56,7 @@ offset_bottom = 60.0
 text = "WASD / Arrows: Move
 Space: Shoot
 Music: David Whittaker Main Theme (1988)"
+
+[node name="Hud" parent="." instance=ExtResource("9_hud")]
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
