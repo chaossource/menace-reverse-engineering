@@ -18,6 +18,13 @@ extends Node2D
 ## offset hits_set writes. The fight eye stores 25. At 0 the node loads
 ## script 2. fight_finished fires when that death script ends, and still
 ## fires when script 1 runs out: tadpoles cleared, eye held.
+##
+## Below 25 hits the eye bob and the Body sprite pulse in place. Wound is
+## (25 - hits left) / 25. Peak scale is 1 + 0.06 + 0.16 * wound, and the
+## hot flash peaks at 0.18 + 0.82 * wound. First hit stays light. One hit
+## left is much stronger. Scale and modulate only. The body stays at
+## (67, 0) and the eye stays on its path. Hits and the kill rule do not
+## change.
 
 signal fight_finished
 
@@ -33,6 +40,15 @@ const EXPLOSION := "enemy-l0-explosion"
 ## 52 puts stored (282, 90) on screen (230, 90), inside the ring.
 const SCREEN_DX := 52
 const BODY_X := 67
+## Fight eye stores 25. Wound fraction is (25 - hits left) / 25.
+const HITS_FULL := 25
+const PULSE_HZ := 5.0
+## Peak extra scale is 0.06 + 0.16 * wound. Peak flash is 0.18 + 0.82 * wound.
+const PULSE_SCALE_FLOOR := 0.06
+const PULSE_SCALE_SPAN := 0.16
+const PULSE_FLASH_FLOOR := 0.18
+const PULSE_FLASH_SPAN := 0.82
+const PULSE_HOT := Color(1.0, 0.42, 0.32)
 
 # Retail records, size word stripped. Bytes match level image $3D21A / $3DFFA / $3E624.
 const FIGHT := [
@@ -86,6 +102,7 @@ var _dying := false
 var _death_loaded := false
 var _eye_body: StaticBody2D
 var _eye_shape: CollisionShape2D
+var _pulse_phase := 0.0
 
 
 func _ready() -> void:
@@ -122,6 +139,7 @@ func _process(delta: float) -> void:
 			_step(alien)
 		_sync()
 		_check_fight_finished()
+	_pulse(delta)
 
 
 func _check_fight_finished() -> void:
@@ -151,6 +169,7 @@ func _mark_fight_finished() -> void:
 	if _fight_done:
 		return
 	_fight_done = true
+	_rest_pulse()
 	if _eye_shape:
 		_eye_shape.disabled = true
 	fight_finished.emit()
@@ -217,12 +236,72 @@ func _find_eye() -> Alien:
 	return null
 
 
+func _eye_sprite() -> Sprite2D:
+	for i in _aliens.size():
+		var alien := _aliens[i]
+		if alien.sprite() == 3 and alien.x() != 0:
+			return _sprites[i]
+	return null
+
+
+## Wound fraction from the hits byte. 0 at 25, 1/25 after the first
+## shot, 24/25 with one hit left, 1 when the byte has reached 0.
+func _wound(left: int) -> float:
+	return clampf(float(HITS_FULL - left) / float(HITS_FULL), 0.0, 1.0)
+
+
+func _pulse(delta: float) -> void:
+	var eye := _find_eye()
+	var body := get_node_or_null("Body") as Sprite2D
+	var active := false
+	var left := HITS_FULL
+	if eye != null and end_script == 1 and not _death_loaded and not _fight_done:
+		left = eye.hits()
+		if left < HITS_FULL and (left & 0x80) == 0:
+			active = true
+	if not active:
+		_rest_pulse()
+		return
+	_pulse_phase += delta * PULSE_HZ * TAU
+	var wound := _wound(left)
+	var wave := 0.5 - 0.5 * cos(_pulse_phase)
+	var extra := (PULSE_SCALE_FLOOR + PULSE_SCALE_SPAN * wound) * wave
+	var flash := (PULSE_FLASH_FLOOR + PULSE_FLASH_SPAN * wound) * wave
+	_paint_pulse(_eye_sprite(), extra, flash)
+	_paint_pulse(body, extra, flash)
+
+
+func _paint_pulse(sprite: Sprite2D, extra: float, flash: float) -> void:
+	if sprite == null:
+		return
+	var tex := sprite.texture
+	if tex == null or extra <= 0.0:
+		sprite.scale = Vector2.ONE
+		sprite.offset = Vector2.ZERO
+		sprite.modulate = Color.WHITE
+		return
+	var s := 1.0 + extra
+	sprite.scale = Vector2(s, s)
+	# Scale is about the sprite origin. Shift the draw so the texture
+	# center stays on the unscaled center. position is not moved.
+	var size := tex.get_size()
+	sprite.offset = size * 0.5 * ((1.0 / s) - 1.0)
+	sprite.modulate = Color.WHITE.lerp(PULSE_HOT, clampf(flash, 0.0, 1.0))
+
+
 func _begin_death() -> void:
 	if _fight_done or _death_loaded:
 		return
 	_death_loaded = true
+	_rest_pulse()
 	end_script = 2
 	_load_script(2)
+
+
+func _rest_pulse() -> void:
+	_pulse_phase = 0.0
+	_paint_pulse(_eye_sprite(), 0.0, 0.0)
+	_paint_pulse(get_node_or_null("Body") as Sprite2D, 0.0, 0.0)
 
 
 func _track_eye_hit() -> void:
