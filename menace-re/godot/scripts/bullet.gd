@@ -5,6 +5,8 @@ extends Area2D
 ## Kind 3 is the separate multiple at $77F0E (24 bytes). Weapon 0 does not fire it.
 ## Update is $7420E: subtract the range word first, then move. A zero range dies with no move.
 ## Missile range starts at 16, so it travels 15 steps of 10 px. X >= 360 ($168) also kills it.
+## The hit box is the picture rectangle. It is created even when the texture is missing,
+## otherwise the shot is an Area2D with no shape and body_entered never runs.
 
 const TEX_MISSILE := "res://sprites/shot-missile.png"
 const TEX_CANNON := "res://sprites/shot-cannon.png"
@@ -15,47 +17,66 @@ const TEX_MULTIPLE := "res://sprites/shot-multiple.png"
 var life: int = 16
 var px_step: int = 10
 var acc: float = 0.0
+var spent: bool = false
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var col: CollisionShape2D = $CollisionShape2D
 
 
 func _ready() -> void:
+	collision_layer = 4
+	collision_mask = 2
+	monitoring = true
+	monitorable = true
 	z_index = 28
 	var path := TEX_MISSILE
+	var w := 13
+	var h := 2
 	px_step = 10
 	life = 16
 	if kind == 1:
 		path = TEX_CANNON
 		px_step = 8
 		life = 12
+		w = 15
+		h = 5
 	elif kind == 2:
 		path = TEX_LASER
 		px_step = 16
 		life = 32
+		w = 16
+		h = 2
 	elif kind == 3:
 		path = TEX_MULTIPLE
 		px_step = 10
 		life = 16
+		w = 4
+		h = 3
+	sprite.centered = false
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	var tex: Texture2D = load(path)
 	if tex == null:
 		push_error("Missing shot texture")
-		return
-	sprite.texture = tex
-	sprite.centered = false
-	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	var w := int(tex.get_width())
-	var h := int(tex.get_height())
+	else:
+		sprite.texture = tex
+		var tw := int(tex.get_width())
+		var th := int(tex.get_height())
+		if tw > 0 and th > 0:
+			w = tw
+			h = th
 	var shape := RectangleShape2D.new()
 	shape.size = Vector2(w, h)
 	col.shape = shape
 	col.position = Vector2(float(w) * 0.5, float(h) * 0.5)
+	col.disabled = false
 
 
 func _physics_process(delta: float) -> void:
+	if spent or is_queued_for_deletion():
+		return
 	acc += delta
 	var tick := 1.0 / 25.0
-	while acc >= tick:
+	while acc >= tick and not spent and not is_queued_for_deletion():
 		acc -= tick
 		_retail_step()
 
@@ -68,9 +89,51 @@ func _retail_step() -> void:
 	position.x += px_step
 	if position.x >= 360.0:
 		queue_free()
+		return
+	_poke_overlap()
+
+
+## Same-frame test. body_entered is also connected, and spent keeps one shot to one alien.
+func _poke_overlap() -> void:
+	if spent or col.shape == null:
+		return
+	var world := get_world_2d()
+	if world == null:
+		return
+	var space := world.direct_space_state
+	if space == null:
+		return
+	var query := PhysicsShapeQueryParameters2D.new()
+	query.shape = col.shape
+	query.transform = col.global_transform
+	query.collision_mask = collision_mask
+	query.collide_with_bodies = true
+	query.collide_with_areas = false
+	var found: Array = space.intersect_shape(query, 8)
+	var best: Object = null
+	var best_slot := 4096
+	for item in found:
+		var body: Object = item.get("collider")
+		if body == null or not body.has_method("hit"):
+			continue
+		var slot_i := 0
+		if "slot" in body:
+			slot_i = int(body.slot)
+		if slot_i < best_slot:
+			best = body
+			best_slot = slot_i
+	if best != null:
+		_apply_hit(best)
 
 
 func _on_body_entered(body: Node) -> void:
-	if body.has_method("hit"):
+	_apply_hit(body)
+
+
+func _apply_hit(body: Object) -> void:
+	if spent:
+		return
+	spent = true
+	if body != null and body.has_method("hit"):
 		body.hit()
 	queue_free()

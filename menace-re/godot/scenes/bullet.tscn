@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bshotmenace01"]
+[gd_scene load_steps=7 format=3 uid="uid://bshotmenace01"]
 
 [ext_resource type="Script" path="res://scripts/bullet.gd" id="1_bullet"]
 [ext_resource type="Texture2D" path="res://sprites/shot-missile.png" id="2_missile"]
@@ -6,10 +6,15 @@
 [ext_resource type="Texture2D" path="res://sprites/shot-laser.png" id="4_laser"]
 [ext_resource type="Texture2D" path="res://sprites/shot-multiple.png" id="5_multi"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_shot"]
+size = Vector2(13, 2)
+
 [node name="Bullet" type="Area2D"]
 z_index = 28
 collision_layer = 4
 collision_mask = 2
+monitoring = true
+monitorable = true
 script = ExtResource("1_bullet")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -36,5 +41,7 @@ centered = false
 texture = ExtResource("5_multi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(6.5, 1)
+shape = SubResource("RectangleShape2D_shot")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

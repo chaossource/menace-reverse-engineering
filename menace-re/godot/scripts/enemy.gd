@@ -53,6 +53,8 @@ func attach(w, s: int) -> void:
 
 
 func _ready() -> void:
+	collision_layer = 2
+	collision_mask = 5
 	sprite.centered = false
 	sprite.pause()
 	shape.position = Vector2(16, 12)
@@ -105,5 +107,13 @@ func _show_frame(anim_name: String, frame_i: int, count: int) -> void:
 
 
 func hit() -> void:
-	if path_wave:
-		path_wave.damage(slot)
+	if path_wave == null:
+		return
+	path_wave.damage(slot)
+	var tree := get_tree()
+	if tree == null:
+		sync_from_wave()
+		return
+	for node in tree.get_nodes_in_group("karnaugh_wave"):
+		if node.has_method("sync_from_wave"):
+			node.sync_from_wave()
