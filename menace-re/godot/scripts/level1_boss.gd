@@ -103,6 +103,7 @@ var _death_loaded := false
 var _eye_body: StaticBody2D
 var _eye_shape: CollisionShape2D
 var _pulse_phase := 0.0
+var _explosion_seen := false
 
 
 func _ready() -> void:
@@ -149,9 +150,12 @@ func _check_fight_finished() -> void:
 	if _fight_done or _aliens.is_empty():
 		return
 	if end_script == 2:
+		if not _explosion_seen:
+			return
 		for alien in _aliens:
 			if alien.x() != 0:
 				return
+		_remove_defeated_sprites()
 		_mark_fight_finished()
 		return
 	if end_script != 1:
@@ -163,6 +167,18 @@ func _check_fight_finished() -> void:
 			continue
 		return
 	_mark_fight_finished()
+
+
+func _remove_defeated_sprites() -> void:
+	# Death script 2 has finished and the explosions were visible.
+	# free() drops the body, the eye, and the blasts before the card returns.
+	var doomed: Array[Node] = []
+	for child in get_children():
+		if child is Sprite2D:
+			doomed.append(child)
+	for node in doomed:
+		node.free()
+	_sprites.clear()
 
 
 func _mark_fight_finished() -> void:
@@ -371,6 +387,8 @@ func _sync() -> void:
 		sprite.visible = true
 		sprite.position = Vector2(alien.x() - SCREEN_DX, alien.y())
 		sprite.texture = sheet[alien.anim() % sheet.size()]
+		if end_script == 2 and alien.sprite() == 4:
+			_explosion_seen = true
 	_track_eye_hit()
 
 
