@@ -1,9 +1,12 @@
 extends Node2D
 ## Sea of Karnaugh scroll, music, and the retail attack cycle.
 ##
-## The map is 440 columns. The fight starts at the right end, foreground
-## fine scroll 8. Waves come from the path table at $3C898. The old timer
-## does not spawn. When the fight script finishes, the level card returns.
+## The map is 440 columns. The boss picture rides the foreground in from
+## the right. The scroll stops at fine scroll 8 (x = 6712) with the
+## tentacle body on the right of the view. The ship stays where the
+## player left it. Waves come from the path table at $3C898. The old
+## timer does not spawn. When the fight script finishes, the level card
+## returns.
 
 const ENEMY_SCENE = preload("res://scenes/enemy.tscn")
 const BOSS_SCENE = preload("res://scenes/level1_boss.tscn")
@@ -12,8 +15,10 @@ const LevelMusicScript = preload("res://scripts/level_music.gd")
 const AttackScript = preload("res://scripts/attack_paths.gd")
 
 # 440 columns * 16 px, minus the 320 px view, is 6720 at a flush right edge.
-# Fine scroll 8 is that edge minus 8.
+# Fine scroll 8 is that edge minus 8. The boss node origin is then at
+# screen x 0, and the body (local x 67) sits at screen x 67.
 const BOSS_SCROLL_X := 6712.0
+const VIEW_W := 320.0
 const SCROLL_SPEED := 50.0
 const ATTACK_TICK := 1.0 / 25.0
 
@@ -29,6 +34,7 @@ var left_for_card := false
 var sched = null
 var wave = null
 var attack_acc := 0.0
+var boss = null
 
 
 func _ready() -> void:
@@ -42,17 +48,38 @@ func _physics_process(delta: float) -> void:
 	if boss_started:
 		return
 	var advance: float = SCROLL_SPEED * delta
+	var at_boss := false
 	if scroll_x + advance >= BOSS_SCROLL_X:
 		advance = BOSS_SCROLL_X - scroll_x
 		scroll_x = BOSS_SCROLL_X
-		parallax.scroll_offset.x += advance
-		sea.position.x = -scroll_x
-		_begin_boss()
-		return
-	scroll_x += advance
+		at_boss = true
+	else:
+		scroll_x += advance
 	parallax.scroll_offset.x += advance
 	sea.position.x = -scroll_x
+	_sync_boss_scroll()
+	if at_boss:
+		_begin_boss()
+		return
 	_run_attacks(delta)
+
+
+func _sync_boss_scroll() -> void:
+	# Same shift as the sea. While scroll_x is still short of the stop,
+	# the picture hangs off the right edge and walks left. It is not
+	# placed under the ship, and the ship is not moved to meet it.
+	var screen_x := BOSS_SCROLL_X - scroll_x
+	if boss == null:
+		if screen_x >= VIEW_W:
+			return
+		boss = BOSS_SCENE.instantiate()
+		boss.z_index = 10
+		boss.position = Vector2(screen_x, 0.0)
+		boss.set_process(false)
+		boss.fight_finished.connect(_on_fight_finished)
+		add_child(boss)
+		boss.set_process(false)
+	boss.position = Vector2(screen_x, 0.0)
 
 
 func _run_attacks(delta: float) -> void:
@@ -114,10 +141,15 @@ func _begin_boss() -> void:
 	spawn_timer.stop()
 	_free_wave()
 	LevelMusicScript.play_on(music_player, 1, true)
-	var boss = BOSS_SCENE.instantiate()
-	boss.z_index = 10
-	boss.fight_finished.connect(_on_fight_finished)
-	add_child(boss)
+	if boss == null:
+		boss = BOSS_SCENE.instantiate()
+		boss.z_index = 10
+		boss.fight_finished.connect(_on_fight_finished)
+		add_child(boss)
+	# Frozen view: node origin at screen 0, body at local x 67.
+	# The player node is not moved, clamped, or reparented.
+	boss.position = Vector2(0.0, 0.0)
+	boss.set_process(true)
 
 
 func _on_fight_finished() -> void:
