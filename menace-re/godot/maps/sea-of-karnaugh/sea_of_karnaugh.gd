@@ -10,8 +10,8 @@ const MAP_HEIGHT := 12
 
 func _ready() -> void:
 	var bytes := FileAccess.get_file_as_bytes("res://maps/sea-of-karnaugh/map.bin")
-	var columns := bytes.size() // MAP_HEIGHT
+	var columns := int(bytes.size() / MAP_HEIGHT)
 	for column in columns:
 		for row in MAP_HEIGHT:
 			var index := bytes[column * MAP_HEIGHT + row]
-			layer.set_cell(Vector2i(column, row), 0, Vector2i(index % 16, index // 16))
+			layer.set_cell(Vector2i(column, row), 0, Vector2i(index % 16, int(index / 16)))
