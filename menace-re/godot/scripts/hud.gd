@@ -33,6 +33,7 @@ const SHIELD_MAX := 128
 var _digits: Array[Sprite2D] = []
 var _shield: Sprite2D
 var _empty: Sprite2D
+var _empty_base: Texture2D
 
 
 func _ready() -> void:
@@ -47,23 +48,20 @@ func _ready() -> void:
 	panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	root.add_child(panel)
 
+	_empty_base = _trough_texture()
 	_empty = Sprite2D.new()
 	_empty.name = "ShieldEmpty"
-	_empty.texture = _trough_texture()
 	_empty.centered = false
 	_empty.position = Vector2(SHIELD_X, SHIELD_Y)
 	_empty.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	_empty.region_enabled = true
 	_empty.visible = false
 	root.add_child(_empty)
 
 	_shield = Sprite2D.new()
 	_shield.name = "ShieldFill"
-	_shield.texture = SHIELD_FILL
 	_shield.centered = false
 	_shield.position = Vector2(SHIELD_X, SHIELD_Y)
 	_shield.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	_shield.region_enabled = true
 	root.add_child(_shield)
 
 	for i in range(6):
@@ -97,17 +95,30 @@ func set_shield(energy: int) -> void:
 	if amount > SHIELD_MAX:
 		amount = SHIELD_MAX
 	shield = amount
+	# Sprite2D.region_rect does not clip this fill in the compatibility renderer.
+	# An atlas region is the drawn texture, so the bar actually shortens.
 	if _shield != null:
-		_shield.visible = amount > 0
-		if amount > 0:
-			_shield.region_rect = Rect2(0, 0, amount, 3)
-	if _empty == null:
+		if amount <= 0:
+			_shield.visible = false
+		else:
+			_shield.visible = true
+			_shield.texture = _crop(SHIELD_FILL, amount)
+	if _empty == null or _empty_base == null:
 		return
 	var gap := SHIELD_MAX - amount
-	_empty.visible = gap > 0
-	if gap > 0:
-		_empty.position = Vector2(SHIELD_X + amount, SHIELD_Y)
-		_empty.region_rect = Rect2(0, 0, gap, 3)
+	if gap <= 0:
+		_empty.visible = false
+		return
+	_empty.visible = true
+	_empty.position = Vector2(SHIELD_X + amount, SHIELD_Y)
+	_empty.texture = _crop(_empty_base, gap)
+
+
+func _crop(base: Texture2D, width: int) -> AtlasTexture:
+	var atlas := AtlasTexture.new()
+	atlas.atlas = base
+	atlas.region = Rect2(0, 0, width, 3)
+	return atlas
 
 
 func _trough_texture() -> Texture2D:

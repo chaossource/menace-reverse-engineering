@@ -249,15 +249,10 @@ func _push_shield() -> void:
 
 
 func _hud() -> Node:
-	var parent := get_parent()
-	if parent != null:
-		var direct := parent.get_node_or_null("Hud")
-		if direct != null:
-			return direct
-	var here := self
+	var here: Node = get_parent()
 	while here != null:
-		var sibling := here.get_node_or_null("Hud")
-		if sibling != null:
-			return sibling
+		var found := here.get_node_or_null("Hud")
+		if found != null:
+			return found
 		here = here.get_parent()
 	return null
