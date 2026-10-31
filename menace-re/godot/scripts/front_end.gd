@@ -16,6 +16,7 @@ extends Node2D
 const SCREEN_W := 320
 const SCREEN_H := 192
 const PAL_FRAME := 1.0 / 50.0
+const PLAY_SCENE := "res://scenes/main.tscn"
 
 const SPRITE_DIR := "res://sprites/front"
 
@@ -104,6 +105,7 @@ var timer_60 := 0
 var slide_y := 0
 var slide_steps := 0
 var slide_acc := 0.0
+var launching := false
 
 
 func _ready() -> void:
@@ -111,6 +113,11 @@ func _ready() -> void:
 	screen_sprite.centered = false
 	screen_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_load_art()
+	# After the level-1 fight, main sets this and comes back here.
+	if get_tree().root.has_meta("menace_return_cleared"):
+		get_tree().root.remove_meta("menace_return_cleared")
+		return_from_cleared_level()
+		return
 	# $72C54 calls $74C9A. $1A6 is 0 in the resident image.
 	_enter_title()
 
@@ -185,6 +192,19 @@ func _unhandled_input(event: InputEvent) -> void:
 			_choose_difficulty(0)
 		elif keycode == KEY_F2:
 			_choose_difficulty(1)
+	elif screen_id == Screen.LEVEL and _start_pressed(event, keycode):
+		# Attract path lands here and waits. Fire is $7342C (joystick).
+		# The port's shoot action is that button. F1/F2 on the card also
+		# start, and they store the same difficulty as $74E02 / $74E1C.
+		if keycode == KEY_F1:
+			difficulty = 0
+			timer_1aa = 0x150
+			timer_1ae = 0x30
+		elif keycode == KEY_F2:
+			difficulty = 1
+			timer_1aa = 0x300
+			timer_1ae = 0x70
+		_start_play()
 	elif screen_id == Screen.HISCORE or screen_id == Screen.WEAPONS:
 		if event is InputEventKey or event is InputEventJoypadButton:
 			# $74DAC returns to $74C92, which reopens the title.
@@ -219,6 +239,9 @@ func _choose_difficulty(which: int) -> void:
 		timer_1aa = 0x300
 		timer_1ae = 0x70
 	_enter_level_card()
+	# F1/F2 skip the attract screens and load Sea of Karnaugh. The card is
+	# drawn first; the retail card is held across the load, then play starts.
+	call_deferred("_start_play")
 
 
 func _enter_title() -> void:
@@ -247,11 +270,28 @@ func _enter_weapons() -> void:
 
 func _enter_level_card() -> void:
 	# $74D2A moveq #8, d0 / $74E38. Level index is still 0, so $74F2E
-	# punches no bursts. The card stays up: the original holds it across
-	# the $75FE2 load, and this scene does not start a level.
+	# punches no bursts. The card stays up across the $75FE2 load.
 	screen_id = Screen.LEVEL
 	waiting = false
 	_present(_compose_level(8, level))
+
+
+func _start_pressed(event: InputEvent, keycode: int) -> bool:
+	if event.is_action_pressed("shoot"):
+		return true
+	if event is InputEventJoypadButton and event.pressed:
+		return true
+	if event is InputEventKey and (keycode == KEY_F1 or keycode == KEY_F2):
+		return true
+	return false
+
+
+func _start_play() -> void:
+	# Only Sea of Karnaugh is wired. A cleared level leaves the card up.
+	if launching or level != 0 or screen_id != Screen.LEVEL:
+		return
+	launching = true
+	get_tree().change_scene_to_file(PLAY_SCENE)
 
 
 func return_from_cleared_level() -> void:

@@ -14,6 +14,9 @@ extends Node2D
 ##
 ## A level instances this node. Set end_script before it enters the tree:
 ##   1 fight ($3D21A), 2 death explosions ($3DFFA), 3 timeout eye ($3E624).
+## fight_finished fires when script 1 has run out: tadpoles cleared, eye held.
+
+signal fight_finished
 
 @export_range(1, 3) var end_script: int = 1
 
@@ -75,6 +78,7 @@ var _aliens: Array[Alien] = []
 var _sprites: Array[Sprite2D] = []
 var _frames := {}
 var _accum := 0.0
+var _fight_done := false
 
 
 func _ready() -> void:
@@ -109,6 +113,23 @@ func _process(delta: float) -> void:
 		for alien in _aliens:
 			_step(alien)
 		_sync()
+		_check_fight_finished()
+
+
+func _check_fight_finished() -> void:
+	# Fight records end when a path word is 0 and x is cleared. The eye's
+	# pause of 0xFF holds it on screen; the ten tadpoles reach that end
+	# after their E1 loops. The body sprite is not part of that machine.
+	if _fight_done or end_script != 1 or _aliens.is_empty():
+		return
+	for alien in _aliens:
+		if alien.x() == 0:
+			continue
+		if alien.pause() == 0xFF:
+			continue
+		return
+	_fight_done = true
+	fight_finished.emit()
 
 
 func _load_script(which: int) -> void:
