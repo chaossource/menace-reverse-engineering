@@ -23,6 +23,7 @@ buses/default_bus_layout="res://default_bus_layout.tres"
 [autoload]
 
 MusicVolumeApply="*res://scripts/music_volume.gd"
+SfxVolumeApply="*res://scripts/sfx_volume.gd"
 
 [display]
 

@@ -147,4 +147,5 @@ func _play_damage_sound() -> void:
 		player.name = "AlienHit"
 		player.stream = HIT_STREAM
 		host.add_child(player)
+	player.bus = "Sfx"
 	player.play()

@@ -94,6 +94,7 @@ func shoot() -> void:
 		blast.name = "ShootSound"
 		blast.stream = preload("res://audio/shoot.ogg")
 		add_child(blast)
+	blast.bus = "Sfx"
 	blast.play()
 	can_shoot = false
 	shoot_timer.start()
