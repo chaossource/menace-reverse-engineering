@@ -77,6 +77,9 @@ const LEVEL_ROWS := [
 	[0x32, 0x11, "RUINS OF KRUGER"],
 	[0x32, 0x15, "PLATEAUS OF DRACONIA"],
 ]
+# Hint band under the 192-tall card. Glyphs are 16px. LOADING is centered there.
+const LOADING_TEXT := "LOADING"
+const START_ACK_STREAM := preload("res://audio/shoot.ogg")
 
 enum Screen { TITLE, HISCORE, WEAPONS, LEVEL, ARROW_SLIDE }
 
@@ -106,6 +109,8 @@ var slide_y := 0
 var slide_steps := 0
 var slide_acc := 0.0
 var launching := false
+# Set in the key turn so a second 1 or 2 cannot start another load.
+var start_queued := false
 
 
 func _ready() -> void:
@@ -196,16 +201,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		# Attract path lands here and waits. Fire is $7342C (joystick).
 		# The port's shoot action is that button. 1 and 2 on the card also
 		# start, and they store the same difficulty as $74E02 / $74E1C.
+		# They take the same present-and-sound path as the title.
 		if event is InputEventKey:
 			var which := _difficulty_from_key(event)
-			if which == 0:
-				difficulty = 0
-				timer_1aa = 0x150
-				timer_1ae = 0x30
-			elif which == 1:
-				difficulty = 1
-				timer_1aa = 0x300
-				timer_1ae = 0x70
+			if which >= 0:
+				_choose_difficulty(which)
+				return
 		_start_play()
 	elif screen_id == Screen.HISCORE or screen_id == Screen.WEAPONS:
 		# $74DAC returns to $74C92 for a key that is not a difficulty choice.
@@ -262,6 +263,10 @@ func _on_timeout() -> void:
 
 func _choose_difficulty(which: int) -> void:
 	# $74E02 rookie, $74E1C expert. $74CD6 then branches to $74D1A.
+	# Title, high score, weapons, and the level card all come through here.
+	# Rookie (which == 0) and expert (which == 1) share the rest of the path.
+	if start_queued or launching:
+		return
 	difficulty = which
 	if which == 0:
 		timer_1aa = 0x150
@@ -269,10 +274,70 @@ func _choose_difficulty(which: int) -> void:
 	else:
 		timer_1aa = 0x300
 		timer_1ae = 0x70
+	start_queued = true
+	# The card is composed in this same turn. call_deferred("_start_play")
+	# used to run in the message flush before the draw, so the picture never
+	# reached the window and the wait stayed silent.
 	_enter_level_card()
-	# 1 and 2 skip the attract screens and load Sea of Karnaugh. The card is
-	# drawn first; the retail card is held across the load, then play starts.
-	call_deferred("_start_play")
+	_show_loading_plate()
+	_play_start_ack()
+	_start_after_present()
+
+
+func _show_loading_plate() -> void:
+	# 320x48 black plate in the band under the card. LOADING uses the same
+	# hud glyphs as the card ('!' $21 through '^' $5E). Glyphs are 16 tall,
+	# so the word sits at y = 16 inside the plate.
+	var width := 0
+	for i in LOADING_TEXT.length():
+		width += GLYPH_WIDTHS[LOADING_TEXT.unicode_at(i) - 0x21]
+	var image := Image.create(SCREEN_W, 48, false, Image.FORMAT_RGBA8)
+	image.fill(Color(0, 0, 0, 1))
+	var x := (SCREEN_W - width) >> 1
+	var y := 16
+	for i in LOADING_TEXT.length():
+		var index := LOADING_TEXT.unicode_at(i) - 0x21
+		_blend(image, glyphs[index], x, y)
+		x += GLYPH_WIDTHS[index]
+	var layer := $CanvasLayer
+	var plate := layer.get_node_or_null("LoadingPlate") as Sprite2D
+	if plate == null:
+		plate = Sprite2D.new()
+		plate.name = "LoadingPlate"
+		plate.centered = false
+		plate.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		plate.position = Vector2(0, SCREEN_H)
+		layer.add_child(plate)
+	plate.texture = ImageTexture.create_from_image(image)
+	var hint := layer.get_node_or_null("Instructions") as CanvasItem
+	if hint != null:
+		hint.visible = false
+
+
+func _play_start_ack() -> void:
+	# Title music is already menace.ogg. This shot is the "key accepted" sound.
+	# Sfx bus, same as the ship shot. The file is not a replacement for the song.
+	var ack := get_node_or_null("StartAck") as AudioStreamPlayer
+	if ack == null:
+		ack = AudioStreamPlayer.new()
+		ack.name = "StartAck"
+		ack.stream = START_ACK_STREAM
+		ack.bus = "Sfx"
+		add_child(ack)
+	ack.play()
+
+
+func _start_after_present() -> void:
+	# The key is flushed before this frame's process_frame signal and before
+	# its draw. The first resume is still ahead of that draw. The second
+	# resume is only reached after the card and the plate have been drawn.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not is_inside_tree():
+		return
+	_start_play()
+	if not launching:
+		start_queued = false
 
 
 func _enter_title() -> void:
