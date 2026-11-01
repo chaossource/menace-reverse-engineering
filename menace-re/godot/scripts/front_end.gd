@@ -323,6 +323,7 @@ func _start_play() -> void:
 		return
 	launching = true
 	get_tree().root.set_meta("menace_start_level", level)
+	get_tree().root.set_meta("menace_difficulty", difficulty)
 	if level == 0:
 		get_tree().change_scene_to_file(PLAY_SCENE)
 	else:
