@@ -554,18 +554,21 @@ func _draw_menu(image: Image) -> void:
 
 
 func _draw_options(image: Image) -> void:
+	# Card behind every options row, including the track. The glyphs alone
+	# sat on the blurred playfield, and the track line was the lowest.
+	image.fill_rect(Rect2i(24, 64, 272, 112), Color(0, 0, 0, 0.78))
 	for i in OPTION_LABELS.size():
-		var y := 84 + i * 36
+		var y := 72 + i * 28
 		if i == option_row:
-			_draw_text(image, ">", 48, y)
-		_draw_text(image, OPTION_LABELS[i], 70, y)
+			_draw_text(image, ">", 36, y)
+		_draw_text(image, OPTION_LABELS[i], 56, y)
 		var script: Script = MusicVolumeScript if i == 0 else SfxVolumeScript
-		_draw_slider(image, 176, y + 4, _volume_get(script))
-	var track_y := 84 + OPTION_LABELS.size() * 36
+		_draw_slider(image, 168, y + 4, _volume_get(script))
+	var track_y := 72 + OPTION_LABELS.size() * 28
 	if option_row == TRACK_ROW:
-		_draw_text(image, ">", 48, track_y)
-	_draw_text(image, "TRACK", 70, track_y)
-	_draw_text(image, TRACK_NAMES[track_index], 156, track_y)
+		_draw_text(image, ">", 36, track_y)
+	_draw_text(image, "TRACK", 56, track_y)
+	_draw_text(image, "< %s >" % TRACK_NAMES[track_index], 140, track_y)
 
 
 func _draw_slider(image: Image, x: int, y: int, value: float) -> void:
