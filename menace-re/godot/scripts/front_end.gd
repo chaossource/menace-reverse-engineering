@@ -180,39 +180,66 @@ func _unhandled_input(event: InputEvent) -> void:
 	if screen_id == Screen.ARROW_SLIDE:
 		return
 	var pressed := false
-	var keycode := 0
 	if event is InputEventKey and event.pressed and not event.echo:
 		pressed = true
-		keycode = event.keycode if event.keycode != 0 else event.physical_keycode
 	elif event is InputEventJoypadButton and event.pressed:
 		# $7342C: either joystick fire (CIA-A $BFE001 bits 6 and 7).
 		pressed = true
-		keycode = -1
 	if not pressed:
 		return
 	if screen_id == Screen.TITLE and event is InputEventKey:
 		# $74DE8 / $74DF0. Other keys stay unread; they do not leave the title.
-		if keycode == KEY_1:
-			_choose_difficulty(0)
-		elif keycode == KEY_2:
-			_choose_difficulty(1)
-	elif screen_id == Screen.LEVEL and _start_pressed(event, keycode):
+		var which := _difficulty_from_key(event)
+		if which >= 0:
+			_choose_difficulty(which)
+	elif screen_id == Screen.LEVEL and _start_pressed(event):
 		# Attract path lands here and waits. Fire is $7342C (joystick).
 		# The port's shoot action is that button. 1 and 2 on the card also
 		# start, and they store the same difficulty as $74E02 / $74E1C.
-		if keycode == KEY_1:
-			difficulty = 0
-			timer_1aa = 0x150
-			timer_1ae = 0x30
-		elif keycode == KEY_2:
-			difficulty = 1
-			timer_1aa = 0x300
-			timer_1ae = 0x70
+		if event is InputEventKey:
+			var which := _difficulty_from_key(event)
+			if which == 0:
+				difficulty = 0
+				timer_1aa = 0x150
+				timer_1ae = 0x30
+			elif which == 1:
+				difficulty = 1
+				timer_1aa = 0x300
+				timer_1ae = 0x70
 		_start_play()
 	elif screen_id == Screen.HISCORE or screen_id == Screen.WEAPONS:
-		if event is InputEventKey or event is InputEventJoypadButton:
-			# $74DAC returns to $74C92, which reopens the title.
+		# $74DAC returns to $74C92 for a key that is not a difficulty choice.
+		# 1 and 2 start, same as the title. They must not be swallowed here.
+		if event is InputEventKey:
+			var which := _difficulty_from_key(event)
+			if which >= 0:
+				_choose_difficulty(which)
+			else:
+				_enter_title()
+		elif event is InputEventJoypadButton:
 			_enter_title()
+
+
+# Layout keycode, physical position, printed label, and the typed character.
+# A non-zero layout code must not hide the other fields. AZERTY's physical 1
+# key reports keycode 38 ("&") with physical_keycode KEY_1. Numpad 1 reports
+# keycode KEY_END with physical_keycode KEY_KP_1. F1 and F2 match none of these.
+func _difficulty_from_key(event: InputEventKey) -> int:
+	var fields: Array[int] = [
+		int(event.keycode),
+		int(event.physical_keycode),
+		int(event.key_label),
+	]
+	for field in fields:
+		if field == KEY_1 or field == KEY_KP_1:
+			return 0
+		if field == KEY_2 or field == KEY_KP_2:
+			return 1
+	if event.unicode == 49:
+		return 0
+	if event.unicode == 50:
+		return 1
+	return -1
 
 
 func _on_timeout() -> void:
@@ -280,12 +307,12 @@ func _enter_level_card() -> void:
 	_present(_compose_level(8, level))
 
 
-func _start_pressed(event: InputEvent, keycode: int) -> bool:
+func _start_pressed(event: InputEvent) -> bool:
 	if event.is_action_pressed("shoot"):
 		return true
 	if event is InputEventJoypadButton and event.pressed:
 		return true
-	if event is InputEventKey and (keycode == KEY_1 or keycode == KEY_2):
+	if event is InputEventKey and _difficulty_from_key(event) >= 0:
 		return true
 	return false
 
