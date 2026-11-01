@@ -35,6 +35,9 @@ var enemy_prefix := ""
 var fight_rows: Array = []
 var death_rows: Array = []
 var timeout_rows: Array = []
+## Level 1 subtracts 52: the bob blit drops 16, and the frozen window
+## sits another 36 left of the raw word. Other bosses leave this at 0.
+var screen_dx: int = 0
 
 var _aliens: Array[Alien] = []
 var _sprites: Array[Sprite2D] = []
@@ -129,7 +132,7 @@ func _sync() -> void:
 			sprite.visible = false
 			continue
 		sprite.visible = true
-		sprite.position = Vector2(alien.x(), alien.y())
+		sprite.position = Vector2(alien.x() - screen_dx, alien.y())
 		sprite.texture = sheet[alien.anim() % sheet.size()]
 
 
@@ -361,6 +364,9 @@ class Alien:
 
 	func loop_count_set(v: int) -> void:
 		d[18] = v & 0xFF
+
+	func hits() -> int:
+		return d[19]
 
 	func hits_set(v: int) -> void:
 		d[19] = v & 0xFF
