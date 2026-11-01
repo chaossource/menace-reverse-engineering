@@ -386,7 +386,7 @@ func _show_loading_plate() -> void:
 
 
 func _play_start_ack() -> void:
-	# Title music is already menace.ogg. This shot is the "key accepted" sound.
+	# Title music is already SUB 1. This shot is the "key accepted" sound.
 	# Sfx bus, same as the ship shot. The file is not a replacement for the song.
 	var ack := get_node_or_null("StartAck") as AudioStreamPlayer
 	if ack == null:
@@ -571,12 +571,19 @@ func _present(image: Image) -> void:
 
 
 func _play_title_music() -> void:
-	# Title keeps menace.ogg. Subsongs are for later levels and the boss.
+	# Startup plays menace_sub1.ogg, the TRACK label SUB 1.
 	var LevelMusicScript = preload("res://scripts/level_music.gd")
 	var MusicVolumeScript = preload("res://scripts/music_volume.gd")
 	var music := AudioStreamPlayer.new()
 	music.name = "Music"
-	music.stream = load(LevelMusicScript.stream_path_for_title())
+	var stream: AudioStream = load(LevelMusicScript.stream_path_for_title())
+	var ogg := stream as AudioStreamOggVorbis
+	if ogg != null:
+		ogg.loop = true
+		ogg.loop_offset = 0.0
+		ogg.bpm = 0.0
+		ogg.beat_count = 0
+	music.stream = stream
 	MusicVolumeScript.attach(music)
 	add_child(music)
 	music.play()
