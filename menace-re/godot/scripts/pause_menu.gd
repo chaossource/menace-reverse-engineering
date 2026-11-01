@@ -32,12 +32,23 @@ const GLYPH_WIDTHS := [
 ]
 const MENU_ITEMS := ["END GAME", "SAVE GAME", "OPTIONS"]
 const OPTION_LABELS := ["MUSIC", "SOUND FX"]
+# File row sits under the volume sliders. Index 0 is the default and is
+# not started by the menu. Left and right are the only way to change it.
+const TRACK_ROW := 2
+const TRACKS := [
+	"res://music/menace.ogg",
+	"res://music/menace_sub0.ogg",
+	"res://music/menace_sub1.ogg",
+	"res://music/menace_sub2.ogg",
+]
+const TRACK_NAMES := ["MENACE", "SUB 0", "SUB 1", "SUB 2"]
 
 var glyphs: Array[Image] = []
 var open := false
 var on_options := false
 var menu_row := 0
 var option_row := 0
+var track_index := 0
 var saved_note := false
 var _blurred: Image
 var _capture_tries := 0
@@ -154,6 +165,7 @@ func _open() -> void:
 	on_options = false
 	menu_row = 0
 	option_row = 0
+	_sync_track_index()
 	saved_note = false
 	_blurred = null
 	_capture_tries = 0
@@ -190,7 +202,7 @@ func _move_vert(dir: int) -> void:
 	elif dir < 0 and option_row == 0:
 		on_options = false
 		menu_row = 2
-	elif dir > 0 and option_row == OPTION_LABELS.size() - 1:
+	elif dir > 0 and option_row >= TRACK_ROW:
 		on_options = false
 		menu_row = 2
 	else:
@@ -199,10 +211,13 @@ func _move_vert(dir: int) -> void:
 
 
 func _move_horiz(dir: int) -> void:
-	# Left and right change a slider only while that row is selected.
+	# Volume rows change only that volume. The track row changes only the file.
 	if not on_options:
 		return
-	_nudge_volume(option_row, dir)
+	if option_row == TRACK_ROW:
+		_nudge_track(dir)
+	elif option_row >= 0 and option_row < OPTION_LABELS.size():
+		_nudge_volume(option_row, dir)
 	_redraw()
 
 
@@ -325,6 +340,65 @@ func _hud() -> Node:
 	if scene == null:
 		return null
 	return scene.get_node_or_null("Hud")
+
+
+func _sync_track_index() -> void:
+	# Reflect the file already playing. Do not start or replace it.
+	var player := _active_music()
+	if player == null or player.stream == null:
+		track_index = 0
+		return
+	var file_name := String(player.stream.resource_path).get_file()
+	for i in TRACKS.size():
+		if file_name == TRACKS[i].get_file():
+			track_index = i
+			return
+	track_index = 0
+
+
+func _nudge_track(dir: int) -> void:
+	var count := TRACKS.size()
+	var next := track_index + dir
+	if next < 0:
+		next = count - 1
+	if next >= count:
+		next = 0
+	track_index = next
+	_play_track(TRACKS[track_index])
+
+
+func _play_track(path: String) -> void:
+	var stream: AudioStream = load(path)
+	if stream == null:
+		return
+	var target := _active_music()
+	if target == null:
+		return
+	_volume_call(MusicVolumeScript, "attach", [target])
+	target.stop()
+	target.stream = stream
+	target.play()
+
+
+func _music_players() -> Array[AudioStreamPlayer]:
+	var found: Array[AudioStreamPlayer] = []
+	var scene := get_parent()
+	if scene == null:
+		return found
+	for node in scene.get_children():
+		if node is AudioStreamPlayer and String(node.name).begins_with("Music"):
+			found.append(node)
+	return found
+
+
+func _active_music() -> AudioStreamPlayer:
+	var players := _music_players()
+	for player in players:
+		if player.playing:
+			return player
+	if players.is_empty():
+		return null
+	return players[0]
 
 
 func _nudge_volume(which: int, direction: int) -> void:
@@ -487,6 +561,11 @@ func _draw_options(image: Image) -> void:
 		_draw_text(image, OPTION_LABELS[i], 70, y)
 		var script: Script = MusicVolumeScript if i == 0 else SfxVolumeScript
 		_draw_slider(image, 176, y + 4, _volume_get(script))
+	var track_y := 84 + OPTION_LABELS.size() * 36
+	if option_row == TRACK_ROW:
+		_draw_text(image, ">", 48, track_y)
+	_draw_text(image, "TRACK", 70, track_y)
+	_draw_text(image, TRACK_NAMES[track_index], 156, track_y)
 
 
 func _draw_slider(image: Image, x: int, y: int, value: float) -> void:
