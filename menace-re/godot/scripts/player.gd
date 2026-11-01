@@ -7,10 +7,21 @@ extends CharacterBody2D
 ## ship.count starts at $FFFF and shifts right 5 while the bodies overlap.
 ## When bit 4 is clear, ship.energy drops by 2 ($74AE6 bar, max 128).
 ## Energy 0 kills the ship: controls stop and the explosion frames play.
+## Retail never flashes the ship for low energy. decrease.energy only
+## shortens the panel bar. The colours+74 outline ($000f / $000c) is the
+## force field in moveship. While this ship is alive and energy is at or
+## under a quarter of the bar (32), the sprite pulses. Above 32, and when
+## the ship dies, scale and modulate return to rest. Position is not moved.
 
 const SPEED = 150.0
 const BULLET_SCENE = preload("res://scenes/bullet.tscn")
 const SHIELD_MAX := 128
+## Quarter of the bar. int(SHIELD_MAX / 4) is 32. Pulse only at or under this.
+const LOW_SHIELD := 32
+const LOW_PULSE_HZ := 4.0
+const LOW_PULSE_SCALE := 0.08
+const LOW_PULSE_FLASH := 0.85
+const LOW_PULSE_HOT := Color(1.0, 0.28, 0.22)
 const CONTACT_STEP := 1.0 / 50.0
 const EXPLODE_STEP := 4.0 / 50.0
 const EXPLODE: Array[Texture2D] = [
@@ -36,6 +47,8 @@ var contact_acc: float = 0.0
 var ship_dead: bool = false
 var explode_i: int = 0
 var explode_acc: float = 0.0
+var _low_phase: float = 0.0
+var _low_on: bool = false
 
 
 func _ready() -> void:
@@ -49,6 +62,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if ship_dead:
+		_rest_low_shield()
 		_explosion(delta)
 		return
 	_sync_alien_bodies()
@@ -61,6 +75,9 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("shoot") and can_shoot:
 		shoot()
 	_contact_clock(delta)
+	if ship_dead:
+		return
+	_low_shield_pulse(delta)
 
 
 func shoot() -> void:
@@ -94,6 +111,7 @@ func hit() -> void:
 	if energy <= 0:
 		energy = 0
 		_push_shield()
+		_rest_low_shield()
 		_die()
 		return
 	_push_shield()
@@ -240,6 +258,35 @@ func _is_alien(body: Object) -> bool:
 	if not body.has_method("hit"):
 		return false
 	return "slot" in body
+
+
+## Alive and at or under LOW_SHIELD: breathe the sprite about its center.
+## The scene sprite is centered, so scale stays on the texture center.
+func _low_shield_pulse(delta: float) -> void:
+	if energy > LOW_SHIELD:
+		_rest_low_shield()
+		return
+	if sprite == null:
+		return
+	_low_on = true
+	_low_phase = fmod(_low_phase + delta * LOW_PULSE_HZ * TAU, TAU)
+	var wave := 0.5 - 0.5 * cos(_low_phase)
+	var s := 1.0 + LOW_PULSE_SCALE * wave
+	sprite.scale = Vector2(s, s)
+	sprite.modulate = Color.WHITE.lerp(LOW_PULSE_HOT, LOW_PULSE_FLASH * wave)
+
+
+## One restore. Later calls leave scale and modulate alone, so a death
+## fade can own the sprite after the pulse has stopped.
+func _rest_low_shield() -> void:
+	_low_phase = 0.0
+	if not _low_on:
+		return
+	_low_on = false
+	if sprite == null:
+		return
+	sprite.scale = Vector2.ONE
+	sprite.modulate = Color.WHITE
 
 
 func _push_shield() -> void:
