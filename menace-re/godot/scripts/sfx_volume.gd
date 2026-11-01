@@ -67,7 +67,8 @@ static func _apply() -> void:
 	if linear <= 0.0:
 		AudioServer.set_bus_volume_db(idx, -80.0)
 	else:
-		AudioServer.set_bus_volume_db(idx, linear_to_db(linear))
+		# 12 dB under the slider so the middle step is listenable. Music is not shifted.
+		AudioServer.set_bus_volume_db(idx, linear_to_db(linear) - 12.0)
 
 
 static func _ensure_bus() -> int:
