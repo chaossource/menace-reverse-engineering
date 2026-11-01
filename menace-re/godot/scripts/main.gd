@@ -51,7 +51,7 @@ func _ready() -> void:
 	spawn_timer.stop()
 	sched = AttackScript.new()
 	_route_music_bus()
-	# Level 1 keeps menace.ogg. The boss switches to subsong 0.
+	# Level 1 starts on SUB 1 (menace_sub1.ogg). The boss switches to subsong 0.
 	LevelMusicScript.play_on(music_player, 1, false)
 
 
@@ -198,7 +198,7 @@ func _free_wave() -> void:
 
 ## Life loss. Same rewind as the init block: scroll at the left edge,
 ## attack cycle back at its first delay, boss gone, score cleared.
-## $75148 starts subsong 2 again, which this level plays as menace.ogg.
+## The section starts SUB 1 (menace_sub1.ogg) again.
 func restart_section() -> void:
 	scroll_x = 0.0
 	attack_acc = 0.0

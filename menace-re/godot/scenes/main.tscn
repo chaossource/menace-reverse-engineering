@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://btvh7j3y8qw2k"]
+[gd_scene load_steps=10 format=3 uid="uid://btvh7j3y8qw2k"]
 
 [ext_resource type="PackedScene" uid="uid://cw8ry7n6pgxwc" path="res://scenes/player.tscn" id="1_player_scene"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
-[ext_resource type="AudioStream" uid="uid://dkme7fj2u5cw3" path="res://music/menace.ogg" id="3_music"]
 [ext_resource type="AudioStream" path="res://music/menace_sub0.ogg" id="4_music_title"]
 [ext_resource type="AudioStream" path="res://music/menace_sub1.ogg" id="5_music_ingame"]
 [ext_resource type="AudioStream" path="res://music/menace_sub2.ogg" id="6_music_boss"]
@@ -35,7 +34,7 @@ wait_time = 2.0
 autostart = true
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_music")
+stream = ExtResource("5_music_ingame")
 autoplay = true
 bus = &"Music"
 

@@ -205,7 +205,7 @@ func _clear_bonus() -> void:
 
 
 ## Life loss. The playfield returns to the position _ready left it at.
-## Subsong 2 (or menace.ogg on level 1) replaces the boss song.
+## Subsong 2 replaces the boss song. Level 1 is the other scene and starts on SUB 1.
 func restart_section() -> void:
 	boss_started = false
 	left_for_card = false

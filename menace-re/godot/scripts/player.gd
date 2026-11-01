@@ -1,10 +1,10 @@
 extends CharacterBody2D
 ## Player ship. Movement stays as Samuel played it.
 ## Shooting matches $733F6 / initmissile $73596. The gap is 3/50 s.
-## Holding fire is a string of taps: each time the timer rearms, shoot()
-## runs again while the button is still down. menace_turbo on the root
-## is the pause-menu cheat and fires with the button up. Pause, the
-## death fade, and a dead ship skip the call.
+## TURBO OFF, the default, is one shot per press. TURBO ON repeats
+## shoot() on that timer only while fire is held. The flag is
+## menace_turbo on the root. Pause, the death fade, and a dead ship
+## skip the call.
 ## Contact with an alien uses the faster clxdat path in check.collision:
 ## ship.count starts at $FFFF and shifts right 5 while the bodies overlap.
 ## When bit 4 is clear, ship.energy drops by 2 ($74AE6 bar, max 128).
@@ -101,8 +101,7 @@ func _physics_process(delta: float) -> void:
 	# Keep the 32x44 ship inside the 320x192 playfield, above the HUD.
 	position.x = clamp(position.x, 16, 304)
 	position.y = clamp(position.y, 22, 170)
-	# Held fire repeats on the 3/50 s timer. A tap that is released
-	# before the timer rearms is still one shot.
+	# OFF is one press. ON repeats on the 3/50 s timer while fire is held.
 	if can_shoot and _shot_requested():
 		shoot()
 	_contact_clock(delta)
@@ -123,8 +122,8 @@ func _shot_requested() -> bool:
 	if tree == null or tree.paused:
 		return false
 	if _turbo_on():
-		return true
-	return Input.is_action_pressed("shoot")
+		return Input.is_action_pressed("shoot")
+	return Input.is_action_just_pressed("shoot")
 
 
 func _turbo_on() -> bool:

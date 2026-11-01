@@ -1,8 +1,9 @@
 extends RefCounted
 class_name LevelMusic
 ## Plays the Whittaker arrangement already rendered in the ogg.
-## menace.ogg stays the title track and the level-1 track.
+## menace.ogg stays the title track and stays on the pause TRACK row.
 ## The file is not deleted, replaced, or stopped from shipping.
+## A new game starts on menace_sub1.ogg, the TRACK label SUB 1.
 ##
 ## Retail jsr $50370 is init. D0 picks a 10-byte row at $50B60.
 ##   title at $74CB6 uses D0 = 1, and skips init when $1A3(a5) is set
@@ -12,11 +13,12 @@ class_name LevelMusic
 ## The vertical blank at $75BCA calls jsr $5037E, which walks each channel.
 ## Command $80 steps that channel's order list. A zero word loops to the
 ## start of the current list. Init is the only full restart.
-## The port title and level 1 keep res://music/menace.ogg.
+## The port title keeps res://music/menace.ogg.
+## Level 1 starts on subsong 1 (menace_sub1.ogg).
 ## Later levels use the in-game subsong (D0 = 2).
-## A boss uses subsong 0. Subsong 1 remains the retail title.
+## A boss uses subsong 0.
 
-const TITLE_AND_LEVEL1 := "res://music/menace.ogg"
+const TITLE := "res://music/menace.ogg"
 const SUBSONG := [
 	"res://music/menace_sub0.ogg",
 	"res://music/menace_sub1.ogg",
@@ -29,7 +31,7 @@ static var _streams: Dictionary = {}
 
 
 static func stream_path_for_title() -> String:
-	return TITLE_AND_LEVEL1
+	return TITLE
 
 
 static func retail_subsong(d0: int) -> String:
@@ -44,7 +46,7 @@ static func stream_path(level: int, boss: bool = false) -> String:
 	if boss:
 		return SUBSONG[0]
 	if level <= 1:
-		return TITLE_AND_LEVEL1
+		return SUBSONG[1]
 	return SUBSONG[2]
 
 

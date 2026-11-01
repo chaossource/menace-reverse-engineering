@@ -8,7 +8,8 @@ extends CanvasLayer
 ## Music and sound sliders call MusicVolume and SfxVolume. Those scripts
 ## own the volume file. This menu does not write a second copy of it.
 ## TURBO is a cheat on this list. The shoot action toggles it, and the
-## row shows ON or OFF in the front-end glyphs. The flag is menace_turbo
+## row shows ON or OFF in the front-end glyphs. OFF is one shot per
+## press. ON repeats only while fire is held. The flag is menace_turbo
 ## on the root, so the ship can read it while the tree is paused and
 ## after resume. This menu does not fire.
 
