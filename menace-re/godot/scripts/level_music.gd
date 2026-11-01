@@ -19,6 +19,7 @@ const SUBSONG := [
 	"res://music/menace_sub1.ogg",
 	"res://music/menace_sub2.ogg",
 ]
+const MusicVolumeScript = preload("res://scripts/music_volume.gd")
 
 
 static func stream_path_for_title() -> String:
@@ -44,6 +45,8 @@ static func stream_path(level: int, boss: bool = false) -> String:
 static func play_on(player: AudioStreamPlayer, level: int, boss: bool = false) -> void:
 	if player == null:
 		return
+	# Bus only. The stream chosen below is the same song as before.
+	MusicVolumeScript.attach(player)
 	var path := stream_path(level, boss)
 	var next: AudioStream = load(path)
 	if next == null:

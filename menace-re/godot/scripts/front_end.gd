@@ -394,8 +394,10 @@ func _present(image: Image) -> void:
 func _play_title_music() -> void:
 	# Title keeps menace.ogg. Subsongs are for later levels and the boss.
 	var LevelMusicScript = preload("res://scripts/level_music.gd")
+	var MusicVolumeScript = preload("res://scripts/music_volume.gd")
 	var music := AudioStreamPlayer.new()
 	music.name = "Music"
 	music.stream = load(LevelMusicScript.stream_path_for_title())
+	MusicVolumeScript.attach(music)
 	add_child(music)
 	music.play()

@@ -13,6 +13,7 @@ const BOSS_SCENE = preload("res://scenes/level1_boss.tscn")
 const FRONT_SCENE := "res://scenes/front_end.tscn"
 const LevelMusicScript = preload("res://scripts/level_music.gd")
 const AttackScript = preload("res://scripts/attack_paths.gd")
+const MusicVolumeScript = preload("res://scripts/music_volume.gd")
 
 # 440 columns * 16 px, minus the 320 px view, is 6720 at a flush right edge.
 # Fine scroll 8 is that edge minus 8. The boss node origin is then at
@@ -40,8 +41,14 @@ var boss = null
 func _ready() -> void:
 	spawn_timer.stop()
 	sched = AttackScript.new()
+	_route_music_bus()
 	# Level 1 keeps menace.ogg. The boss switches to subsong 0.
 	LevelMusicScript.play_on(music_player, 1, false)
+
+
+func _route_music_bus() -> void:
+	for node_name in ["MusicPlayer", "MusicTitle", "MusicIngame", "MusicBoss"]:
+		MusicVolumeScript.attach(get_node_or_null(node_name) as AudioStreamPlayer)
 
 
 func _physics_process(delta: float) -> void:

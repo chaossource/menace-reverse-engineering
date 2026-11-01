@@ -8,6 +8,7 @@ const HUD_SCENE = preload("res://scenes/hud.tscn")
 const FRONT_SCENE := "res://scenes/front_end.tscn"
 const LevelMusicScript = preload("res://scripts/level_music.gd")
 const LevelTableScript = preload("res://scripts/level_table.gd")
+const MusicVolumeScript = preload("res://scripts/music_volume.gd")
 
 const SCROLL_SPEED := 50.0
 const VIEW_W := 320
@@ -42,6 +43,7 @@ func _ready() -> void:
 	add_child(HUD_SCENE.instantiate())
 	music = AudioStreamPlayer.new()
 	music.name = "Music"
+	MusicVolumeScript.attach(music)
 	add_child(music)
 	LevelMusicScript.play_on(music, loader + 1, false)
 

@@ -36,15 +36,19 @@ autostart = true
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_music")
 autoplay = true
+bus = &"Music"
 
 [node name="MusicTitle" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_music_title")
+bus = &"Music"
 
 [node name="MusicIngame" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_music_ingame")
+bus = &"Music"
 
 [node name="MusicBoss" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_music_boss")
+bus = &"Music"
 
 [node name="Hud" parent="." instance=ExtResource("9_hud")]
 
