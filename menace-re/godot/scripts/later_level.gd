@@ -2,6 +2,8 @@ extends Node2D
 ## Play scene for loaders 1-5. Loader 0 stays on scenes/main.tscn.
 ## The level card stores menace_start_level. The map scrolls to its far
 ## end, then the level boss runs. A finished fight returns to the card.
+## A lost life uses the same init copy as Sea of Karnaugh. The map goes
+## back to the edge it started on. The ship script places the hull.
 
 const PLAYER_SCENE = preload("res://scenes/player.tscn")
 const HUD_SCENE = preload("res://scenes/hud.tscn")
@@ -19,6 +21,7 @@ var playfield: Node2D
 var reversed := false
 var end_x := 0.0
 var scroll_acc := 0.0
+var start_x := 0.0
 var boss_started := false
 var left_for_card := false
 var music: AudioStreamPlayer
@@ -34,6 +37,7 @@ func _ready() -> void:
 	playfield = map.get_node("Playfield")
 	if not reversed:
 		playfield.position.x = 0.0
+	start_x = playfield.position.x
 	var layer: TileMapLayer = playfield.get_node("TileMapLayer")
 	var cols := layer.get_used_rect().size.x
 	end_x = -float(cols * 16 - VIEW_W)
@@ -66,6 +70,31 @@ func _physics_process(delta: float) -> void:
 		_begin_boss()
 	elif not reversed and playfield.position.x <= end_x:
 		_begin_boss()
+
+
+## Life loss. The playfield returns to the position _ready left it at.
+## Subsong 2 (or menace.ogg on level 1) replaces the boss song.
+func restart_section() -> void:
+	boss_started = false
+	left_for_card = false
+	scroll_acc = 0.0
+	if playfield != null:
+		playfield.position.x = start_x
+	var bosses: Array = []
+	for child in get_children():
+		if child.has_signal("fight_finished"):
+			bosses.append(child)
+	for boss in bosses:
+		if boss.fight_finished.is_connected(_on_fight_finished):
+			boss.fight_finished.disconnect(_on_fight_finished)
+		boss.free()
+	for shot in get_tree().get_nodes_in_group("player_shot"):
+		if is_instance_valid(shot):
+			shot.queue_free()
+	var hud := get_node_or_null("Hud")
+	if hud != null and hud.has_method("set_score"):
+		hud.set_score(0)
+	LevelMusicScript.play_on(music, loader + 1, false)
 
 
 func _begin_boss() -> void:

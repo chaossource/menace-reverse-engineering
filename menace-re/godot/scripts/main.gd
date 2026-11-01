@@ -6,7 +6,9 @@ extends Node2D
 ## tentacle body on the right of the view. The ship stays where the
 ## player left it. Waves come from the path table at $3C898. The old
 ## timer does not spawn. When the fight script finishes, the level card
-## returns.
+## returns. A lost life does not keep that scroll. $74BCE puts the map
+## pointer back at $0003B060 and the fine-scroll words at $000F, which
+## is the start of this level. restart_section() is that rewind.
 
 const ENEMY_SCENE = preload("res://scenes/enemy.tscn")
 const BOSS_SCENE = preload("res://scenes/level1_boss.tscn")
@@ -192,6 +194,40 @@ func _free_wave() -> void:
 	for node in get_tree().get_nodes_in_group("karnaugh_wave"):
 		node.free()
 	wave = null
+
+
+## Life loss. Same rewind as the init block: scroll at the left edge,
+## attack cycle back at its first delay, boss gone, score cleared.
+## $75148 starts subsong 2 again, which this level plays as menace.ogg.
+func restart_section() -> void:
+	scroll_x = 0.0
+	attack_acc = 0.0
+	boss_started = false
+	left_for_card = false
+	no_bonus = 0
+	bonus_arm = null
+	bonus_hold = false
+	if bonus_node != null and is_instance_valid(bonus_node):
+		bonus_node.queue_free()
+	bonus_node = null
+	if parallax != null:
+		parallax.scroll_offset = Vector2.ZERO
+	if sea != null:
+		sea.position.x = 0.0
+	_free_wave()
+	if boss != null and is_instance_valid(boss):
+		if boss.has_signal("fight_finished") and boss.fight_finished.is_connected(_on_fight_finished):
+			boss.fight_finished.disconnect(_on_fight_finished)
+		boss.free()
+	boss = null
+	for shot in get_tree().get_nodes_in_group("player_shot"):
+		if is_instance_valid(shot):
+			shot.queue_free()
+	sched = AttackScript.new()
+	var hud := get_node_or_null("Hud")
+	if hud != null and hud.has_method("set_score"):
+		hud.set_score(0)
+	LevelMusicScript.play_on(music_player, 1, false)
 
 
 func _begin_boss() -> void:

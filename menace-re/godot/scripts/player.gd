@@ -6,12 +6,18 @@ extends CharacterBody2D
 ## Contact with an alien uses the faster clxdat path in check.collision:
 ## ship.count starts at $FFFF and shifts right 5 while the bodies overlap.
 ## When bit 4 is clear, ship.energy drops by 2 ($74AE6 bar, max 128).
-## Energy 0 kills the ship: controls stop and the explosion frames play.
+## Energy 0 kills the ship. Controls stop and frames 00-08 play.
+## The last frame is the outline. It stays up, fades, then the section
+## restarts. $72FAA branches to the destroyed screen at $75138. That
+## screen does not resume at the crash. Fire sets $1A1 at $7500C, $72C38
+## enters $74C9A, and $74BCE recopies the init block: top-left ($70, $54),
+## map pointer $0003B060, fine scroll $0F. $74C20 refills shield 128.
 ## Retail never flashes the ship for low energy. decrease.energy only
 ## shortens the panel bar. The colours+74 outline ($000f / $000c) is the
 ## force field in moveship. While this ship is alive and energy is at or
 ## under a quarter of the bar (32), the sprite pulses. Above 32, and when
-## the ship dies, scale and modulate return to rest. Position is not moved.
+## the ship dies, scale and modulate return to rest. Position is not moved
+## by the pulse. The section restart is what places the new ship.
 
 const SPEED = 150.0
 const BULLET_SCENE = preload("res://scenes/bullet.tscn")
@@ -26,6 +32,11 @@ const LOW_PULSE_FLASH := 0.85
 const LOW_PULSE_HOT := Color(1.0, 0.28, 0.22)
 const CONTACT_STEP := 1.0 / 50.0
 const EXPLODE_STEP := 4.0 / 50.0
+## The outline is already on screen when this starts. It then fades out.
+const FADE_SECS := 3.0
+## Init table $77240, copied by $74BCE. Words $26 and $28. Top-left of the hull.
+const SECTION_X := 112
+const SECTION_Y := 84
 const EXPLODE: Array[Texture2D] = [
 	preload("res://sprites/level1/enemy-l0-explosion-00.png"),
 	preload("res://sprites/level1/enemy-l0-explosion-01.png"),
@@ -49,6 +60,8 @@ var contact_acc: float = 0.0
 var ship_dead: bool = false
 var explode_i: int = 0
 var explode_acc: float = 0.0
+var fading: bool = false
+var fade_acc: float = 0.0
 var _low_phase: float = 0.0
 var _low_on: bool = false
 var pod = null
@@ -73,7 +86,8 @@ func _physics_process(delta: float) -> void:
 	if ship_dead:
 		_rest_low_shield()
 		_explosion(delta)
-		return
+		if ship_dead:
+			return
 	_sync_alien_bodies()
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var speed_scale := 1.0
@@ -179,6 +193,8 @@ func hit() -> void:
 
 func _die() -> void:
 	ship_dead = true
+	fading = false
+	fade_acc = 0.0
 	field_count = 0
 	velocity = Vector2.ZERO
 	can_shoot = false
@@ -198,6 +214,9 @@ func _die() -> void:
 
 func _explosion(delta: float) -> void:
 	velocity = Vector2.ZERO
+	if fading:
+		_fade_outline(delta)
+		return
 	explode_acc += delta
 	if explode_acc < EXPLODE_STEP:
 		return
@@ -205,11 +224,79 @@ func _explosion(delta: float) -> void:
 	if explode_i + 1 >= EXPLODE.size():
 		if sprite != null and EXPLODE.size() > 0:
 			sprite.texture = EXPLODE[EXPLODE.size() - 1]
-		set_physics_process(false)
+			sprite.modulate.a = 1.0
+		fading = true
+		fade_acc = 0.0
 		return
 	explode_i += 1
 	if sprite != null:
 		sprite.texture = EXPLODE[explode_i]
+
+
+func _fade_outline(delta: float) -> void:
+	fade_acc += delta
+	var t := fade_acc / FADE_SECS
+	if t >= 1.0:
+		_respawn()
+		return
+	if sprite != null:
+		sprite.modulate.a = 1.0 - t
+
+
+## $74C20 writes shield 128 and ship.count $FFFF. The hull top-left is the
+## init-table pair, and this node is the center of the 32x44 ship.
+func _respawn() -> void:
+	ship_dead = false
+	fading = false
+	fade_acc = 0.0
+	explode_i = 0
+	explode_acc = 0.0
+	energy = SHIELD_MAX
+	ship_count = 0xFFFF
+	contact_acc = 0.0
+	can_shoot = true
+	velocity = Vector2.ZERO
+	collision_layer = 1
+	collision_mask = 2
+	field_count = 0
+	field_acc = 0.0
+	_reset_loadout()
+	if body_shape != null:
+		body_shape.disabled = false
+	if sprite != null:
+		sprite.texture = ShipFrames.texture_for(0, "level")
+		sprite.scale = Vector2.ONE
+		sprite.modulate = Color.WHITE
+		sprite.centered = true
+		sprite.visible = true
+	position = Vector2(SECTION_X + 16, SECTION_Y + 22)
+	_push_shield()
+	var host := get_parent()
+	if host != null and host.has_method("restart_section"):
+		host.restart_section()
+
+
+## $1A0 is already clear, so the weapon-restore overlay is skipped.
+## The init copy puts the loadout back at the section start.
+func _reset_loadout() -> void:
+	if pod == null:
+		return
+	pod.weapon_level = 0
+	pod.canons_on = false
+	pod.lasers_on = false
+	pod.score = 0
+	pod.pose = 0
+	pod.pod_type = 0
+	pod.bonus_count = 5
+	pod.consumed = false
+	pod.refilled = false
+	pod.ship_speed = 2
+	pod.canon_energy = 0
+	pod.laser_energy = 0
+	pod.mult1 = false
+	pod.mult2 = false
+	pod.field_count = 0
+	pod.shield_full = false
 
 
 func _contact_clock(delta: float) -> void:
