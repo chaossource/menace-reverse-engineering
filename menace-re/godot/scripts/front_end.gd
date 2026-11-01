@@ -9,9 +9,11 @@ extends Node2D
 ## $7768E, arrow at blit $74F94.
 ##
 ## The arrow is not moved by the player on that card. $74D2A passes y = 8,
-## the first portrait. After a cleared level, $74A8E branches to $75022,
-## which parks the arrow on the current portrait and, unless this is the
-## last level, slides it down 32 pixels ($750E0) before $1A6 increments.
+## the first portrait. After a cleared level, $74A8E branches to $75022.
+## The card parks the arrow on that portrait with the icon still whole.
+## $75548 holds it for 48 vblanks. $7505A then punches the glass mask on
+## that row, and $750E0 slides the arrow down 32 pixels before $1A6
+## increments. Level 5 is punched and does not slide.
 
 const SCREEN_W := 320
 const SCREEN_H := 192
@@ -93,7 +95,10 @@ const LEVEL_ROWS := [
 const LOADING_TEXT := "LOADING"
 const START_ACK_STREAM := preload("res://audio/shoot.ogg")
 
-enum Screen { TITLE, HISCORE, WEAPONS, LEVEL, ARROW_SLIDE }
+enum Screen { TITLE, HISCORE, WEAPONS, LEVEL, CLEAR_HOLD, ARROW_SLIDE }
+
+# $75548 is moveq #47 / DBRA: 48 vblanks of the intact card before the punch.
+const CLEAR_REVEAL := 48
 
 var screen_sprite: Sprite2D
 var glyphs: Array[Image] = []
@@ -120,6 +125,7 @@ var timer_60 := 0
 var slide_y := 0
 var slide_steps := 0
 var slide_acc := 0.0
+var clear_hold := 0
 var launching := false
 # Set in the key turn so a second 1 or 2 cannot start another load.
 var start_queued := false
@@ -174,15 +180,35 @@ func _process(delta: float) -> void:
 	# One vblank is 1/50 s. A long frame must not consume the whole wait:
 	# $72CF4 blocks on the vblank flag, so a hitch is still a single tick.
 	var tick := minf(delta, PAL_FRAME)
+	if screen_id == Screen.CLEAR_HOLD:
+		# The beaten portrait stays whole while this counts down.
+		slide_acc += tick
+		if slide_acc < PAL_FRAME:
+			return
+		slide_acc -= PAL_FRAME
+		if clear_hold > 0:
+			clear_hold -= 1
+			return
+		# $7505A. Glass mask on this row. The arrow has not moved yet.
+		_present(_compose_level(slide_y, level + 1))
+		if level >= 5:
+			screen_id = Screen.LEVEL
+			waiting = false
+			return
+		screen_id = Screen.ARROW_SLIDE
+		slide_steps = 16
+		slide_acc = 0.0
+		return
 	if screen_id == Screen.ARROW_SLIDE:
 		# $750EA waits one vblank, then drops the arrow 2 pixels. 16 times.
+		# The portrait just punched stays punched for the walk.
 		slide_acc += tick
 		if slide_acc < PAL_FRAME:
 			return
 		slide_acc -= PAL_FRAME
 		slide_y += 2
 		slide_steps -= 1
-		_present(_compose_level(slide_y, level))
+		_present(_compose_level(slide_y, level + 1))
 		if slide_steps <= 0:
 			level += 1 # $750F8
 			screen_id = Screen.LEVEL
@@ -200,7 +226,7 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if screen_id == Screen.ARROW_SLIDE:
+	if screen_id == Screen.ARROW_SLIDE or screen_id == Screen.CLEAR_HOLD:
 		return
 	var pressed := false
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -483,17 +509,15 @@ func _start_play() -> void:
 
 func return_from_cleared_level() -> void:
 	# $75022. Used when $54(a5) == 3 and $11(a5) == 3 ($74A8E), not at power-on.
+	# Arrow on the cleared portrait, earlier rows already glass. This row
+	# breaks after the reveal, then the arrow walks to the next portrait.
 	var arrow_y := (level << 5) + 8
-	_present(_compose_level(arrow_y, level))
-	if level >= 5:
-		screen_id = Screen.LEVEL
-		waiting = false
-		return
-	screen_id = Screen.ARROW_SLIDE
-	waiting = false
 	slide_y = arrow_y
-	slide_steps = 16
 	slide_acc = 0.0
+	clear_hold = CLEAR_REVEAL
+	screen_id = Screen.CLEAR_HOLD
+	waiting = false
+	_present(_compose_level(arrow_y, level))
 
 
 func _arm_wait(frames: int) -> void:
