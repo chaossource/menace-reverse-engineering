@@ -35,13 +35,27 @@ const OPTION_LABELS := ["MUSIC", "SOUND FX"]
 # File row sits under the volume sliders. Index 0 is the default and is
 # not started by the menu. Left and right are the only way to change it.
 const TRACK_ROW := 2
+# Index 0 stays menace.ogg. Opening the menu does not start another file.
+# The later names are the modules Samuel added under res://music.
 const TRACKS := [
 	"res://music/menace.ogg",
 	"res://music/menace_sub0.ogg",
 	"res://music/menace_sub1.ogg",
 	"res://music/menace_sub2.ogg",
+	"res://music/EMFVMOD.ogg",
+	"res://music/FURY3-1.ogg",
+	"res://music/INAT-EGG.ogg",
+	"res://music/JUPITERP.ogg",
+	"res://music/K-PHASE.ogg",
+	"res://music/KOSPREV.ogg",
+	"res://music/K_THNGZ2.ogg",
+	"res://music/m04.ogg",
 ]
-const TRACK_NAMES := ["MENACE", "SUB 0", "SUB 1", "SUB 2"]
+const TRACK_NAMES := [
+	"MENACE", "SUB 0", "SUB 1", "SUB 2",
+	"EMFVMOD", "FURY3-1", "INAT-EGG", "JUPITERP",
+	"K-PHASE", "KOSPREV", "K-THNGZ2", "M04",
+]
 
 var glyphs: Array[Image] = []
 var open := false
@@ -371,6 +385,12 @@ func _play_track(path: String) -> void:
 	var stream: AudioStream = load(path)
 	if stream == null:
 		return
+	var ogg := stream as AudioStreamOggVorbis
+	if ogg != null:
+		ogg.loop = true
+		ogg.loop_offset = 0.0
+		ogg.bpm = 0.0
+		ogg.beat_count = 0
 	var target := _active_music()
 	if target == null:
 		return
