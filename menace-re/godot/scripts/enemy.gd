@@ -43,6 +43,9 @@ const FRAMES := {
 	17: 5,
 }
 const HIT_STREAM := preload("res://sfx/hit.wav")
+## Effect 6 runs 49 vblanks. That is 0.98 s, the length of hit.wav.
+## The file is the retail playback, not a padded export. Stop 150 ms early.
+const HIT_PLAY_SEC := 0.83
 
 var path_wave = null
 var slot: int = 0
@@ -149,3 +152,15 @@ func _play_damage_sound() -> void:
 		host.add_child(player)
 	player.bus = "Sfx"
 	player.play()
+	var timer := host.get_node_or_null("AlienHitStop") as Timer
+	if timer == null:
+		timer = Timer.new()
+		timer.name = "AlienHitStop"
+		timer.one_shot = true
+		host.add_child(timer)
+		timer.timeout.connect(func() -> void:
+			var playing := host.get_node_or_null("AlienHit") as AudioStreamPlayer
+			if playing != null:
+				playing.stop()
+		)
+	timer.start(HIT_PLAY_SEC)
