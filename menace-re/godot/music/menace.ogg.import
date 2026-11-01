@@ -3,12 +3,12 @@
 importer="oggvorbisstr"
 type="AudioStreamOggVorbis"
 uid="uid://dkme7fj2u5cw3"
-path="res://.godot/imported/menace.ogg-f9c8e3b4a2d1b7c6f8e5a9d2c4b1a3f7.oggvorbisstr"
+path="res://.godot/imported/menace.ogg-4bfed244044444b8ef141d8734bd6893.oggvorbisstr"
 
 [deps]
 
 source_file="res://music/menace.ogg"
-dest_files=["res://.godot/imported/menace.ogg-f9c8e3b4a2d1b7c6f8e5a9d2c4b1a3f7.oggvorbisstr"]
+dest_files=["res://.godot/imported/menace.ogg-4bfed244044444b8ef141d8734bd6893.oggvorbisstr"]
 
 [params]
 
