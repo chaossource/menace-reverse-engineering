@@ -42,6 +42,18 @@ const TITLE_ROWS := [
 	[0x2C, 0x0F, "2 - EXPERT (X2 SCORE)"],
 	[0x24, 0x14, "@ 1988 PSYGNOSIS"],
 ]
+# Same title. A and B replace 1 and 2 after any joypad button on this screen.
+const TITLE_PAD_ROWS := [
+	[0x3C, 0x01, "MENACE"],
+	[0x1B, 0x04, "CODE           GRAPHICS"],
+	[0x0E, 0x06, "DAVE JONES     TONY SMITH"],
+	[0x34, 0x09, "DMA DESIGN"],
+	[0x0E, 0x0D, "PRESS A - ROOKIE"],
+	[0x2C, 0x0F, "B - EXPERT (X2 SCORE)"],
+	[0x24, 0x14, "@ 1988 PSYGNOSIS"],
+]
+const HINT_KEY_LINE := "1 for rookie    2 for expert"
+const HINT_PAD_LINE := "A for rookie    B for expert"
 const HISCORE_ROWS := [
 	[0x16, 0x00, "1 050000"],
 	[0x44, 0x00, "....DAVE JONES"],
@@ -115,6 +127,8 @@ var start_queued := false
 # F1/F2 path ($74CD6 BEQ $74D1C) skips that page. The picture is still
 # the retail blit at $74EB2 plus the captions at $7760C.
 var legend_before_start := false
+# Joypad buttons are Godot's InputEventJoypadButton. No plugin.
+var using_gamepad := false
 
 
 func _ready() -> void:
@@ -201,6 +215,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		# legend. Fire, 1, 2, or any other key continues into the card.
 		_continue_from_legend()
 		return
+	if event is InputEventJoypadButton:
+		_on_joypad(event)
+		return
 	if screen_id == Screen.TITLE and event is InputEventKey:
 		# $74DE8 / $74DF0. Other keys stay unread; they do not leave the title.
 		var which := _difficulty_from_key(event)
@@ -226,8 +243,6 @@ func _unhandled_input(event: InputEvent) -> void:
 				_choose_difficulty(which)
 			else:
 				_enter_title()
-		elif event is InputEventJoypadButton:
-			_enter_title()
 
 
 # Layout keycode, physical position, printed label, and the typed character.
@@ -250,6 +265,51 @@ func _difficulty_from_key(event: InputEventKey) -> int:
 	if event.unicode == 50:
 		return 1
 	return -1
+
+
+# Godot's gamecontroller map: A is the south face button, B is east.
+func _difficulty_from_pad(event: InputEventJoypadButton) -> int:
+	var button := int(event.button_index)
+	if button == JOY_BUTTON_A:
+		return 0
+	if button == JOY_BUTTON_B:
+		return 1
+	return -1
+
+
+func _on_joypad(event: InputEventJoypadButton) -> void:
+	var which := _difficulty_from_pad(event)
+	if screen_id == Screen.TITLE:
+		# Any button swaps the 1/2 prompts. A and B also start.
+		_note_gamepad()
+		if which >= 0:
+			_choose_difficulty(which)
+		return
+	if which >= 0 and (screen_id == Screen.HISCORE or screen_id == Screen.WEAPONS or screen_id == Screen.LEVEL):
+		_choose_difficulty(which)
+		return
+	if screen_id == Screen.HISCORE or screen_id == Screen.WEAPONS:
+		_enter_title()
+		return
+	if screen_id == Screen.LEVEL and _start_pressed(event):
+		_start_play()
+
+
+func _note_gamepad() -> void:
+	if using_gamepad:
+		return
+	using_gamepad = true
+	var hint := get_node_or_null("CanvasLayer/Instructions") as Label
+	if hint != null:
+		hint.text = hint.text.replace(HINT_KEY_LINE, HINT_PAD_LINE)
+	if screen_id == Screen.TITLE:
+		_present(_compose_text(TITLE_PAD_ROWS))
+
+
+func _title_rows() -> Array:
+	if using_gamepad:
+		return TITLE_PAD_ROWS
+	return TITLE_ROWS
 
 
 func _on_timeout() -> void:
@@ -353,7 +413,7 @@ func _start_after_present() -> void:
 
 func _enter_title() -> void:
 	screen_id = Screen.TITLE
-	_present(_compose_text(TITLE_ROWS))
+	_present(_compose_text(_title_rows()))
 	# $74DDC loads #$1F4 and DBRA counts that value as well, so 501 vblanks.
 	_arm_wait(0x1F5)
 
