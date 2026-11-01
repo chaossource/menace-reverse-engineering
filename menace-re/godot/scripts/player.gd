@@ -3,6 +3,9 @@ extends CharacterBody2D
 ## Shooting matches $733F6 / initmissile $73596: one missile per press.
 ## The fire-delay word $74(a5) is 3 vertical blanks, refreshed while held,
 ## so holding does not autofire. The gap between taps is 3/50 s.
+## menace_turbo on the root is the pause-menu cheat. While it is set,
+## shoot() runs again each time that same timer rearms, without the
+## fire button. Pause, the death fade, and a dead ship skip the call.
 ## Contact with an alien uses the faster clxdat path in check.collision:
 ## ship.count starts at $FFFF and shifts right 5 while the bodies overlap.
 ## When bit 4 is clear, ship.energy drops by 2 ($74AE6 bar, max 128).
@@ -37,6 +40,7 @@ const FADE_SECS := 3.0
 ## Init table $77240, copied by $74BCE. Words $26 and $28. Top-left of the hull.
 const SECTION_X := 112
 const SECTION_Y := 84
+const TURBO_META := "menace_turbo"
 const EXPLODE: Array[Texture2D] = [
 	preload("res://sprites/level1/enemy-l0-explosion-00.png"),
 	preload("res://sprites/level1/enemy-l0-explosion-01.png"),
@@ -98,7 +102,8 @@ func _physics_process(delta: float) -> void:
 	# Keep the 32x44 ship inside the 320x192 playfield, above the HUD.
 	position.x = clamp(position.x, 16, 304)
 	position.y = clamp(position.y, 22, 170)
-	if Input.is_action_just_pressed("shoot") and can_shoot:
+	# One press, one shot. Turbo repeats that shot on the 3/50 s timer.
+	if can_shoot and _shot_requested():
 		shoot()
 	_contact_clock(delta)
 	if ship_dead:
@@ -109,6 +114,27 @@ func _physics_process(delta: float) -> void:
 		_show_field()
 	else:
 		_low_shield_pulse(delta)
+
+
+func _shot_requested() -> bool:
+	if ship_dead or fading:
+		return false
+	var tree := get_tree()
+	if tree == null or tree.paused:
+		return false
+	if _turbo_on():
+		return true
+	return Input.is_action_just_pressed("shoot")
+
+
+func _turbo_on() -> bool:
+	var tree := get_tree()
+	if tree == null:
+		return false
+	var root := tree.root
+	if root == null or not root.has_meta(TURBO_META):
+		return false
+	return bool(root.get_meta(TURBO_META))
 
 
 func shoot() -> void:

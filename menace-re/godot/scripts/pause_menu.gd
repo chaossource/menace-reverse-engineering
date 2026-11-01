@@ -7,6 +7,10 @@ extends CanvasLayer
 ##
 ## Music and sound sliders call MusicVolume and SfxVolume. Those scripts
 ## own the volume file. This menu does not write a second copy of it.
+## TURBO is a cheat on this list. The shoot action toggles it, and the
+## row shows ON or OFF in the front-end glyphs. The flag is menace_turbo
+## on the root, so the ship can read it while the tree is paused and
+## after resume. This menu does not fire.
 
 const FRONT_SCENE := "res://scenes/front_end.tscn"
 const SAVE_PATH := "user://menace-save.cfg"
@@ -30,7 +34,9 @@ const GLYPH_WIDTHS := [
 	11, 11, 11, 11, 11, 10, 12, 11, 12, 15, 11, 11, 11, 6, 13,
 	16, 16,
 ]
-const MENU_ITEMS := ["END GAME", "SAVE GAME", "OPTIONS"]
+const MENU_ITEMS := ["END GAME", "SAVE GAME", "OPTIONS", "TURBO"]
+const TURBO_ROW := 3
+const TURBO_META := "menace_turbo"
 const OPTION_LABELS := ["MUSIC", "SOUND FX"]
 # File row sits under the volume sliders. Index 0 is the default and is
 # not started by the menu. Left and right are the only way to change it.
@@ -242,10 +248,28 @@ func _activate() -> void:
 		_end_game()
 	elif menu_row == 1:
 		_save_game()
+	elif menu_row == TURBO_ROW:
+		_toggle_turbo()
 	else:
 		on_options = true
 		option_row = 0
 		_redraw()
+
+
+func _toggle_turbo() -> void:
+	var root := get_tree().root
+	root.set_meta(TURBO_META, not _turbo_on())
+	_redraw()
+
+
+func _turbo_on() -> bool:
+	var tree := get_tree()
+	if tree == null:
+		return false
+	var root := tree.root
+	if root == null or not root.has_meta(TURBO_META):
+		return false
+	return bool(root.get_meta(TURBO_META))
 
 
 func _end_game() -> void:
@@ -560,7 +584,8 @@ func _redraw() -> void:
 	else:
 		_draw_menu(image)
 		if saved_note:
-			_draw_text(image, "SAVED", _center_x("SAVED"), 168)
+			# Fourth row occupies y 156..171. Keep SAVED clear of it.
+			_draw_text(image, "SAVED", _center_x("SAVED"), 188)
 	_text.texture = ImageTexture.create_from_image(image)
 	_text.visible = true
 
@@ -571,6 +596,9 @@ func _draw_menu(image: Image) -> void:
 		if i == menu_row:
 			_draw_text(image, ">", 72, y)
 		_draw_text(image, MENU_ITEMS[i], 96, y)
+		if i == TURBO_ROW:
+			var state := "ON" if _turbo_on() else "OFF"
+			_draw_text(image, state, 168, y)
 
 
 func _draw_options(image: Image) -> void:
