@@ -14,6 +14,8 @@ const TEX_LASER := "res://sprites/shot-laser.png"
 const TEX_MULTIPLE := "res://sprites/shot-multiple.png"
 
 @export var kind: int = 0
+## Outrider dy. The pair at $773E0 for mult.number 1 is dx 5, dy 0.
+@export var drift_y: int = 0
 var life: int = 16
 var px_step: int = 10
 var acc: float = 0.0
@@ -48,7 +50,7 @@ func _ready() -> void:
 		h = 2
 	elif kind == 3:
 		path = TEX_MULTIPLE
-		px_step = 10
+		px_step = 5
 		life = 16
 		w = 4
 		h = 3
@@ -69,6 +71,7 @@ func _ready() -> void:
 	col.shape = shape
 	col.position = Vector2(float(w) * 0.5, float(h) * 0.5)
 	col.disabled = false
+	add_to_group("player_shot")
 
 
 func _physics_process(delta: float) -> void:
@@ -87,7 +90,11 @@ func _retail_step() -> void:
 		queue_free()
 		return
 	position.x += px_step
+	position.y += drift_y
 	if position.x >= 360.0:
+		queue_free()
+		return
+	if kind == 3 and (position.x < 16.0 or position.y < 9.0 or position.y >= 186.0):
 		queue_free()
 		return
 	_poke_overlap()

@@ -14,6 +14,7 @@ const FRONT_SCENE := "res://scenes/front_end.tscn"
 const LevelMusicScript = preload("res://scripts/level_music.gd")
 const AttackScript = preload("res://scripts/attack_paths.gd")
 const MusicVolumeScript = preload("res://scripts/music_volume.gd")
+const BonusIconScript = preload("res://scripts/bonus_icon.gd")
 
 # 440 columns * 16 px, minus the 320 px view, is 6720 at a flush right edge.
 # Fine scroll 8 is that edge minus 8. The boss node origin is then at
@@ -36,6 +37,12 @@ var sched = null
 var wave = null
 var attack_acc := 0.0
 var boss = null
+## $17(a5). A finished path with mode bit 2 clear sets this to $FF ($73E70).
+var no_bonus: int = 0
+## Set on the clear tick. $74912 not.b waits one scheduler call before $74946.
+var bonus_arm = null
+var bonus_node = null
+var bonus_hold := false
 
 
 func _ready() -> void:
@@ -101,11 +108,18 @@ func _run_attacks(delta: float) -> void:
 
 
 func _attack_tick() -> void:
+	if bonus_hold:
+		return
+	if bonus_arm != null:
+		_spawn_bonus(bonus_arm)
+		bonus_arm = null
+		return
 	var top: Vector2 = player.position - Vector2(16, 22)
 	if wave == null:
 		var born: PackedByteArray = sched.tick_spawn()
 		if born.size() > 0:
 			wave = AttackScript.Wave.new(born)
+			no_bonus = 0
 			_spawn_wave(wave)
 			wave.fresh = true
 	if wave == null:
@@ -114,12 +128,51 @@ func _attack_tick() -> void:
 		wave.fresh = false
 		_sync_wave()
 		return
+	var before := _wave_snap()
 	wave.step(int(top.x), int(top.y))
+	var noted: Dictionary = BonusIconScript.note_paths(before, _wave_snap(), no_bonus)
+	no_bonus = int(noted.no_bonus)
 	if not wave.alive():
 		_free_wave()
 		wave = null
+		if int(noted.x) != 0 and no_bonus == 0:
+			bonus_arm = {"x": int(noted.x), "y": int(noted.y)}
 		return
 	_sync_wave()
+
+
+func _wave_snap() -> Array:
+	var rows: Array = []
+	if wave == null:
+		return rows
+	for base in wave.bases:
+		rows.append({
+			"raw": wave.x_at(base),
+			"x": wave.s16(wave.x_at(base)),
+			"y": wave.s16(wave.y_at(base)),
+			"sprite": wave.bget(base + 10),
+			"mode": wave.mode(base),
+		})
+	return rows
+
+
+func _spawn_bonus(at: Dictionary) -> void:
+	if player == null or player.pod == null:
+		return
+	player.pod.arm_drop()
+	var icon = BonusIconScript.new()
+	icon.pod = player.pod
+	icon.pilot = player
+	icon.position = Vector2(int(at.x), int(at.y))
+	icon.tree_exited.connect(_on_bonus_gone)
+	bonus_node = icon
+	bonus_hold = true
+	add_child(icon)
+
+
+func _on_bonus_gone() -> void:
+	bonus_node = null
+	bonus_hold = false
 
 
 func _spawn_wave(w) -> void:
@@ -146,6 +199,10 @@ func _begin_boss() -> void:
 		return
 	boss_started = true
 	spawn_timer.stop()
+	bonus_arm = null
+	if bonus_node != null and is_instance_valid(bonus_node):
+		bonus_node.queue_free()
+	bonus_hold = false
 	_free_wave()
 	LevelMusicScript.play_on(music_player, 1, true)
 	if boss == null:

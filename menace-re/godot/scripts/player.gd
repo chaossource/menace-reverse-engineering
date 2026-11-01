@@ -15,6 +15,8 @@ extends CharacterBody2D
 
 const SPEED = 150.0
 const BULLET_SCENE = preload("res://scenes/bullet.tscn")
+const PodScript = preload("res://scripts/weapon_pod.gd")
+const ShipFrames = preload("res://scripts/ship_weapon.gd")
 const SHIELD_MAX := 128
 ## Quarter of the bar. int(SHIELD_MAX / 4) is 32. Pulse only at or under this.
 const LOW_SHIELD := 32
@@ -49,6 +51,10 @@ var explode_i: int = 0
 var explode_acc: float = 0.0
 var _low_phase: float = 0.0
 var _low_on: bool = false
+var pod = null
+## $5E(a5). moveship subtracts one per vertical blank. 768 is about 15 s at 50 Hz.
+var field_count: int = 0
+var field_acc: float = 0.0
 
 
 func _ready() -> void:
@@ -57,6 +63,9 @@ func _ready() -> void:
 	z_index = 30
 	shoot_timer.wait_time = 3.0 / 50.0
 	shoot_timer.one_shot = true
+	pod = PodScript.new()
+	pod.name = "WeaponPod"
+	add_child(pod)
 	_push_shield()
 
 
@@ -67,7 +76,10 @@ func _physics_process(delta: float) -> void:
 		return
 	_sync_alien_bodies()
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	velocity = direction * SPEED
+	var speed_scale := 1.0
+	if pod != null and pod.ship_speed > 0:
+		speed_scale = float(pod.ship_speed) / 2.0
+	velocity = direction * SPEED * speed_scale
 	move_and_slide()
 	# Keep the 32x44 ship inside the 320x192 playfield, above the HUD.
 	position.x = clamp(position.x, 16, 304)
@@ -77,17 +89,33 @@ func _physics_process(delta: float) -> void:
 	_contact_clock(delta)
 	if ship_dead:
 		return
-	_low_shield_pulse(delta)
+	_tick_field(delta)
+	if field_count > 0:
+		_rest_low_shield()
+		_show_field()
+	else:
+		_low_shield_pulse(delta)
 
 
 func shoot() -> void:
-	var bullet = BULLET_SCENE.instantiate()
-	bullet.kind = 0
 	# The node is the ship center. Retail xpos/ypos are the top-left.
-	# The missile blit origin is that corner plus (58, 24).
+	# The missile blit origin is that corner plus (58, 24). $73596 always fires it.
 	var top_left := position - Vector2(16, 22)
-	bullet.position = top_left + Vector2(58, 24)
-	get_parent().add_child(bullet)
+	_launch(0, top_left + Vector2(58, 24), 0)
+	if pod != null and pod.canons_on and pod.canon_energy != 0:
+		_launch(1, top_left + Vector2(53, 30), 0)
+		pod.canon_energy -= 2
+		if pod.canon_energy < 0:
+			pod.canon_energy = 0
+	if pod != null and pod.lasers_on and pod.laser_energy != 0:
+		_launch(2, top_left + Vector2(42, 14), 0)
+		pod.laser_energy -= 2
+		if pod.laser_energy < 0:
+			pod.laser_energy = 0
+	if pod != null and pod.mult1:
+		_launch(3, top_left + Vector2(38, 6), 0)
+	if pod != null and pod.mult2:
+		_launch(3, top_left + Vector2(38, 40), 0)
 	var blast = get_node_or_null("ShootSound")
 	if blast == null:
 		blast = AudioStreamPlayer.new()
@@ -104,8 +132,39 @@ func _on_shoot_timer_timeout() -> void:
 	can_shoot = true
 
 
+func _launch(kind: int, at: Vector2, drift: int) -> void:
+	var bullet = BULLET_SCENE.instantiate()
+	bullet.kind = kind
+	bullet.drift_y = drift
+	bullet.position = at
+	get_parent().add_child(bullet)
+
+
+## Flying into the icon. $72FE4 applies bonus.num and clears bonus.mode.
+func collect_bonus() -> void:
+	if ship_dead or pod == null or pod.consumed:
+		return
+	var taken: int = pod.pod_type
+	pod.collect()
+	if taken == 0:
+		var hud := _hud()
+		if hud != null and hud.has_method("set_score"):
+			hud.set_score(int(hud.score) + 1000)
+	elif taken == 1 or taken == 2:
+		if not pod.refilled and sprite != null:
+			ShipFrames.apply(sprite, pod.weapon_level, "level")
+	elif taken == 5:
+		field_count = 768
+		field_acc = 0.0
+	elif taken == 6:
+		energy = SHIELD_MAX
+		_push_shield()
+
+
 func hit() -> void:
 	if ship_dead:
+		return
+	if field_count > 0:
 		return
 	energy -= 2
 	ship_count = 0xFFFF
@@ -120,6 +179,7 @@ func hit() -> void:
 
 func _die() -> void:
 	ship_dead = true
+	field_count = 0
 	velocity = Vector2.ZERO
 	can_shoot = false
 	collision_layer = 0
@@ -132,6 +192,8 @@ func _die() -> void:
 		sprite.texture = EXPLODE[0]
 		sprite.centered = true
 		sprite.visible = true
+		sprite.modulate = Color.WHITE
+		sprite.scale = Vector2.ONE
 
 
 func _explosion(delta: float) -> void:
@@ -163,7 +225,7 @@ func _contact_clock(delta: float) -> void:
 
 ## lsr.w #5 then bcc: bit 4 clear spends 2 shield. Bit 4 set only shifts the counter.
 func _shield_tick() -> void:
-	if ship_dead:
+	if ship_dead or field_count > 0:
 		return
 	var bit := (ship_count >> 4) & 1
 	if bit != 0:
@@ -288,6 +350,31 @@ func _rest_low_shield() -> void:
 		return
 	sprite.scale = Vector2.ONE
 	sprite.modulate = Color.WHITE
+
+
+func _tick_field(delta: float) -> void:
+	if field_count <= 0:
+		return
+	field_acc += delta
+	if field_acc > CONTACT_STEP * 5.0:
+		field_acc = CONTACT_STEP * 5.0
+	while field_acc >= CONTACT_STEP and field_count > 0:
+		field_acc -= CONTACT_STEP
+		field_count -= 1
+	if field_count == 0 and sprite != null:
+		sprite.modulate = Color.WHITE
+		sprite.scale = Vector2.ONE
+
+
+## $731B4 writes colour $000F. $731D4 writes $000C while bit 1 of the low byte is set.
+func _show_field() -> void:
+	if sprite == null:
+		return
+	sprite.scale = Vector2.ONE
+	if (field_count & 2) != 0:
+		sprite.modulate = Color(0.0, 0.0, 0.75)
+	else:
+		sprite.modulate = Color(0.0, 0.0, 1.0)
 
 
 func _push_shield() -> void:
