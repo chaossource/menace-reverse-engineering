@@ -111,6 +111,10 @@ var slide_acc := 0.0
 var launching := false
 # Set in the key turn so a second 1 or 2 cannot start another load.
 var start_queued := false
+# Key 1 or 2 shows the weapon column before the level card. The disk's
+# F1/F2 path ($74CD6 BEQ $74D1C) skips that page. The picture is still
+# the retail blit at $74EB2 plus the captions at $7760C.
+var legend_before_start := false
 
 
 func _ready() -> void:
@@ -192,6 +196,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		pressed = true
 	if not pressed:
 		return
+	if legend_before_start:
+		# The start key already chose the difficulty. This page is the
+		# legend. Fire, 1, 2, or any other key continues into the card.
+		_continue_from_legend()
+		return
 	if screen_id == Screen.TITLE and event is InputEventKey:
 		# $74DE8 / $74DF0. Other keys stay unread; they do not leave the title.
 		var which := _difficulty_from_key(event)
@@ -245,6 +254,9 @@ func _difficulty_from_key(event: InputEventKey) -> int:
 
 func _on_timeout() -> void:
 	waiting = false
+	if legend_before_start:
+		_continue_from_legend()
+		return
 	match screen_id:
 		Screen.TITLE:
 			# $74CD6 falls through. $74CE2 draws $77830.
@@ -275,13 +287,12 @@ func _choose_difficulty(which: int) -> void:
 		timer_1aa = 0x300
 		timer_1ae = 0x70
 	start_queued = true
-	# The card is composed in this same turn. call_deferred("_start_play")
-	# used to run in the message flush before the draw, so the picture never
-	# reached the window and the wait stayed silent.
-	_enter_level_card()
-	_show_loading_plate()
+	legend_before_start = true
+	# Same picture as the attract weapon page: icons at (64, 0), captions
+	# from WEAPON_ROWS. $74DB0 holds that page for 351 vblanks. A key
+	# continues sooner. The ack plays now so the press is not silent.
 	_play_start_ack()
-	_start_after_present()
+	_enter_weapons()
 
 
 func _show_loading_plate() -> void:
@@ -359,9 +370,24 @@ func _enter_weapons() -> void:
 	var image := _blank()
 	_draw_rows(image, WEAPON_ROWS)
 	# $74EB2. Destination $8008 is x = 64, y = 0 on the $8000 bitplane.
+	# The strip is the 32×171 icon column from $4E8C8.
 	_blend(image, weapons_img, 64, 0)
 	_present(image)
+	# $74DB0 loads #$15E. DBRA runs 351 vblanks.
 	_arm_wait(0x15F)
+
+
+func _continue_from_legend() -> void:
+	if not legend_before_start or launching:
+		return
+	legend_before_start = false
+	waiting = false
+	# The card is composed in this same turn. call_deferred("_start_play")
+	# used to run in the message flush before the draw, so the picture never
+	# reached the window and the wait stayed silent.
+	_enter_level_card()
+	_show_loading_plate()
+	_start_after_present()
 
 
 func _enter_level_card() -> void:
