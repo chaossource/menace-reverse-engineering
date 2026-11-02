@@ -5,13 +5,21 @@ extends CharacterBody2D
 ## shoot() on that timer only while fire is held. The flag is
 ## menace_turbo on the root. Pause, the death fade, and a dead ship
 ## skip the call.
-## Contact with an alien uses the faster clxdat path in check.collision:
+## Contact with an alien uses the port's clxdat clock in check.collision:
 ## ship.count starts at $FFFF and shifts right 5 while the bodies overlap.
 ## When bit 4 is clear, ship.energy drops by 2 ($74AE6 bar, max 128).
 ## Overlap is the current frame's opaque pixels, not the empty part of
 ## the 32x24 bob. Resident check.collision (file 0x334, CLXDAT & $46)
 ## subtracts 2 from ship energy and does not touch hits.num. The shot
 ## test kill.alien (file 0x194C) is the path that decrements that byte.
+## Landscape is the other hit. $72E74 masks CLXDAT with $46 and $72EB8
+## keeps bits 1 and 2. That path does not read difficulty. The shift is
+## (level >> 1) + 5, or 8 while the guardian is alive ($72EC8 moveq #3
+## then addq #5). Carry clear spends 2 and reloads ship.count with $FFFF.
+## On Sea of Karnaugh and Vanguard the shift is 5: three ticks do nothing
+## and the fourth spends 2. Only opaque playfield pixels count, so the
+## open middle (index 0) does not. A dead guardian (end script 2) returns
+## the way $72EA4 does when last.path is 3.
 ## Energy 0 kills the ship. Controls stop and frames 00-08 play.
 ## The last frame is the outline. It stays up, fades, then the section
 ## restarts. $72FAA branches to the destroyed screen at $75138. That
@@ -93,6 +101,8 @@ var field_count: int = 0
 var field_acc: float = 0.0
 ## Instance ids already added to the collision-exception list.
 var _shot_box_ignored: Dictionary = {}
+var _terrain_layer: TileMapLayer = null
+var _terrain_pixels: Image = null
 
 
 func _ready() -> void:
@@ -400,11 +410,154 @@ func _contact_clock(delta: float) -> void:
 	contact_acc += delta
 	if contact_acc > CONTACT_STEP * 5.0:
 		contact_acc = CONTACT_STEP * 5.0
-	var touching := _touching_alien()
+	var alien: bool = _touching_alien()
+	var ground: bool = _touching_landscape()
 	while contact_acc >= CONTACT_STEP and not ship_dead:
 		contact_acc -= CONTACT_STEP
-		if touching:
+		if ground:
+			_landscape_tick()
+		elif alien:
 			_shield_tick()
+
+
+## $72EB2 reads the level, shifts it right once, then adds 5. A live
+## guardian replaces that base with 3 before the add, so the shift is 8.
+## -1 matches the $72EA4 return: guardian already dead, no spend.
+func _landscape_shift() -> int:
+	var host: Node = get_parent()
+	if host != null and bool(host.get("boss_started")):
+		if _guardian_dead(host):
+			return -1
+		return 8
+	return (_loader_level() >> 1) + 5
+
+
+func _loader_level() -> int:
+	var host: Node = get_parent()
+	if host == null:
+		return 0
+	var found: Variant = host.get("loader")
+	if typeof(found) != TYPE_INT and typeof(found) != TYPE_FLOAT:
+		return 0
+	return int(found)
+
+
+func _guardian_dead(host: Node) -> bool:
+	for child in host.get_children():
+		if not child.has_signal("fight_finished"):
+			continue
+		var script_n: Variant = child.get("end_script")
+		if typeof(script_n) != TYPE_INT and typeof(script_n) != TYPE_FLOAT:
+			continue
+		if int(script_n) >= 2:
+			return true
+	return false
+
+
+## lsr.w by the landscape shift, then bcc. The tested bit is the last
+## bit shifted out. Set: store the shifted count. Clear: spend 2.
+func _landscape_tick() -> void:
+	if ship_dead or field_count > 0:
+		return
+	var shift: int = _landscape_shift()
+	if shift < 1:
+		return
+	var count: int = ship_count & 0xFFFF
+	var bit: int = (count >> (shift - 1)) & 1
+	if bit != 0:
+		var shifted: int = count
+		var left: int = shift
+		while left > 0:
+			shifted = shifted >> 1
+			left -= 1
+		ship_count = shifted & 0xFFFF
+		return
+	hit()
+
+
+func _touching_landscape() -> bool:
+	if ship_dead:
+		return false
+	var layer: TileMapLayer = _landscape_layer()
+	if layer == null:
+		return false
+	var image: Image = _read_terrain(layer)
+	var origin: Vector2 = layer.to_local(global_position - Vector2(16, 22))
+	var x0: int = int(floor(origin.x))
+	var y0: int = int(floor(origin.y))
+	var x1: int = x0 + 31
+	var y1: int = y0 + 43
+	var c0: int = _floor_tile(x0)
+	var c1: int = _floor_tile(x1)
+	var r0: int = _floor_tile(y0)
+	var r1: int = _floor_tile(y1)
+	for row in range(r0, r1 + 1):
+		for col in range(c0, c1 + 1):
+			if _cell_hits(layer, image, col, row, x0, y0, x1, y1):
+				return true
+	return false
+
+
+func _cell_hits(layer: TileMapLayer, image: Image, col: int, row: int, x0: int, y0: int, x1: int, y1: int) -> bool:
+	var atlas: Vector2i = layer.get_cell_atlas_coords(Vector2i(col, row))
+	if atlas.x < 0 or atlas == Vector2i.ZERO:
+		return false
+	if image == null:
+		return true
+	var tile_x: int = col * 16
+	var tile_y: int = row * 16
+	var left: int = max(x0, tile_x)
+	var right: int = min(x1, tile_x + 15)
+	var top: int = max(y0, tile_y)
+	var bottom: int = min(y1, tile_y + 15)
+	for py in range(top, bottom + 1):
+		for px in range(left, right + 1):
+			var ix: int = atlas.x * 16 + (px - tile_x)
+			var iy: int = atlas.y * 16 + (py - tile_y)
+			if ix < 0 or iy < 0 or ix >= image.get_width() or iy >= image.get_height():
+				continue
+			if image.get_pixel(ix, iy).a > 0.0:
+				return true
+	return false
+
+
+func _floor_tile(v: int) -> int:
+	if v >= 0:
+		return int(v / 16)
+	return int((v - 15) / 16)
+
+
+func _landscape_layer() -> TileMapLayer:
+	if _terrain_layer != null and is_instance_valid(_terrain_layer):
+		return _terrain_layer
+	_terrain_layer = _find_tile_layer(get_parent())
+	_terrain_pixels = null
+	return _terrain_layer
+
+
+func _find_tile_layer(node: Node) -> TileMapLayer:
+	if node == null:
+		return null
+	if node is TileMapLayer:
+		return node
+	for child in node.get_children():
+		var found: TileMapLayer = _find_tile_layer(child)
+		if found != null:
+			return found
+	return null
+
+
+func _read_terrain(layer: TileMapLayer) -> Image:
+	if _terrain_pixels != null:
+		return _terrain_pixels
+	if layer.tile_set == null or layer.tile_set.get_source_count() == 0:
+		return null
+	var source_id: int = layer.tile_set.get_source_id(0)
+	var source: TileSetAtlasSource = layer.tile_set.get_source(source_id) as TileSetAtlasSource
+	if source == null or source.texture == null:
+		return null
+	_terrain_pixels = source.texture.get_image()
+	return _terrain_pixels
 
 
 ## lsr.w #5 then bcc: bit 4 clear spends 2 shield. Bit 4 set only shifts the counter.
