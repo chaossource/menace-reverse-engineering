@@ -1,24 +1,9 @@
 [remap]
 
-importer="wav"
-type="AudioStreamWAV"
+importer="keep"
 uid="uid://d0035es24c1g5"
-path="res://.godot/imported/voice-84-laser.wav-e95f4fbff19096d0a22b42bda135ce62.sample"
 
 [deps]
 
 source_file="res://sfx/voice-84-laser.wav"
-dest_files=["res://.godot/imported/voice-84-laser.wav-e95f4fbff19096d0a22b42bda135ce62.sample"]
-
-[params]
-
-force/8_bit=false
-force/mono=false
-force/max_rate=false
-force/max_rate_hz=44100
-edit/trim=false
-edit/normalize=false
-edit/loop_mode=0
-edit/loop_begin=0
-edit/loop_end=-1
-compress/mode=2
+dest_files=[]

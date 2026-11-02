@@ -1,24 +1,9 @@
 [remap]
 
-importer="wav"
-type="AudioStreamWAV"
+importer="keep"
 uid="uid://b53833g3j7s1u"
-path="res://.godot/imported/danger.wav-375f1534902d76d4cda2d8c299bb1df3.sample"
 
 [deps]
 
 source_file="res://sfx/danger.wav"
-dest_files=["res://.godot/imported/danger.wav-375f1534902d76d4cda2d8c299bb1df3.sample"]
-
-[params]
-
-force/8_bit=false
-force/mono=false
-force/max_rate=false
-force/max_rate_hz=44100
-edit/trim=false
-edit/normalize=false
-edit/loop_mode=0
-edit/loop_begin=0
-edit/loop_end=-1
-compress/mode=2
+dest_files=[]
