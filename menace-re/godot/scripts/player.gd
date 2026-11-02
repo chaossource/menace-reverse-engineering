@@ -8,6 +8,10 @@ extends CharacterBody2D
 ## Contact with an alien uses the faster clxdat path in check.collision:
 ## ship.count starts at $FFFF and shifts right 5 while the bodies overlap.
 ## When bit 4 is clear, ship.energy drops by 2 ($74AE6 bar, max 128).
+## Overlap is the current frame's opaque pixels, not the empty part of
+## the 32x24 bob. Resident check.collision (file 0x334, CLXDAT & $46)
+## subtracts 2 from ship energy and does not touch hits.num. The shot
+## test kill.alien (file 0x194C) is the path that decrements that byte.
 ## Energy 0 kills the ship. Controls stop and frames 00-08 play.
 ## The last frame is the outline. It stays up, fades, then the section
 ## restarts. $72FAA branches to the destroyed screen at $75138. That
@@ -71,6 +75,8 @@ var pod = null
 ## $5E(a5). moveship subtracts one per vertical blank. 768 is about 15 s at 50 Hz.
 var field_count: int = 0
 var field_acc: float = 0.0
+## Instance ids already added to the collision-exception list.
+var _shot_box_ignored: Dictionary = {}
 
 
 func _ready() -> void:
@@ -346,43 +352,15 @@ func _shield_tick() -> void:
 	hit()
 
 
+## Shield contact. The 32x24 physics box is the shot target, so a slide
+## or shape query against it is not a crash. Opaque pixels are.
 func _touching_alien() -> bool:
-	for i in get_slide_collision_count():
-		var slide := get_slide_collision(i)
-		var collider: Object = slide.get_collider()
-		if _is_alien(collider):
-			return true
-	if _query_overlap():
-		return true
 	return _sprite_overlap()
 
 
-func _query_overlap() -> bool:
-	if body_shape == null or body_shape.shape == null:
-		return false
-	var world := get_world_2d()
-	if world == null:
-		return false
-	var space := world.direct_space_state
-	if space == null:
-		return false
-	var query := PhysicsShapeQueryParameters2D.new()
-	query.shape = body_shape.shape
-	query.transform = body_shape.global_transform
-	query.collision_mask = collision_mask
-	query.collide_with_bodies = true
-	query.collide_with_areas = false
-	query.exclude.append(get_rid())
-	var found: Array = space.intersect_shape(query, 8)
-	for item in found:
-		if _is_alien(item.get("collider")):
-			return true
-	return false
-
-
-## Setting an alien's position during this frame leaves the physics body
-## on the previous origin, so the shape query misses the sprite. Push the
-## body forward, and also test the node rectangle.
+## The shot box is updated here so a bullet still meets the alien where
+## it was drawn. The hull is excluded from that body and can sit on the
+## visible pixels. check.collision never pushes the ship back out.
 func _sync_alien_bodies() -> void:
 	var tree := get_tree()
 	if tree == null:
@@ -392,16 +370,30 @@ func _sync_alien_bodies() -> void:
 			continue
 		if not _is_alien(node):
 			continue
+		var body: CollisionObject2D = node as CollisionObject2D
+		if body == null:
+			continue
+		_ignore_shot_box(body)
 		if not node.visible:
 			continue
-		PhysicsServer2D.body_set_state(node.get_rid(), PhysicsServer2D.BODY_STATE_TRANSFORM, node.global_transform)
+		PhysicsServer2D.body_set_state(body.get_rid(), PhysicsServer2D.BODY_STATE_TRANSFORM, body.global_transform)
 
 
+func _ignore_shot_box(body: CollisionObject2D) -> void:
+	var id: int = body.get_instance_id()
+	if _shot_box_ignored.has(id):
+		return
+	add_collision_exception_with(body)
+	_shot_box_ignored[id] = true
+
+
+## Current frame only. A clear texel in the 32x24 cell is not a hit,
+## even when it sits inside the shot box.
 func _sprite_overlap() -> bool:
-	var mine := _body_rect(body_shape)
+	var mine: Rect2 = _body_rect(body_shape)
 	if mine.size == Vector2.ZERO:
 		return false
-	var tree := get_tree()
+	var tree: SceneTree = get_tree()
 	if tree == null:
 		return false
 	for node in tree.get_nodes_in_group("karnaugh_wave"):
@@ -409,10 +401,12 @@ func _sprite_overlap() -> bool:
 			continue
 		if not node.visible:
 			continue
-		var shape := node.get_node_or_null("CollisionShape2D") as CollisionShape2D
+		var shape: CollisionShape2D = node.get_node_or_null("CollisionShape2D") as CollisionShape2D
 		if shape == null or shape.disabled:
 			continue
-		if mine.intersects(_body_rect(shape)):
+		if not node.has_method("overlaps_rect"):
+			continue
+		if bool(node.call("overlaps_rect", mine)):
 			return true
 	return false
 

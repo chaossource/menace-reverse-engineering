@@ -46,6 +46,8 @@ const HIT_STREAM := preload("res://sfx/hit.wav")
 ## Effect 6 runs 49 vblanks. That is 0.98 s, the length of hit.wav.
 ## The file is the retail playback, not a padded export. Stop 150 ms early.
 const HIT_PLAY_SEC := 0.83
+## One image per frame texture. Contact reads alpha; shots keep the box.
+static var _frame_images: Dictionary = {}
 
 var path_wave = null
 var slot: int = 0
@@ -65,6 +67,8 @@ func _ready() -> void:
 	collision_mask = 5
 	sprite.centered = false
 	sprite.pause()
+	# kill.alien: a shot point in x-16..x+16 and y..y+24. This is that
+	# 32x24 cell, centered on the bob. Ship contact does not use it.
 	shape.position = Vector2(16, 12)
 	z_index = 20 - slot
 	sync_from_wave()
@@ -164,3 +168,113 @@ func _play_damage_sound() -> void:
 				playing.stop()
 		)
 	timer.start(HIT_PLAY_SEC)
+
+
+## World point on an opaque texel of the frame currently shown.
+## flip_v / flip_h mirror the sample so the test matches the sprite.
+func contacts_point(world: Vector2) -> bool:
+	var image: Image = _frame_image()
+	if image == null or sprite == null:
+		return false
+	var size: Vector2 = Vector2(image.get_width(), image.get_height())
+	var origin: Vector2 = _cell_origin(size)
+	var x: int = int(floor(world.x - origin.x))
+	var y: int = int(floor(world.y - origin.y))
+	return _opaque_pixel(image, x, y)
+
+
+## True when any opaque texel of this frame intersects area.
+## area is the ship hull. A clear corner of the cell returns false.
+func overlaps_rect(area: Rect2) -> bool:
+	var image: Image = _frame_image()
+	if image == null or sprite == null:
+		return false
+	if area.size.x <= 0.0 or area.size.y <= 0.0:
+		return false
+	var size: Vector2 = Vector2(image.get_width(), image.get_height())
+	var origin: Vector2 = _cell_origin(size)
+	var cell: Rect2 = Rect2(origin, size)
+	if not cell.intersects(area):
+		return false
+	var region: Rect2 = cell.intersection(area)
+	if region.size.x <= 0.0 or region.size.y <= 0.0:
+		return false
+	var x0: int = int(floor(region.position.x - origin.x))
+	var y0: int = int(floor(region.position.y - origin.y))
+	var x1: int = int(ceil(region.end.x - origin.x))
+	var y1: int = int(ceil(region.end.y - origin.y))
+	var w: int = image.get_width()
+	var h: int = image.get_height()
+	if x0 < 0:
+		x0 = 0
+	if y0 < 0:
+		y0 = 0
+	if x1 > w:
+		x1 = w
+	if y1 > h:
+		y1 = h
+	for y in range(y0, y1):
+		for x in range(x0, x1):
+			if _opaque_pixel(image, x, y):
+				return true
+	return false
+
+
+func _cell_origin(size: Vector2) -> Vector2:
+	var local: Vector2 = sprite.offset
+	if sprite.centered:
+		local -= size * 0.5
+	return sprite.to_global(local)
+
+
+func _opaque_pixel(image: Image, x: int, y: int) -> bool:
+	var w: int = image.get_width()
+	var h: int = image.get_height()
+	if x < 0 or y < 0 or x >= w or y >= h:
+		return false
+	var sx: int = x
+	var sy: int = y
+	if sprite.flip_h:
+		sx = w - 1 - x
+	if sprite.flip_v:
+		sy = h - 1 - y
+	return image.get_pixel(sx, sy).a > 0.0
+
+
+func _frame_image() -> Image:
+	if sprite == null or sprite.sprite_frames == null:
+		return null
+	var frames: SpriteFrames = sprite.sprite_frames
+	var anim: StringName = sprite.animation
+	if not frames.has_animation(anim):
+		return null
+	var count: int = frames.get_frame_count(anim)
+	if count <= 0:
+		return null
+	var idx: int = sprite.frame
+	if idx < 0:
+		idx = 0
+	if idx >= count:
+		idx = count - 1
+	var tex: Texture2D = frames.get_frame_texture(anim, idx)
+	return _image_for(tex)
+
+
+func _image_for(tex: Texture2D) -> Image:
+	if tex == null:
+		return null
+	var key: String = tex.resource_path
+	if key == "":
+		key = "id:%d" % tex.get_instance_id()
+	if _frame_images.has(key):
+		var cached: Variant = _frame_images[key]
+		if cached is Image:
+			return cached
+	var image: Image = tex.get_image()
+	if image == null or image.is_empty():
+		if tex.resource_path.ends_with(".png"):
+			image = Image.load_from_file(tex.resource_path)
+	if image == null or image.is_empty():
+		return null
+	_frame_images[key] = image
+	return image
