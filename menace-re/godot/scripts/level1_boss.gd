@@ -12,12 +12,20 @@ extends Node2D
 ## level scrolls off: 16 columns from the mask and packed planes at $3F908.
 ## On the frozen window it sits at screen (67, 0), behind the eye.
 ##
+## Death script 2 ($3DFFA) is sprite 4, the 32x24 orange explosion. $73ACA
+## runs while that slot's stored x is above 48: the frame mask is blitted
+## into the three foreground planes with D = B AND NOT A ($0D0C, size
+## $0603, last word masked). The holes stay when the bob moves. The
+## tentacles are gone while those flames are still the picture. Columns
+## the blits never reach stay, including the red edge on the right, and
+## colour 0 still shows the circuit ground. fight_finished fires when
+## script 2 ends, and still fires when script 1 runs out.
+##
 ## A level instances this node. Set end_script before it enters the tree:
 ##   1 fight ($3D21A), 2 death explosions ($3DFFA), 3 timeout eye ($3E624).
 ## The guardian eye is the kill spot. Hits is record byte 19, the same
 ## offset hits_set writes. The fight eye stores 25. At 0 the node loads
-## script 2. fight_finished fires when that death script ends, and still
-## fires when script 1 runs out: tadpoles cleared, eye held.
+## script 2.
 ##
 ## Below 25 hits the eye bob and the Body sprite pulse in place. Wound is
 ## (25 - hits left) / 25. Peak scale is 1 + 0.06 + 0.16 * wound, and the
@@ -119,6 +127,10 @@ var danger_queued: int = 0
 var danger_started: int = 0
 var _danger_wait: float = 0.0
 var _danger_stream: AudioStreamWAV
+var _body: Sprite2D
+var _body_image: Image
+var _body_tex: ImageTexture
+var _exp_masks: Array[PackedByteArray] = []
 
 
 func _ready() -> void:
@@ -128,6 +140,7 @@ func _ready() -> void:
 	_frames[3] = _load_frames(EYE, 4)
 	_frames[4] = _load_frames(EXPLOSION, 9)
 	_frames[5] = _load_frames(TADPOLE, 4)
+	_cache_masks()
 	_load_script(end_script)
 
 
@@ -137,14 +150,17 @@ func _add_body() -> void:
 	if err != OK:
 		push_error("missing tentacle body (%d)" % err)
 		return
+	_body_image = image.duplicate() as Image
+	_body_tex = ImageTexture.create_from_image(_body_image)
 	var sprite := Sprite2D.new()
 	sprite.name = "Body"
 	sprite.centered = false
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	sprite.z_index = 0
 	sprite.position = Vector2(BODY_X, 0)
-	sprite.texture = ImageTexture.create_from_image(image)
+	sprite.texture = _body_tex
 	add_child(sprite)
+	_body = sprite
 
 
 ## Fight script only. The slide-in leaves processing off, so the queue
@@ -225,18 +241,21 @@ func _find_data(bytes: PackedByteArray) -> int:
 
 
 func _process(delta: float) -> void:
+	if _fight_done:
+		return
 	var was_on: bool = _danger_on
 	_arm_danger()
 	if was_on:
 		_pump_danger(delta)
 	_accum += delta
-	while _accum >= TICK_SECONDS:
+	while _accum >= TICK_SECONDS and not _fight_done:
 		_accum -= TICK_SECONDS
 		for alien in _aliens:
 			_step(alien)
 		_sync()
 		_check_fight_finished()
-	_pulse(delta)
+	if not _fight_done:
+		_pulse(delta)
 
 
 func _check_fight_finished() -> void:
@@ -266,11 +285,11 @@ func _check_fight_finished() -> void:
 
 
 func _remove_defeated_sprites() -> void:
-	# Death script 2 has finished and the explosions were visible.
-	# free() drops the body, the eye, and the blasts before the card returns.
+	# Script 2 has ended. The bobs are already clear. The Body texture
+	# keeps the unburned edge; the tentacles were punched out earlier.
 	var doomed: Array[Node] = []
 	for child in get_children():
-		if child is Sprite2D:
+		if child is Sprite2D and child != _body:
 			doomed.append(child)
 	for node in doomed:
 		node.free()
@@ -451,6 +470,71 @@ func _load_script(which: int) -> void:
 	_sync()
 
 
+func _cache_masks() -> void:
+	_exp_masks.clear()
+	var frames: Array = _frames.get(4, [])
+	for frame in frames:
+		var tex: Texture2D = frame
+		var image: Image = tex.get_image()
+		var mask: PackedByteArray = PackedByteArray()
+		mask.resize(32 * 24)
+		var w: int = mini(32, image.get_width())
+		var h: int = mini(24, image.get_height())
+		for y in h:
+			for x in w:
+				if image.get_pixel(x, y).a > 0.0:
+					mask[y * 32 + x] = 1
+		_exp_masks.append(mask)
+
+
+func _burn_body() -> void:
+	# $73ACA. Sprite 4 and stored x > 48 only. D = foreground AND NOT mask.
+	if _body == null or _body_image == null or _exp_masks.is_empty():
+		return
+	var hitting: bool = false
+	for alien in _aliens:
+		if alien.sprite() == 4 and alien.x() > 48:
+			hitting = true
+			break
+	if not hitting:
+		return
+	if _body_image.get_format() != Image.FORMAT_RGBA8:
+		_body_image.convert(Image.FORMAT_RGBA8)
+	var data: PackedByteArray = _body_image.get_data()
+	var bw: int = _body_image.get_width()
+	var bh: int = _body_image.get_height()
+	var changed: bool = false
+	for i in _aliens.size():
+		var alien: Alien = _aliens[i]
+		if alien.sprite() != 4 or alien.x() <= 48:
+			continue
+		var mask: PackedByteArray = _exp_masks[alien.anim() % _exp_masks.size()]
+		var bx: int = alien.x() - SCREEN_DX - BODY_X
+		var by: int = alien.y()
+		for y in 24:
+			var py: int = by + y
+			if py < 0 or py >= bh:
+				continue
+			var row: int = y * 32
+			var base: int = (py * bw + bx) * 4 + 3
+			for x in 32:
+				if mask[row + x] == 0:
+					continue
+				var px: int = bx + x
+				if px < 0 or px >= bw:
+					continue
+				var idx: int = base + x * 4
+				if data[idx] == 0:
+					continue
+				data[idx] = 0
+				changed = true
+	if not changed:
+		return
+	_body_image.set_data(bw, bh, false, Image.FORMAT_RGBA8, data)
+	_body_tex = ImageTexture.create_from_image(_body_image)
+	_body.texture = _body_tex
+
+
 func _load_frames(stem: String, count: int) -> Array:
 	var out: Array = []
 	for i in count:
@@ -473,6 +557,8 @@ func _from_hex(hex: String) -> PackedByteArray:
 
 
 func _sync() -> void:
+	if _aliens.size() != _sprites.size():
+		return
 	for i in _aliens.size():
 		var alien := _aliens[i]
 		var sprite := _sprites[i]
@@ -485,6 +571,8 @@ func _sync() -> void:
 		sprite.texture = sheet[alien.anim() % sheet.size()]
 		if end_script == 2 and alien.sprite() == 4:
 			_explosion_seen = true
+	if end_script == 2:
+		_burn_body()
 	_track_eye_hit()
 
 
