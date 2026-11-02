@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bseaofkarnaughatlas"
-path="res://.godot/imported/sea-of-karnaugh-tiles.png.ctex"
+uid="uid://bqptsjiiq4n2e"
+path="res://.godot/imported/tiles.png-2cc8461bf4e09403488676c2339023ba.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://maps/sea-of-karnaugh/tiles.png"
-dest_files=["res://.godot/imported/sea-of-karnaugh-tiles.png.ctex"]
+dest_files=["res://.godot/imported/tiles.png-2cc8461bf4e09403488676c2339023ba.ctex"]
 
 [params]
 

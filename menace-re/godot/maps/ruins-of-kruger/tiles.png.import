@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmenacelevel1atlas"
-path="res://.godot/imported/tiles.png-level1map.ctex"
+uid="uid://bak7jmsugrwaw"
+path="res://.godot/imported/tiles.png-aa29bca8da3bd9e95b16972021526c6c.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://maps/ruins-of-kruger/tiles.png"
-dest_files=["res://.godot/imported/tiles.png-level1map.ctex"]
+dest_files=["res://.godot/imported/tiles.png-aa29bca8da3bd9e95b16972021526c6c.ctex"]
 
 [params]
 
