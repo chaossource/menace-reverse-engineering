@@ -145,10 +145,15 @@ func _ready() -> void:
 
 
 func _add_body() -> void:
-	var image := Image.new()
-	var err := image.load_png_from_buffer(FileAccess.get_file_as_bytes("res://sprites/level1/tentacle-body.png"))
-	if err != OK:
-		push_error("missing tentacle body (%d)" % err)
+	# The web pack stores this png as the imported texture. FileAccess of the
+	# source path is empty there, so the body never got a picture.
+	var tex: Texture2D = load("res://sprites/level1/tentacle-body.png") as Texture2D
+	if tex == null:
+		push_error("missing tentacle body")
+		return
+	var image: Image = tex.get_image()
+	if image == null or image.is_empty():
+		push_error("missing tentacle body")
 		return
 	_body_image = image.duplicate() as Image
 	_body_tex = ImageTexture.create_from_image(_body_image)
@@ -208,6 +213,10 @@ func _danger_pcm() -> AudioStreamWAV:
 		return _danger_stream
 	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(DANGER_PATH)
 	if bytes.size() < 44:
+		var imported: AudioStreamWAV = load(DANGER_PATH) as AudioStreamWAV
+		if imported != null:
+			_danger_stream = imported
+			return imported
 		push_error("missing danger sample")
 		return null
 	var mark: int = _find_data(bytes)
@@ -476,6 +485,9 @@ func _cache_masks() -> void:
 	for frame in frames:
 		var tex: Texture2D = frame
 		var image: Image = tex.get_image()
+		if image == null or image.is_empty():
+			push_error("missing explosion mask")
+			continue
 		var mask: PackedByteArray = PackedByteArray()
 		mask.resize(32 * 24)
 		var w: int = mini(32, image.get_width())
@@ -539,12 +551,11 @@ func _load_frames(stem: String, count: int) -> Array:
 	var out: Array = []
 	for i in count:
 		var path := "res://sprites/level1/%s-%02d.png" % [stem, i]
-		var image := Image.new()
-		var err := image.load_png_from_buffer(FileAccess.get_file_as_bytes(path))
-		if err != OK:
-			push_error("missing %s frame %d (%d)" % [stem, i, err])
+		var tex: Texture2D = load(path) as Texture2D
+		if tex == null:
+			push_error("missing %s frame %d" % [stem, i])
 			continue
-		out.append(ImageTexture.create_from_image(image))
+		out.append(tex)
 	return out
 
 

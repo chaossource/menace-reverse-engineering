@@ -71,6 +71,12 @@ const VOICE_FILES: Array[String] = [
 	"res://sfx/voice-83-field.wav",
 	"res://sfx/voice-86-shield.wav",
 ]
+## $7347A. Index is cannon energy (bit 0) plus laser energy (bit 1).
+## $16 missile, $15 cannon, $03 laser, $07 both. $734A4 calls the player.
+const SHOT_MISSILE: AudioStream = preload("res://audio/shoot.ogg")
+const SHOT_CANNON: AudioStream = preload("res://sfx/fire-cannon.wav")
+const SHOT_LASER: AudioStream = preload("res://sfx/fire-laser.wav")
+const SHOT_BOTH: AudioStream = preload("res://sfx/fire-both.wav")
 const EXPLODE: Array[Texture2D] = [
 	preload("res://sprites/level1/enemy-l0-explosion-00.png"),
 	preload("res://sprites/level1/enemy-l0-explosion-01.png"),
@@ -189,6 +195,12 @@ func _turbo_on() -> bool:
 func shoot() -> void:
 	# The node is the ship center. Retail xpos/ypos are the top-left.
 	# The missile blit origin is that corner plus (58, 24). $73596 always fires it.
+	# The effect byte is chosen from energy before those spends.
+	var shot_i: int = 0
+	if pod != null and pod.canon_energy != 0:
+		shot_i += 1
+	if pod != null and pod.laser_energy != 0:
+		shot_i += 2
 	var top_left := position - Vector2(16, 22)
 	_launch(0, top_left + Vector2(58, 24), 0)
 	if pod != null and pod.canons_on and pod.canon_energy != 0:
@@ -219,12 +231,22 @@ func shoot() -> void:
 	if blast == null:
 		blast = AudioStreamPlayer.new()
 		blast.name = "ShootSound"
-		blast.stream = preload("res://audio/shoot.ogg")
 		add_child(blast)
+	blast.stream = _shot_stream(shot_i)
 	blast.bus = "Sfx"
 	blast.play()
 	can_shoot = false
 	shoot_timer.start()
+
+
+func _shot_stream(index: int) -> AudioStream:
+	if index == 1:
+		return SHOT_CANNON
+	if index == 2:
+		return SHOT_LASER
+	if index == 3:
+		return SHOT_BOTH
+	return SHOT_MISSILE
 
 
 func _on_shoot_timer_timeout() -> void:
@@ -369,11 +391,15 @@ func _speak_power(kind: int) -> void:
 
 
 func _load_voice(path: String) -> AudioStreamWAV:
+	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+	if bytes.is_empty():
+		var imported: AudioStreamWAV = load(path) as AudioStreamWAV
+		if imported != null:
+			return imported
 	var stream: AudioStreamWAV = AudioStreamWAV.new()
 	stream.stereo = false
 	stream.format = AudioStreamWAV.FORMAT_16_BITS
 	stream.loop_mode = AudioStreamWAV.LOOP_DISABLED
-	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
 	var rate: int = 0
 	var pcm: PackedByteArray = PackedByteArray()
 	var i: int = 12
