@@ -191,6 +191,8 @@ func shoot() -> void:
 		pod.laser_energy -= 2
 		if pod.laser_energy < 0:
 			pod.laser_energy = 0
+	# $735E2 and $7361A each spend 2, then decrease.energy redraws that bar.
+	_push_weapons()
 	if pod != null and pod.mult1:
 		_launch(3, top_left + Vector2(38, 6), 0)
 	if pod != null and pod.mult2:
@@ -226,6 +228,7 @@ func collect_bonus() -> void:
 	var taken: int = pod.pod_type
 	pod.collect()
 	_speak_power(taken)
+	_push_weapons()
 	if taken == 0:
 		var hud := _hud()
 		if hud != null and hud.has_method("set_score"):
@@ -822,6 +825,17 @@ func _push_shield() -> void:
 	var hud := _hud()
 	if hud != null and hud.has_method("set_shield"):
 		hud.set_shield(energy)
+	_push_weapons()
+
+
+func _push_weapons() -> void:
+	var hud := _hud()
+	if hud == null or pod == null:
+		return
+	if hud.has_method("set_canon"):
+		hud.set_canon(int(pod.canon_energy))
+	if hud.has_method("set_laser"):
+		hud.set_laser(int(pod.laser_energy))
 
 
 func _hud() -> Node:

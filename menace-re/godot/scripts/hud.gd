@@ -1,13 +1,14 @@
 extends CanvasLayer
 ## Retail panel for the bottom 32 rows of the 320x224 display.
 ## Playfield above it is 192 pixels. Viewport stays 320x240.
-## Score glyphs are the $77A14 digits. Shield fill sits on the $5555 slot at offset $144.
-## The 128 by 3 fill is four 32px quarters, low to high: red, amber, yellow, green.
-## Cropping from the left drops the high end as energy falls. The drained stretch
-## keeps the trough colors.
+## Score glyphs are the $77A14 digits.
+## Shield, cannons, and lasers are the 128x3 bars at x=112.
+## Rows are 7, 15, and 23 (panel offsets $144, $2A4, $404).
+## decrease.energy keeps $AAAA columns and shifts $5555 fill out to the right.
+## Those columns are the panel art, so the ticks stay vertical bars.
+## Shield fill pixels are four 32px quarters, low to high: red, amber, yellow, green.
 
 const PANEL := preload("res://sprites/hud/hud-panel.png")
-const SHIELD_FILL := preload("res://sprites/hud/shield-fill.png")
 const DIGIT: Array[Texture2D] = [
 	preload("res://sprites/hud/hud-digit-0.png"),
 	preload("res://sprites/hud/hud-digit-1.png"),
@@ -24,22 +25,31 @@ const DIGIT: Array[Texture2D] = [
 const PANEL_Y := 192
 const SCORE_X := 16
 const SCORE_Y := 6
-const SHIELD_X := 112
+const BAR_X := 112
 const SHIELD_Y := 7
-const SHIELD_MAX := 128
+const CANON_Y := 15
+const LASER_Y := 23
+const BAR_W := 128
+const BAR_H := 3
+const ENERGY_MAX := 128
+const SHIELD_X := BAR_X
+const SHIELD_MAX := ENERGY_MAX
+const EMPTY := Color(0, 0, 0, 1)
 
 @export var score: int = 0
 @export var shield: int = 128
+@export var canon: int = 0
+@export var laser: int = 0
 
 var _digits: Array[Sprite2D] = []
-var _shield: Sprite2D
-var _fill: Texture2D
-var _empty: Sprite2D
-var _empty_base: Texture2D
+var _bases: Array[Image] = []
+var _images: Array[Image] = []
+var _sprites: Array[Sprite2D] = []
 
 
 func _ready() -> void:
 	var root := Node2D.new()
+	root.name = "HudRoot"
 	root.position = Vector2(0, PANEL_Y)
 	add_child(root)
 
@@ -50,21 +60,12 @@ func _ready() -> void:
 	panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	root.add_child(panel)
 
-	_empty_base = _trough_texture()
-	_empty = Sprite2D.new()
-	_empty.name = "ShieldEmpty"
-	_empty.centered = false
-	_empty.position = Vector2(SHIELD_X, SHIELD_Y)
-	_empty.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	_empty.visible = false
-	root.add_child(_empty)
-
-	_shield = Sprite2D.new()
-	_shield.name = "ShieldFill"
-	_shield.centered = false
-	_shield.position = Vector2(SHIELD_X, SHIELD_Y)
-	_shield.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	root.add_child(_shield)
+	var source: Image = PANEL.get_image()
+	if source.get_format() != Image.FORMAT_RGBA8:
+		source.convert(Image.FORMAT_RGBA8)
+	_add_bar(root, source, SHIELD_Y, "ShieldBar")
+	_add_bar(root, source, CANON_Y, "CanonBar")
+	_add_bar(root, source, LASER_Y, "LaserBar")
 
 	for i in range(6):
 		var digit := Sprite2D.new()
@@ -78,6 +79,8 @@ func _ready() -> void:
 
 	set_score(score)
 	set_shield(shield)
+	set_canon(canon)
+	set_laser(laser)
 
 
 func set_score(value: int) -> void:
@@ -91,76 +94,88 @@ func set_score_bcd(bcd: int) -> void:
 
 
 func set_shield(energy: int) -> void:
+	shield = _set_bar(0, energy)
+
+
+func set_canon(energy: int) -> void:
+	canon = _set_bar(1, energy)
+
+
+func set_laser(energy: int) -> void:
+	laser = _set_bar(2, energy)
+
+
+func _add_bar(root: Node2D, source: Image, top: int, node_name: String) -> void:
+	var base: Image = Image.create(BAR_W, BAR_H, false, Image.FORMAT_RGBA8)
+	for row in BAR_H:
+		for x in BAR_W:
+			base.set_pixel(x, row, source.get_pixel(BAR_X + x, top + row))
+	var image: Image = base.duplicate() as Image
+	var sprite := Sprite2D.new()
+	sprite.name = node_name
+	sprite.centered = false
+	sprite.position = Vector2(BAR_X, top)
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	root.add_child(sprite)
+	_bases.append(base)
+	_images.append(image)
+	_sprites.append(sprite)
+
+
+func _set_bar(index: int, energy: int) -> int:
 	var amount := energy
 	if amount < 0:
 		amount = 0
-	if amount > SHIELD_MAX:
-		amount = SHIELD_MAX
-	shield = amount
-	# Sprite2D.region_rect does not clip this fill in the compatibility renderer.
-	# An atlas region is the drawn texture, so the bar actually shortens.
-	if _fill == null:
-		_fill = _painted_fill()
-	if _shield != null:
-		if amount <= 0:
-			_shield.visible = false
-		else:
-			_shield.visible = true
-			_shield.texture = _crop(_fill, amount)
-	if _empty == null or _empty_base == null:
-		return
-	var gap := SHIELD_MAX - amount
-	if gap <= 0:
-		_empty.visible = false
-		return
-	_empty.visible = true
-	_empty.position = Vector2(SHIELD_X + amount, SHIELD_Y)
-	_empty.texture = _crop(_empty_base, gap)
+	if amount > ENERGY_MAX:
+		amount = ENERGY_MAX
+	if index < 0 or index >= _images.size():
+		return amount
+	var image: Image = _images[index]
+	var base: Image = _bases[index]
+	for x in BAR_W:
+		var tick := (x & 1) == 0
+		var lit := _fill_lit(amount, x)
+		for row in BAR_H:
+			if tick:
+				image.set_pixel(x, row, base.get_pixel(x, row))
+			elif lit and index == 0:
+				image.set_pixel(x, row, _shield_quarter(x))
+			elif lit:
+				image.set_pixel(x, row, base.get_pixel(x, row))
+			else:
+				image.set_pixel(x, row, EMPTY)
+	# create_from_image copies the pixels. update() leaves get_image() on the old copy.
+	var shown: Image = image.duplicate() as Image
+	_sprites[index].texture = ImageTexture.create_from_image(shown)
+	return amount
 
 
-func _painted_fill() -> Texture2D:
-	var image: Image = Image.create(SHIELD_MAX, 3, false, Image.FORMAT_RGBA8)
-	var loaded: Image = SHIELD_FILL.get_image()
-	if loaded != null and loaded.get_width() == SHIELD_MAX and loaded.get_height() == 3:
-		var copy: Image = loaded.duplicate() as Image
-		if copy != null:
-			image = copy
-			if image.get_format() != Image.FORMAT_RGBA8:
-				image.convert(Image.FORMAT_RGBA8)
-	var colors: Array[Color] = [
-		Color8(255, 0, 0),
-		Color8(255, 170, 0),
-		Color8(255, 255, 0),
-		Color8(0, 255, 0),
-	]
-	for x in SHIELD_MAX:
-		var band: int = int(x / 32)
-		if band > 3:
-			band = 3
-		var pixel: Color = colors[band]
-		for y in 3:
-			image.set_pixel(x, y, pixel)
-	return ImageTexture.create_from_image(image)
+# Low to high across the 128px shield fill: red, amber, yellow, green.
+func _shield_quarter(x: int) -> Color:
+	var band := int(x / 32)
+	if band <= 0:
+		return Color8(255, 0, 0)
+	if band == 1:
+		return Color8(255, 170, 0)
+	if band == 2:
+		return Color8(255, 255, 0)
+	return Color8(0, 255, 0)
 
 
-func _crop(base: Texture2D, width: int) -> AtlasTexture:
-	var atlas := AtlasTexture.new()
-	atlas.atlas = base
-	atlas.region = Rect2(0, 0, width, 3)
-	return atlas
-
-
-func _trough_texture() -> Texture2D:
-	var image := Image.create(SHIELD_MAX, 3, false, Image.FORMAT_RGBA8)
-	var rows: Array[Color] = [
-		Color8(34, 85, 34),
-		Color8(85, 119, 119),
-		Color8(34, 85, 34),
-	]
-	for y in 3:
-		for x in SHIELD_MAX:
-			image.set_pixel(x, y, rows[y])
-	return ImageTexture.create_from_image(image)
+# $5555 shifted left by 2 for each 2 energy spent inside this 16-wide word.
+# Bit 15 is the left pixel. Even pixels are the $AAAA ticks and are not in this mask.
+func _fill_lit(energy: int, x: int) -> bool:
+	var word := int(x / 16)
+	var band := word * 16
+	var shifts := 8
+	if energy >= band + 16:
+		shifts = 0
+	elif energy >= band:
+		shifts = int((band + 16 - energy) / 2)
+	var bits := (0x5555 << (shifts * 2)) & 0xFFFF
+	var local := x - band
+	var mask := 1 << (15 - local)
+	return (bits & mask) != 0
 
 
 func _show_bcd(bcd: int) -> void:
