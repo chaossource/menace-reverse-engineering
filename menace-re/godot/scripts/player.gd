@@ -28,7 +28,8 @@ extends CharacterBody2D
 ## map pointer $0003B060, fine scroll $0F. $74C20 refills shield 128.
 ## Retail never flashes the ship for low energy. decrease.energy only
 ## shortens the panel bar. The colours+74 outline ($000f / $000c) is the
-## force field in moveship. While this ship is alive and energy is at or
+## force field in moveship. The port paints that outline blue and leaves
+## the white and red hull. While this ship is alive and energy is at or
 ## under a quarter of the bar (32), the sprite pulses. Above 32, and when
 ## the ship dies, scale and modulate return to rest. Position is not moved
 ## by the pulse. The section restart is what places the new ship.
@@ -44,6 +45,9 @@ const LOW_PULSE_HZ := 4.0
 const LOW_PULSE_SCALE := 0.08
 const LOW_PULSE_FLASH := 0.85
 const LOW_PULSE_HOT := Color(1.0, 0.28, 0.22)
+## COLOR18. $000F is Amiga (0, 0, 15). $000C is (0, 0, 12), 12/15.
+const FIELD_HI: Color = Color(0.0, 0.0, 1.0, 1.0)
+const FIELD_LO: Color = Color(0.0, 0.0, 12.0 / 15.0, 1.0)
 const CONTACT_STEP := 1.0 / 50.0
 const EXPLODE_STEP := 4.0 / 50.0
 ## The outline is already on screen when this starts. It then fades out.
@@ -103,6 +107,10 @@ var field_acc: float = 0.0
 var _shot_box_ignored: Dictionary = {}
 var _terrain_layer: TileMapLayer = null
 var _terrain_pixels: Image = null
+## Sprite instance id to the untouched texture, the outline copy, and the blue used.
+var _field_base: Dictionary = {}
+var _field_made: Dictionary = {}
+var _field_color: Dictionary = {}
 
 
 func _ready() -> void:
@@ -303,6 +311,7 @@ func _die() -> void:
 	fading = false
 	fade_acc = 0.0
 	field_count = 0
+	_drop_outline()
 	velocity = Vector2.ZERO
 	can_shoot = false
 	collision_layer = 0
@@ -367,6 +376,7 @@ func _respawn() -> void:
 	collision_mask = 2
 	field_count = 0
 	field_acc = 0.0
+	_drop_outline()
 	_reset_loadout()
 	if body_shape != null:
 		body_shape.disabled = false
@@ -686,20 +696,126 @@ func _tick_field(delta: float) -> void:
 	while field_acc >= CONTACT_STEP and field_count > 0:
 		field_acc -= CONTACT_STEP
 		field_count -= 1
-	if field_count == 0 and sprite != null:
-		sprite.modulate = Color.WHITE
-		sprite.scale = Vector2.ONE
+	if field_count == 0:
+		if sprite != null:
+			sprite.modulate = Color.WHITE
+			sprite.scale = Vector2.ONE
+		_restore_outline()
 
 
-## $731B4 writes colour $000F. $731D4 writes $000C while bit 1 of the low byte is set.
+## $731B4 writes $000F to colours+74. $731D4 writes $000C while bit 1 of the
+## low byte is set. That word is COLOR18, the black outline, not a tint of
+## every pixel. Outrider orbs use the same hardware sprite colour. This tree
+## has no orb sprites; any child named orb or outrider gets the same pass.
 func _show_field() -> void:
-	if sprite == null:
-		return
-	sprite.scale = Vector2.ONE
+	if sprite != null:
+		sprite.scale = Vector2.ONE
+		sprite.modulate = Color.WHITE
+	var blue: Color = FIELD_HI
 	if (field_count & 2) != 0:
-		sprite.modulate = Color(0.0, 0.0, 0.75)
-	else:
-		sprite.modulate = Color(0.0, 0.0, 1.0)
+		blue = FIELD_LO
+	var targets: Array[Sprite2D] = _field_targets()
+	for target in targets:
+		if target != sprite:
+			target.modulate = Color.WHITE
+		_apply_outline(target, blue)
+
+
+func _field_targets() -> Array[Sprite2D]:
+	var found: Array[Sprite2D] = []
+	if sprite != null:
+		found.append(sprite)
+	_collect_field_orbs(self, found)
+	return found
+
+
+func _collect_field_orbs(node: Node, found: Array[Sprite2D]) -> void:
+	for child in node.get_children():
+		if child == pod:
+			continue
+		if _is_orb_sprite(child):
+			found.append(child as Sprite2D)
+		if child is Sprite2D:
+			continue
+		_collect_field_orbs(child, found)
+
+
+func _is_orb_sprite(node: Node) -> bool:
+	if not (node is Sprite2D) or node == sprite:
+		return false
+	var here: Node = node
+	while here != null and here != self:
+		var label: String = String(here.name).to_lower()
+		if "orb" in label or "outrider" in label:
+			return true
+		here = here.get_parent()
+	return false
+
+
+## Opaque black is COLOR18 ($0000). The next hull colour is $0243.
+func _is_ship_outline(px: Color) -> bool:
+	return px.a > 0.5 and px.r < (1.0 / 255.0) and px.g < (1.0 / 255.0) and px.b < (1.0 / 255.0)
+
+
+func _same_color(a: Color, b: Color) -> bool:
+	return absf(a.r - b.r) < 0.001 and absf(a.g - b.g) < 0.001 and absf(a.b - b.b) < 0.001 and absf(a.a - b.a) < 0.001
+
+
+func _recolor_outline(source: Image, blue: Color) -> Image:
+	var image: Image = source.duplicate() as Image
+	if image.get_format() != Image.FORMAT_RGBA8:
+		image.convert(Image.FORMAT_RGBA8)
+	var width: int = image.get_width()
+	var height: int = image.get_height()
+	for y in height:
+		for x in width:
+			var px: Color = image.get_pixel(x, y)
+			if _is_ship_outline(px):
+				image.set_pixel(x, y, blue)
+	return image
+
+
+func _apply_outline(target: Sprite2D, blue: Color) -> void:
+	if target == null or target.texture == null:
+		return
+	var id: int = target.get_instance_id()
+	var made: Texture2D = _field_made.get(id) as Texture2D
+	if made == null or target.texture != made:
+		_field_base[id] = target.texture
+	var base: Texture2D = _field_base.get(id) as Texture2D
+	if base == null:
+		return
+	var same: bool = false
+	if _field_color.has(id):
+		var painted: Color = _field_color[id]
+		same = _same_color(painted, blue)
+	if made != null and target.texture == made and same:
+		return
+	var source: Image = base.get_image()
+	if source == null:
+		return
+	var image: Image = _recolor_outline(source, blue)
+	var tex: ImageTexture = ImageTexture.create_from_image(image)
+	_field_made[id] = tex
+	_field_color[id] = blue
+	target.texture = tex
+
+
+func _restore_outline() -> void:
+	for id in _field_base.keys():
+		var node: Sprite2D = instance_from_id(int(id)) as Sprite2D
+		var base: Texture2D = _field_base[id] as Texture2D
+		var made: Texture2D = _field_made.get(id) as Texture2D
+		if node != null and base != null and (made == null or node.texture == made):
+			node.texture = base
+			node.modulate = Color.WHITE
+	_drop_outline()
+
+
+func _drop_outline() -> void:
+	_field_base.clear()
+	_field_made.clear()
+	_field_color.clear()
 
 
 func _push_shield() -> void:
