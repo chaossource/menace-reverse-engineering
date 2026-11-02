@@ -44,6 +44,22 @@ const FADE_SECS := 3.0
 const SECTION_X := 112
 const SECTION_Y := 84
 const TURBO_META := "menace_turbo"
+## $7314C tests $1A5(a5) and jsr $503A8. The low byte is negative, so
+## $51230 branches to $51344. That masks $7F and reads a 10-byte row
+## of the table at $512D6. $511E2 fills the table from the headers at
+## $58CEA (length long, rate word, then signed PCM). The period word
+## is $369E99 divided by the rate. $50920 is zero, so that period is
+## what Paula plays. One collect uses the same id on channels 0-3.
+## The wav rate is that period. Pod types follow the collect order.
+const VOICE_FILES: Array[String] = [
+	"res://sfx/voice-80-score.wav",
+	"res://sfx/voice-81-cannon.wav",
+	"res://sfx/voice-84-laser.wav",
+	"res://sfx/voice-87-speed.wav",
+	"res://sfx/voice-85-outrider.wav",
+	"res://sfx/voice-83-field.wav",
+	"res://sfx/voice-86-shield.wav",
+]
 const EXPLODE: Array[Texture2D] = [
 	preload("res://sprites/level1/enemy-l0-explosion-00.png"),
 	preload("res://sprites/level1/enemy-l0-explosion-01.png"),
@@ -191,6 +207,7 @@ func collect_bonus() -> void:
 		return
 	var taken: int = pod.pod_type
 	pod.collect()
+	_speak_power(taken)
 	if taken == 0:
 		var hud := _hud()
 		if hud != null and hud.has_method("set_score"):
@@ -204,6 +221,55 @@ func collect_bonus() -> void:
 	elif taken == 6:
 		energy = SHIELD_MAX
 		_push_shield()
+
+
+## Id $80 score, $81 cannon, $84 laser, $87 speed, $85 outrider,
+## $83 force field, $86 shield. The wav rate is the table period.
+func _speak_power(kind: int) -> void:
+	if kind < 0 or kind >= VOICE_FILES.size():
+		return
+	var stream: AudioStreamWAV = _load_voice(VOICE_FILES[kind])
+	if stream.data.is_empty():
+		return
+	var voice: AudioStreamPlayer = get_node_or_null("PowerVoice") as AudioStreamPlayer
+	if voice == null:
+		voice = AudioStreamPlayer.new()
+		voice.name = "PowerVoice"
+		add_child(voice)
+	voice.bus = "Sfx"
+	voice.stream = stream
+	voice.play()
+
+
+func _load_voice(path: String) -> AudioStreamWAV:
+	var stream: AudioStreamWAV = AudioStreamWAV.new()
+	stream.stereo = false
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.loop_mode = AudioStreamWAV.LOOP_DISABLED
+	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+	var rate: int = 0
+	var pcm: PackedByteArray = PackedByteArray()
+	var i: int = 12
+	while i + 8 <= bytes.size():
+		var tag: String = bytes.slice(i, i + 4).get_string_from_ascii()
+		var size: int = bytes.decode_u32(i + 4)
+		if tag == "fmt ":
+			rate = bytes.decode_u32(i + 12)
+			stream.stereo = bytes.decode_u16(i + 10) == 2
+			if bytes.decode_u16(i + 22) == 8:
+				stream.format = AudioStreamWAV.FORMAT_8_BITS
+			else:
+				stream.format = AudioStreamWAV.FORMAT_16_BITS
+		elif tag == "data":
+			pcm = bytes.slice(i + 8, i + 8 + size)
+			break
+		var step: int = 8 + size
+		if (size & 1) != 0:
+			step += 1
+		i += step
+	stream.mix_rate = rate
+	stream.data = pcm
+	return stream
 
 
 func hit() -> void:
