@@ -74,3 +74,5 @@ shoot={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+; Forward+ has no WebGL path. The web export uses Compatibility.
+renderer/rendering_method.web="gl_compatibility"

@@ -19,3 +19,6 @@ mono_crash.*.json
 # Music working files
 music/incoming/*.wav
 *.wav
+
+# Web export output. The preset writes index.html and the wasm pack here.
+build/
