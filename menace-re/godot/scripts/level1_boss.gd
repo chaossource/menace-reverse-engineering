@@ -25,6 +25,11 @@ extends Node2D
 ## left is much stronger. Scale and modulate only. The body stays at
 ## (67, 0) and the eye stays on its path. Hits and the kill rule do not
 ## change.
+##
+## Reaching this guardian says DANGER four times. $758FA loads D0 with
+## $82 while phase $54(a5) is 2. $7314C starts that sample on every Paula
+## channel. The gate at $5091C and the channel-3 busy flag let the call
+## through four times, 50 vblanks apart. The fight arms that queue.
 
 signal fight_finished
 
@@ -49,6 +54,11 @@ const PULSE_SCALE_SPAN := 0.16
 const PULSE_FLASH_FLOOR := 0.18
 const PULSE_FLASH_SPAN := 0.82
 const PULSE_HOT := Color(1.0, 0.42, 0.32)
+## Sample $82, speech index 2. One word per $7314C call. Four calls.
+const DANGER_PATH: String = "res://sfx/danger.wav"
+const DANGER_PLAYS: int = 4
+## 50 vblanks at 50 Hz between the four calls.
+const DANGER_GAP: float = 1.0
 
 # Retail records, size word stripped. Bytes match level image $3D21A / $3DFFA / $3E624.
 const FIGHT := [
@@ -104,6 +114,11 @@ var _eye_body: StaticBody2D
 var _eye_shape: CollisionShape2D
 var _pulse_phase := 0.0
 var _explosion_seen := false
+var _danger_on: bool = false
+var danger_queued: int = 0
+var danger_started: int = 0
+var _danger_wait: float = 0.0
+var _danger_stream: AudioStreamWAV
 
 
 func _ready() -> void:
@@ -132,7 +147,88 @@ func _add_body() -> void:
 	add_child(sprite)
 
 
+## Fight script only. The slide-in leaves processing off, so the queue
+## waits until the level turns the fight on.
+func _arm_danger() -> void:
+	if _danger_on or end_script != 1 or not is_processing():
+		return
+	_danger_on = true
+	danger_queued = DANGER_PLAYS
+	_danger_wait = 0.0
+	_play_danger()
+
+
+func _pump_danger(delta: float) -> void:
+	if not _danger_on or danger_started >= DANGER_PLAYS:
+		return
+	_danger_wait += delta
+	if _danger_wait < DANGER_GAP:
+		return
+	_danger_wait -= DANGER_GAP
+	_play_danger()
+
+
+func _play_danger() -> void:
+	if danger_started >= DANGER_PLAYS:
+		return
+	var stream: AudioStreamWAV = _danger_pcm()
+	if stream == null:
+		return
+	danger_started += 1
+	var player: AudioStreamPlayer = get_node_or_null("Danger") as AudioStreamPlayer
+	if player == null:
+		player = AudioStreamPlayer.new()
+		player.name = "Danger"
+		player.stream = stream
+		player.bus = "Sfx"
+		add_child(player)
+	player.play()
+
+
+## Signed PCM from the speech table at $58CEA, index 2. The importer is
+## not required. The file is the Paula playback at period 389.
+func _danger_pcm() -> AudioStreamWAV:
+	if _danger_stream != null:
+		return _danger_stream
+	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(DANGER_PATH)
+	if bytes.size() < 44:
+		push_error("missing danger sample")
+		return null
+	var mark: int = _find_data(bytes)
+	if mark < 0:
+		push_error("danger sample has no data chunk")
+		return null
+	var size: int = bytes.decode_u32(mark + 4)
+	var stream: AudioStreamWAV = AudioStreamWAV.new()
+	stream.mix_rate = bytes.decode_u32(24)
+	stream.stereo = bytes.decode_u16(22) == 2
+	if bytes.decode_u16(34) == 8:
+		stream.format = AudioStreamWAV.FORMAT_8_BITS
+	else:
+		stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.loop_mode = AudioStreamWAV.LOOP_DISABLED
+	stream.data = bytes.slice(mark + 8, mark + 8 + size)
+	_danger_stream = stream
+	return stream
+
+
+func _find_data(bytes: PackedByteArray) -> int:
+	var i: int = 12
+	while i + 8 <= bytes.size():
+		if bytes[i] == 0x64 and bytes[i + 1] == 0x61 and bytes[i + 2] == 0x74 and bytes[i + 3] == 0x61:
+			return i
+		var chunk: int = bytes.decode_u32(i + 4)
+		i += 8 + chunk
+		if (chunk & 1) == 1:
+			i += 1
+	return -1
+
+
 func _process(delta: float) -> void:
+	var was_on: bool = _danger_on
+	_arm_danger()
+	if was_on:
+		_pump_danger(delta)
 	_accum += delta
 	while _accum >= TICK_SECONDS:
 		_accum -= TICK_SECONDS
