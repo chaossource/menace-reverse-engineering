@@ -6,6 +6,7 @@ extends RefCounted
 
 const BIN_PATH := "res://scripts/level0-waves.bin"
 ## Order of the 17 attacks. Repeats share one unique script.
+static var _missing_reported: bool = false
 var uniques: Array = []
 var cycle: Array = []
 var cursor: int = 0
@@ -14,9 +15,11 @@ var delay: int = 15
 
 
 func _init() -> void:
-	var f := FileAccess.open(BIN_PATH, FileAccess.READ)
+	var f: FileAccess = FileAccess.open(BIN_PATH, FileAccess.READ)
 	if f == null:
-		push_error("Missing level0-waves.bin")
+		if not _missing_reported:
+			_missing_reported = true
+			push_error("Missing level0-waves.bin")
 		return
 	var n := f.get_16()
 	for _i in n:

@@ -115,6 +115,7 @@ var orb_top: Sprite2D
 var orb_bot: Sprite2D
 var orb_top_frames: Array[Texture2D] = []
 var orb_bot_frames: Array[Texture2D] = []
+static var _missing_orbs: Dictionary = {}
 ## $5E(a5). moveship subtracts one per vertical blank. 768 is about 15 s at 50 Hz.
 var field_count: int = 0
 var field_acc: float = 0.0
@@ -275,10 +276,17 @@ func _make_orbs() -> void:
 
 
 func _load_orb(path: String) -> Texture2D:
+	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
 	var image: Image = Image.new()
-	var err: int = image.load_png_from_buffer(FileAccess.get_file_as_bytes(path))
+	var err: int = OK
+	if bytes.is_empty():
+		err = ERR_FILE_NOT_FOUND
+	else:
+		err = image.load_png_from_buffer(bytes)
 	if err != OK:
-		push_error("missing orb %s (%d)" % [path, err])
+		if not _missing_orbs.has(path):
+			_missing_orbs[path] = true
+			push_error("missing orb %s (%d)" % [path, err])
 		return ImageTexture.create_from_image(Image.create(1, 1, false, Image.FORMAT_RGBA8))
 	return ImageTexture.create_from_image(image)
 

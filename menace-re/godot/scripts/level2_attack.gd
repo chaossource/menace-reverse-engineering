@@ -9,6 +9,7 @@ extends RefCounted
 
 const BIN_PATH := "res://scripts/level2-waves.bin"
 const AttackScript = preload("res://scripts/attack_paths.gd")
+static var _missing_reported: bool = false
 
 var uniques: Array = []
 var cycle: Array = []
@@ -18,9 +19,11 @@ var delay: int = 15
 
 
 func _init() -> void:
-	var f := FileAccess.open(BIN_PATH, FileAccess.READ)
+	var f: FileAccess = FileAccess.open(BIN_PATH, FileAccess.READ)
 	if f == null:
-		push_error("Missing level2-waves.bin")
+		if not _missing_reported:
+			_missing_reported = true
+			push_error("Missing level2-waves.bin")
 		return
 	var n := f.get_16()
 	for _i in n:

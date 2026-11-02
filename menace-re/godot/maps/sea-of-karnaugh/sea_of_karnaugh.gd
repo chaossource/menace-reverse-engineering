@@ -28,6 +28,7 @@ const PALETTE: Array[Color] = [
 @onready var layer: TileMapLayer = $Playfield/TileMapLayer
 
 var _rear: Node2D
+static var _short_reported: bool = false
 
 
 func _ready() -> void:
@@ -61,7 +62,9 @@ func _build_rear() -> void:
 	var map_bytes: PackedByteArray = FileAccess.get_file_as_bytes("res://maps/sea-of-karnaugh/rear-map.bin")
 	var tile_bytes: PackedByteArray = FileAccess.get_file_as_bytes("res://maps/sea-of-karnaugh/rear-tiles.bin")
 	if map_bytes.size() < 144 or tile_bytes.size() < 1024:
-		push_error("rear playfield bytes are short")
+		if not _short_reported:
+			_short_reported = true
+			push_error("rear playfield bytes are short")
 		return
 	var image: Image = Image.create(REAR_W, REAR_H, false, Image.FORMAT_RGBA8)
 	var row: int = 0
