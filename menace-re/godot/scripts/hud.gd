@@ -1,9 +1,10 @@
 extends CanvasLayer
 ## Retail panel for the bottom 32 rows of the 320x224 display.
 ## Playfield above it is 192 pixels. Viewport stays 320x240.
-## Score glyphs are the $77A14 digits. Shield fill is the $5555 bar at offset $144.
-## The panel PNG already has that bar filled in. Cropping the fill only
-## recolors those pixels, so the drained stretch is painted with the trough.
+## Score glyphs are the $77A14 digits. Shield fill sits on the $5555 slot at offset $144.
+## The 128 by 3 fill is four 32px quarters, low to high: red, amber, yellow, green.
+## Cropping from the left drops the high end as energy falls. The drained stretch
+## keeps the trough colors.
 
 const PANEL := preload("res://sprites/hud/hud-panel.png")
 const SHIELD_FILL := preload("res://sprites/hud/shield-fill.png")
@@ -32,6 +33,7 @@ const SHIELD_MAX := 128
 
 var _digits: Array[Sprite2D] = []
 var _shield: Sprite2D
+var _fill: Texture2D
 var _empty: Sprite2D
 var _empty_base: Texture2D
 
@@ -97,12 +99,14 @@ func set_shield(energy: int) -> void:
 	shield = amount
 	# Sprite2D.region_rect does not clip this fill in the compatibility renderer.
 	# An atlas region is the drawn texture, so the bar actually shortens.
+	if _fill == null:
+		_fill = _painted_fill()
 	if _shield != null:
 		if amount <= 0:
 			_shield.visible = false
 		else:
 			_shield.visible = true
-			_shield.texture = _crop(SHIELD_FILL, amount)
+			_shield.texture = _crop(_fill, amount)
 	if _empty == null or _empty_base == null:
 		return
 	var gap := SHIELD_MAX - amount
@@ -112,6 +116,31 @@ func set_shield(energy: int) -> void:
 	_empty.visible = true
 	_empty.position = Vector2(SHIELD_X + amount, SHIELD_Y)
 	_empty.texture = _crop(_empty_base, gap)
+
+
+func _painted_fill() -> Texture2D:
+	var image: Image = Image.create(SHIELD_MAX, 3, false, Image.FORMAT_RGBA8)
+	var loaded: Image = SHIELD_FILL.get_image()
+	if loaded != null and loaded.get_width() == SHIELD_MAX and loaded.get_height() == 3:
+		var copy: Image = loaded.duplicate() as Image
+		if copy != null:
+			image = copy
+			if image.get_format() != Image.FORMAT_RGBA8:
+				image.convert(Image.FORMAT_RGBA8)
+	var colors: Array[Color] = [
+		Color8(255, 0, 0),
+		Color8(255, 170, 0),
+		Color8(255, 255, 0),
+		Color8(0, 255, 0),
+	]
+	for x in SHIELD_MAX:
+		var band: int = int(x / 32)
+		if band > 3:
+			band = 3
+		var pixel: Color = colors[band]
+		for y in 3:
+			image.set_pixel(x, y, pixel)
+	return ImageTexture.create_from_image(image)
 
 
 func _crop(base: Texture2D, width: int) -> AtlasTexture:
