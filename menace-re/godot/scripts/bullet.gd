@@ -3,6 +3,8 @@ extends Area2D
 ## Kind 0 is the level-0 missile at $77B76 (16 bytes), the shot fired when weapon index is 0.
 ## Kind 1 cannon $77B86 (40 bytes, step 8, range 12). Kind 2 laser $77B66 (16 bytes, step 16, range 32).
 ## Kind 3 is the separate multiple at $77F0E (24 bytes). Weapon 0 does not fire it.
+## init.mult1 $73522 and init.mult2 $7355C write range 16 and a signed dx/dy.
+## Those bytes are not the cannon at $77B86 and not the laser at $77B66.
 ## Update is $7420E: subtract the range word first, then move. A zero range dies with no move.
 ## Missile range starts at 16, so it travels 15 steps of 10 px. X >= 360 ($168) also kills it.
 ## The hit box is the picture rectangle. It is created even when the texture is missing,
@@ -14,8 +16,12 @@ const TEX_LASER := "res://sprites/shot-laser.png"
 const TEX_MULTIPLE := "res://sprites/shot-multiple.png"
 
 @export var kind: int = 0
-## Outrider dy. The pair at $773E0 for mult.number 1 is dx 5, dy 0.
+## Outrider step. The pair at $773E0 for mult.number 1 is dx 5, dy 0.
+## Cannon keeps step 8. Laser keeps step 16. Only kind 3 reads these.
+@export var drift_x: int = 5
 @export var drift_y: int = 0
+## mult1 dies at y >= $BA (186). mult2 dies at y >= $B8 (184).
+@export var y_limit: int = 186
 var life: int = 16
 var px_step: int = 10
 var acc: float = 0.0
@@ -50,7 +56,7 @@ func _ready() -> void:
 		h = 2
 	elif kind == 3:
 		path = TEX_MULTIPLE
-		px_step = 5
+		px_step = drift_x
 		life = 16
 		w = 4
 		h = 3
@@ -94,7 +100,7 @@ func _retail_step() -> void:
 	if position.x >= 360.0:
 		queue_free()
 		return
-	if kind == 3 and (position.x < 16.0 or position.y < 9.0 or position.y >= 186.0):
+	if kind == 3 and (position.x < 16.0 or position.y < 9.0 or position.y >= float(y_limit)):
 		queue_free()
 		return
 	_poke_overlap()

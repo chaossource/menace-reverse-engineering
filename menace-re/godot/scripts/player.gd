@@ -49,6 +49,13 @@ const LOW_PULSE_HOT := Color(1.0, 0.28, 0.22)
 const FIELD_HI: Color = Color(0.0, 0.0, 1.0, 1.0)
 const FIELD_LO: Color = Color(0.0, 0.0, 12.0 / 15.0, 1.0)
 const CONTACT_STEP := 1.0 / 50.0
+## moveship steps the outrider aim at 50 Hz. The template word at $46 is 3.
+const MULT_STEP: float = 1.0 / 50.0
+## $773E0. Index is mult.number - 1. Upper orb, then the lower pair at $773EA.
+const MULT1_DX: Array[int] = [5, 5, 0, -5, -5]
+const MULT1_DY: Array[int] = [0, -5, -5, -5, 0]
+const MULT2_DX: Array[int] = [5, 5, 0, -5, -5]
+const MULT2_DY: Array[int] = [0, 5, 5, 5, 0]
 const EXPLODE_STEP := 4.0 / 50.0
 ## The outline is already on screen when this starts. It then fades out.
 const FADE_SECS := 3.0
@@ -100,6 +107,14 @@ var fade_acc: float = 0.0
 var _low_phase: float = 0.0
 var _low_on: bool = false
 var pod = null
+## $44(a5) starts at 1. $46(a5) starts at 3. Holding left or right walks 1..5.
+var mult_number: int = 1
+var mult_delay: int = 3
+var mult_acc: float = 0.0
+var orb_top: Sprite2D
+var orb_bot: Sprite2D
+var orb_top_frames: Array[Texture2D] = []
+var orb_bot_frames: Array[Texture2D] = []
 ## $5E(a5). moveship subtracts one per vertical blank. 768 is about 15 s at 50 Hz.
 var field_count: int = 0
 var field_acc: float = 0.0
@@ -122,6 +137,7 @@ func _ready() -> void:
 	pod = PodScript.new()
 	pod.name = "WeaponPod"
 	add_child(pod)
+	_make_orbs()
 	_push_shield()
 
 
@@ -141,6 +157,9 @@ func _physics_process(delta: float) -> void:
 	# Keep the 32x44 ship inside the 320x192 playfield, above the HUD.
 	position.x = clamp(position.x, 16, 304)
 	position.y = clamp(position.y, 22, 170)
+	# Aim updates before the shot, the same order as moveship then check.firekey.
+	_tick_mult(delta)
+	_sync_orbs()
 	# OFF is one press. ON repeats on the 3/50 s timer while fire is held.
 	if can_shoot and _shot_requested():
 		shoot()
@@ -193,10 +212,18 @@ func shoot() -> void:
 			pod.laser_energy = 0
 	# $735E2 and $7361A each spend 2, then decrease.energy redraws that bar.
 	_push_weapons()
+	# init.mult1 $73522 and init.mult2 $7355C. The picture is mult at $77F0E,
+	# not the cannon at $77B86 and not the laser at $77B66.
+	_sync_orbs()
+	var aim: int = mult_number - 1
+	if aim < 0:
+		aim = 0
+	if aim > 4:
+		aim = 4
 	if pod != null and pod.mult1:
-		_launch(3, top_left + Vector2(38, 6), 0)
+		_launch(3, top_left + Vector2(38, 6), MULT1_DY[aim], MULT1_DX[aim], 186)
 	if pod != null and pod.mult2:
-		_launch(3, top_left + Vector2(38, 40), 0)
+		_launch(3, top_left + Vector2(38, 40), MULT2_DY[aim], MULT2_DX[aim], 184)
 	var blast = get_node_or_null("ShootSound")
 	if blast == null:
 		blast = AudioStreamPlayer.new()
@@ -213,12 +240,93 @@ func _on_shoot_timer_timeout() -> void:
 	can_shoot = true
 
 
-func _launch(kind: int, at: Vector2, drift: int) -> void:
+func _launch(kind: int, at: Vector2, drift_y: int, drift_x: int = 5, y_limit: int = 186) -> void:
 	var bullet = BULLET_SCENE.instantiate()
 	bullet.kind = kind
-	bullet.drift_y = drift
+	bullet.drift_y = drift_y
+	bullet.drift_x = drift_x
+	bullet.y_limit = y_limit
 	bullet.position = at
 	get_parent().add_child(bullet)
+
+
+## Rear hardware sprite is the left 16 columns of the 32x44 ship.
+## Top 11 lines and bottom 11 lines are the outrider pair. Frame 0 is empty.
+func _make_orbs() -> void:
+	if sprite == null:
+		return
+	for i in range(1, 6):
+		orb_top_frames.append(_load_orb("res://sprites/ship/orb-top-%d.png" % i))
+		orb_bot_frames.append(_load_orb("res://sprites/ship/orb-bottom-%d.png" % i))
+	orb_top = Sprite2D.new()
+	orb_top.name = "OrbTop"
+	orb_top.centered = false
+	orb_top.visible = false
+	orb_top.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	orb_top.position = Vector2(-16, -22)
+	sprite.add_child(orb_top)
+	orb_bot = Sprite2D.new()
+	orb_bot.name = "OrbBottom"
+	orb_bot.centered = false
+	orb_bot.visible = false
+	orb_bot.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	orb_bot.position = Vector2(-16, 11)
+	sprite.add_child(orb_bot)
+
+
+func _load_orb(path: String) -> Texture2D:
+	var image: Image = Image.new()
+	var err: int = image.load_png_from_buffer(FileAccess.get_file_as_bytes(path))
+	if err != OK:
+		push_error("missing orb %s (%d)" % [path, err])
+		return ImageTexture.create_from_image(Image.create(1, 1, false, Image.FORMAT_RGBA8))
+	return ImageTexture.create_from_image(image)
+
+
+## $73314 counts mult.delay down. No horizontal press reloads 4 first, so the
+## frame stays put. Right adds 1, left subtracts 1, and the word stays in 1..5.
+func _tick_mult(delta: float) -> void:
+	var holding: int = 0
+	if Input.is_action_pressed("move_right"):
+		holding = 1
+	elif Input.is_action_pressed("move_left"):
+		holding = -1
+	mult_acc += delta
+	if mult_acc > MULT_STEP * 5.0:
+		mult_acc = MULT_STEP * 5.0
+	while mult_acc >= MULT_STEP:
+		mult_acc -= MULT_STEP
+		if holding == 0:
+			mult_delay = 4
+		mult_delay -= 1
+		if mult_delay == 0:
+			mult_delay = 4
+			mult_number += holding
+			if mult_number <= 0:
+				mult_number = 1
+			elif mult_number >= 6:
+				mult_number = 5
+
+
+## draw.outrider $73366. mult1 off forces frame 0. mult2 off draws the zero frame on the bottom.
+func _sync_orbs() -> void:
+	var show_top: bool = pod != null and pod.mult1 and not ship_dead
+	var show_bot: bool = show_top and pod.mult2
+	var frame: int = mult_number - 1
+	if frame < 0:
+		frame = 0
+	if frame > 4:
+		frame = 4
+	if orb_top != null:
+		orb_top.visible = show_top
+		orb_top.position = Vector2(-16, -22)
+		if frame < orb_top_frames.size() and orb_top_frames[frame] != null:
+			orb_top.texture = orb_top_frames[frame]
+	if orb_bot != null:
+		orb_bot.visible = show_bot
+		orb_bot.position = Vector2(-16, 11)
+		if frame < orb_bot_frames.size() and orb_bot_frames[frame] != null:
+			orb_bot.texture = orb_bot_frames[frame]
 
 
 ## Flying into the icon. $72FE4 applies bonus.num and clears bonus.mode.
@@ -323,6 +431,10 @@ func _die() -> void:
 		body_shape.disabled = true
 	explode_i = 0
 	explode_acc = 0.0
+	if orb_top != null:
+		orb_top.visible = false
+	if orb_bot != null:
+		orb_bot.visible = false
 	if sprite != null and EXPLODE.size() > 0:
 		sprite.texture = EXPLODE[0]
 		sprite.centered = true
@@ -415,6 +527,10 @@ func _reset_loadout() -> void:
 	pod.laser_energy = 0
 	pod.mult1 = false
 	pod.mult2 = false
+	mult_number = 1
+	mult_delay = 3
+	mult_acc = 0.0
+	_sync_orbs()
 	pod.field_count = 0
 	pod.shield_full = false
 
@@ -708,8 +824,8 @@ func _tick_field(delta: float) -> void:
 
 ## $731B4 writes $000F to colours+74. $731D4 writes $000C while bit 1 of the
 ## low byte is set. That word is COLOR18, the black outline, not a tint of
-## every pixel. Outrider orbs use the same hardware sprite colour. This tree
-## has no orb sprites; any child named orb or outrider gets the same pass.
+## every pixel. Outrider orbs use the same hardware sprite colour. The orb
+## sprites sit on the ship, and that same outline pass paints them.
 func _show_field() -> void:
 	if sprite != null:
 		sprite.scale = Vector2.ONE
@@ -738,7 +854,7 @@ func _collect_field_orbs(node: Node, found: Array[Sprite2D]) -> void:
 			continue
 		if _is_orb_sprite(child):
 			found.append(child as Sprite2D)
-		if child is Sprite2D:
+		if child is Sprite2D and child != sprite:
 			continue
 		_collect_field_orbs(child, found)
 
