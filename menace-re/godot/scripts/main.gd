@@ -73,6 +73,8 @@ func _physics_process(delta: float) -> void:
 		scroll_x += advance
 	parallax.scroll_offset.x += advance
 	sea.position.x = -scroll_x
+	# $72D2C steps the rear playfield on the odd frame only.
+	sea.sync_rear(scroll_x)
 	_sync_boss_scroll()
 	if at_boss:
 		_begin_boss()
@@ -214,6 +216,7 @@ func restart_section() -> void:
 		parallax.scroll_offset = Vector2.ZERO
 	if sea != null:
 		sea.position.x = 0.0
+		sea.sync_rear(0.0)
 	_free_wave()
 	if boss != null and is_instance_valid(boss):
 		if boss.has_signal("fight_finished") and boss.fight_finished.is_connected(_on_fight_finished):

@@ -10,13 +10,6 @@ texture_filter = 1
 script = ExtResource("1_boss")
 end_script = 1
 
-[node name="Sky" type="ColorRect" parent="."]
-z_index = -1
-offset_right = 320.0
-offset_bottom = 192.0
-mouse_filter = 2
-color = Color(0.2, 0.2, 0.133333, 1)
-
 ; Guardian eye, the kill spot. Layer 2 overlaps a bullet mask of 2.
 ; The rectangle is the 32x24 bob. The tentacle body is not a collider.
 [node name="EyeHit" type="StaticBody2D" parent="."]
